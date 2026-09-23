@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "정답 데이터 (bot/data/answers.json) — 서버 전용",
+  "type": "object",
+  "required": [
+    "answers",
+    "final"
+  ],
+  "properties": {
+    "answers": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "answer",
+          "minimum_episode",
+          "confirmed"
+        ],
+        "properties": {
+          "answer": {
+            "enum": [
+              "YES",
+              "NO",
+              "IRRELEVANT",
+              null
+            ]
+          },
+          "minimum_episode": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "related_evidence": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "response_text": {
+            "type": "string"
+          },
+          "confirmed": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "final": {
+      "type": "object",
+      "required": [
+        "q1",
+        "q2",
+        "q3",
+        "q4",
+        "q5"
+      ]
+    }
+  }
+}

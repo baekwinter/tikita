@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "회차 데이터 (bot/data/episodes.json)",
+  "type": "object",
+  "required": [
+    "episodes"
+  ],
+  "properties": {
+    "episodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "episode_number",
+          "clues"
+        ],
+        "properties": {
+          "episode_number": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "title": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "description": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "keywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "video_path": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "video_url": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "thumbnail": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "release_datetime": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "한국 시각 'YYYY-MM-DD HH:MM'. null 이면 settings.json 편성표를 따른다"
+          },
+          "clues": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^E-\\d{2}$"
+            }
+          },
+          "questions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

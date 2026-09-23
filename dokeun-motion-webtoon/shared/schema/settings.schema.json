@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "운영 설정 (bot/data/settings.json)",
+  "type": "object",
+  "required": [
+    "event",
+    "schedule"
+  ],
+  "properties": {
+    "event": {
+      "type": "object",
+      "required": [
+        "start_at"
+      ],
+      "properties": {
+        "start_at": {
+          "type": "string"
+        },
+        "timezone": {
+          "type": "string"
+        },
+        "poster_path": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "poster_url": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "web_url": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "schedule": {
+      "type": "object",
+      "required": [
+        "mode",
+        "presets"
+      ],
+      "properties": {
+        "mode": {
+          "enum": [
+            "4days_3per_day",
+            "3days_4per_day"
+          ]
+        },
+        "presets": {
+          "type": "object"
+        },
+        "ending_at": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "catchup_grace_minutes": {
+          "type": "integer"
+        },
+        "opening_catchup_hours": {
+          "type": "integer"
+        },
+        "tick_seconds": {
+          "type": "number"
+        }
+      }
+    },
+    "media": {
+      "type": "object",
+      "properties": {
+        "upload_limit_mb": {
+          "type": "number"
+        },
+        "missing_video_policy": {
+          "enum": [
+            "hold",
+            "post_without_video"
+          ]
+        }
+      }
+    },
+    "questions": {
+      "type": "object"
+    },
+    "final": {
+      "type": "object",
+      "properties": {
+        "feedback": {
+          "enum": [
+            "count",
+            "sealed"
+          ]
+        },
+        "max_attempts": {
+          "type": "integer"
+        },
+        "open_from_episode": {
+          "type": "integer"
+        }
+      }
+    }
+  }
+}

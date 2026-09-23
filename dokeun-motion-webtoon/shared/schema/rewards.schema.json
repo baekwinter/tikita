@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "포인트 지급표 (bot/data/rewards.json)",
+  "type": "object",
+  "required": [
+    "points"
+  ],
+  "properties": {
+    "currency_name": {
+      "type": "string"
+    },
+    "points": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 0
+      }
+    }
+  }
+}

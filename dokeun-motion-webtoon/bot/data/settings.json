@@ -1,0 +1,53 @@
+{
+  "_comment": "운영 설정. 시각은 모두 한국 시간(Asia/Seoul). null 인 편성 시각은 '미정'으로 취급되어 자동 공개되지 않으며, /운영 예약 또는 이 파일에서 운영진이 직접 입력해야 한다.",
+  "event": {
+    "timezone": "Asia/Seoul",
+    "start_at": "2026-09-24T00:00:00",
+    "poster_path": "assets/poster.png",
+    "poster_url": null,
+    "web_url": null
+  },
+  "schedule": {
+    "mode": "4days_3per_day",
+    "presets": {
+      "4days_3per_day": [
+        {"date": "2026-09-24", "times": ["00:00", null, null]},
+        {"date": "2026-09-25", "times": [null, null, null]},
+        {"date": "2026-09-26", "times": [null, null, null]},
+        {"date": "2026-09-27", "times": [null, null, null]}
+      ],
+      "3days_4per_day": [
+        {"date": "2026-09-24", "times": ["00:00", null, null, null]},
+        {"date": "2026-09-25", "times": [null, null, null, null]},
+        {"date": "2026-09-26", "times": [null, null, null, null]}
+      ]
+    },
+    "ending_at": null,
+    "catchup_grace_minutes": 30,
+    "opening_catchup_hours": 12,
+    "tick_seconds": 20
+  },
+  "media": {
+    "upload_limit_mb": 10,
+    "missing_video_policy": "hold"
+  },
+  "questions": {
+    "cooldown_seconds": 10,
+    "daily_limit": 30,
+    "duplicate_window_minutes": 30,
+    "answer_unconfirmed": false,
+    "public_answers": false
+  },
+  "theory": {
+    "max_length": 1500,
+    "daily_reward_limit": 1
+  },
+  "final": {
+    "open_from_episode": 1,
+    "max_attempts": 3,
+    "feedback": "count"
+  },
+  "privacy": {
+    "log_question_text": true
+  }
+}

@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="달빛이 드는 학교 방송실">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1c2350"/><stop offset="1" stop-color="#2a2150"/>
+    </linearGradient>
+    <linearGradient id="room" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#171430"/><stop offset="1" stop-color="#0d0b1e"/>
+    </linearGradient>
+    <radialGradient id="moonglow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#dfe8ff" stop-opacity="0.55"/><stop offset="1" stop-color="#8fb6ff" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="beam" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8fb6ff" stop-opacity="0.16"/><stop offset="1" stop-color="#8fb6ff" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="lamp" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#ff5b6e" stop-opacity="0.45"/><stop offset="1" stop-color="#ff5b6e" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#room)"/>
+  <!-- 창문 -->
+  <rect x="860" y="110" width="560" height="420" rx="6" fill="url(#sky)" stroke="#39345a" stroke-width="10"/>
+  <line x1="1140" y1="110" x2="1140" y2="530" stroke="#39345a" stroke-width="8"/>
+  <line x1="860" y1="320" x2="1420" y2="320" stroke="#39345a" stroke-width="8"/>
+  <circle cx="1290" cy="210" r="120" fill="url(#moonglow)"/>
+  <circle cx="1290" cy="210" r="46" fill="#e9eeff"/>
+  <circle cx="1310" cy="198" r="44" fill="#1f2452" opacity="0.18"/>
+  <g fill="#e9eeff" opacity="0.7"><circle cx="930" cy="170" r="2"/><circle cx="1010" cy="240" r="1.6"/><circle cx="1180" cy="150" r="1.6"/><circle cx="1380" cy="420" r="1.6"/><circle cx="960" cy="400" r="1.4"/></g>
+  <path d="M860 530 L1420 530 L1300 900 L700 900 Z" fill="url(#beam)"/>
+  <!-- ON AIR 램프 -->
+  <circle cx="330" cy="150" r="150" fill="url(#lamp)"/>
+  <rect x="230" y="118" width="200" height="64" rx="8" fill="#241227" stroke="#ff5b6e" stroke-width="3"/>
+  <text x="330" y="162" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="34" font-weight="700" fill="#ff7e8d" letter-spacing="6">ON AIR</text>
+  <!-- 콘솔 -->
+  <rect x="120" y="600" width="980" height="180" rx="10" fill="#1d1a38" stroke="#312d57" stroke-width="4"/>
+  <g fill="#2e2a57">
+    <rect x="170" y="630" width="40" height="120" rx="6"/><rect x="240" y="630" width="40" height="120" rx="6"/><rect x="310" y="630" width="40" height="120" rx="6"/><rect x="380" y="630" width="40" height="120" rx="6"/>
+  </g>
+  <g fill="#d9a2a8"><rect x="176" y="690" width="28" height="12" rx="3"/><rect x="246" y="660" width="28" height="12" rx="3"/><rect x="316" y="710" width="28" height="12" rx="3"/><rect x="386" y="675" width="28" height="12" rx="3"/></g>
+  <!-- 음성 파형 -->
+  <polyline fill="none" stroke="#8fb6ff" stroke-width="4" stroke-linejoin="round" opacity="0.85"
+    points="480,690 510,690 525,660 540,720 555,640 570,735 585,670 600,705 615,650 630,728 645,690 675,690 690,672 705,708 720,690 760,690 775,655 790,725 805,662 820,715 835,690 1060,690"/>
+  <!-- 마이크 -->
+  <line x1="560" y1="600" x2="660" y2="470" stroke="#3a3566" stroke-width="12" stroke-linecap="round"/>
+  <rect x="640" y="390" width="56" height="100" rx="28" fill="#2d2952" stroke="#4a4580" stroke-width="4" transform="rotate(38 668 440)"/>
+  <text x="120" y="850" font-family="Pretendard, Noto Sans KR, sans-serif" font-size="26" fill="#8a83a9" letter-spacing="2">도근고등학교 방송실 · 2026 추석 특별 방송</text>
+</svg>

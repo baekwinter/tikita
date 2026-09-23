@@ -1,0 +1,85 @@
+{
+  "_comment": "증거 데이터. release_episode 회차가 공개되면 함께 열린다(운영진 수동 공개도 가능). summary/detail 은 원작 시놉시스의 확정 사실만으로 작성했으며, 실제 증거 이미지·문구가 준비되면 교체한다. image 는 dokeun-motion-webtoon/ 기준 경로이며 파일이 없으면 표시하지 않는다.",
+  "evidence": [
+    {
+      "evidence_id": "E-01",
+      "title": "현재 고백 음성",
+      "category": "음성 파일",
+      "release_episode": 1,
+      "summary": "2026년 추석 특별 방송 중 예정에 없이 송출된 고백 음성.",
+      "detail": "방송실 스피커로 흘러나온 누군가의 고백. 방송 편성표에는 존재하지 않던 음성이다. 누가 녹음했는지, 누구를 향한 고백인지, 그리고 누가 이 파일을 방송에 올렸는지는 아직 밝혀지지 않았다.",
+      "image": "assets/evidence/E-01.png",
+      "tags": ["고백", "송출", "2026"]
+    },
+    {
+      "evidence_id": "E-02",
+      "title": "과거 답장",
+      "category": "음성 파일",
+      "release_episode": 4,
+      "summary": "2025년에 녹음된 또 하나의 음성 파일. 누군가에게 보내는 답장이다.",
+      "detail": "현재 고백보다 1년 앞선 2025년에 녹음된 답장 음성. 이 답장은 원래 받는 사람에게 전해졌어야 했다.",
+      "image": "assets/evidence/E-02.png",
+      "tags": ["답장", "2025"]
+    },
+    {
+      "evidence_id": "E-03",
+      "title": "파일 전송 실패 기록",
+      "category": "시스템 기록",
+      "release_episode": 5,
+      "summary": "2025년 답장 파일이 정상적으로 전달되지 않았음을 보여 주는 기록.",
+      "detail": "2025년 답장 파일의 전송이 정상적으로 완료되지 않았다. 받는 사람은 답장을 듣지 못했고, 보낸 사람은 답장이 전해졌다고 믿었다.",
+      "image": "assets/evidence/E-03.png",
+      "tags": ["답장", "전송", "2025"]
+    },
+    {
+      "evidence_id": "E-06",
+      "title": "남궁호 편집 요청 기록",
+      "category": "작업 기록",
+      "release_episode": 6,
+      "summary": "남궁호가 음성 편집 작업에 관여했음을 보여 주는 기록.",
+      "detail": "2026년 고백 음성의 편집 작업에 남궁호가 도움을 준 흔적. 편집을 도운 것과 방송에 송출한 것은 같은 일일까?",
+      "image": "assets/evidence/E-06.png",
+      "tags": ["편집", "2026"]
+    },
+    {
+      "evidence_id": "E-04",
+      "title": "방송 예약 목록 수정 기록",
+      "category": "시스템 기록",
+      "release_episode": 7,
+      "summary": "방송 당일 예약 목록이 수정되어 두 개의 음성 파일이 21:00 편성에 추가되었다.",
+      "detail": "원래 편성표에 없던 음성 파일 두 개가 예약 목록에 추가되었고, 21:00에 그대로 송출되었다. 수정한 사람은 기록만으로는 바로 드러나지 않는다.",
+      "image": "assets/evidence/E-04.png",
+      "tags": ["예약", "송출", "21:00"]
+    },
+    {
+      "evidence_id": "E-07",
+      "title": "네 사람의 증언",
+      "category": "증언",
+      "release_episode": 8,
+      "summary": "반휘혈, 온하늘, 남궁호, 차세리 네 사람의 증언 모음.",
+      "detail": "사건과 관련된 네 사람이 각자 기억하는 2025년과 2026년의 일. 서로의 증언이 어긋나는 지점에 주목하자.",
+      "image": "assets/evidence/E-07.png",
+      "tags": ["증언"]
+    },
+    {
+      "evidence_id": "E-05",
+      "title": "차세리 작가 노트",
+      "category": "개인 기록",
+      "release_episode": 10,
+      "summary": "차세리가 남긴 노트. 두 음성 파일에 대한 메모가 적혀 있다.",
+      "detail": "차세리가 과거 답장과 현재 고백, 두 음성 파일을 알고 있었음을 보여 주는 노트.",
+      "image": "assets/evidence/E-05.png",
+      "tags": ["차세리", "노트"]
+    },
+    {
+      "evidence_id": "E-08",
+      "title": "최종 자백",
+      "category": "자백",
+      "release_episode": 12,
+      "summary": "사건의 마지막 조각.",
+      "detail": "차세리는 두 음성 파일을 발견하고 방송 예약 목록을 수정해 21:00에 송출했다. 서로 거절당했다고 오해한 두 사람의 오해를 풀어 주고 싶었지만, 두 사람의 사적인 녹음을 허락 없이 공개한 것이었다.",
+      "image": "assets/evidence/E-08.png",
+      "tags": ["자백", "차세리"]
+    }
+  ]
+}

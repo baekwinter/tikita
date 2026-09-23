@@ -1,0 +1,19 @@
+{
+  "_comment": "달빛 수사 포인트 지급표. 같은 보상 키는 한 사람에게 한 번만 지급된다(DB 고유 키). 외부 레벨링 봇 EXP 는 공식 연동 API 가 확인되지 않아 직접 변경하지 않는다. 필요하면 이벤트 종료 후 CSV 로 내보내 운영진이 수동 지급한다.",
+  "currency_name": "달빛 수사 포인트",
+  "points": {
+    "join": 10,
+    "first_question": 5,
+    "daily_question": 2,
+    "watch_episode": 5,
+    "evidence_found": 3,
+    "daily_theory": 5,
+    "final_submit": 10,
+    "final_correct_item": 5,
+    "case_solved": 50
+  },
+  "external_integration": {
+    "enabled": false,
+    "note": "서버의 기존 경험치 봇이 공식 API 를 제공하는 것이 확인되면 rewards.py 의 ExternalRewardSink 를 구현해 연결한다."
+  }
+}

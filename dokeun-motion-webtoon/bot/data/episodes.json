@@ -1,0 +1,165 @@
+{
+  "_comment": "12화 편성 데이터. title/description 이 null 이면 'EP.NN' 으로만 표시된다. video_path/thumbnail 은 dokeun-motion-webtoon/ 폴더 기준 상대 경로. release_datetime 을 'YYYY-MM-DD HH:MM'(한국 시각)으로 적으면 settings.json 의 편성표보다 우선한다. is_released(공개 여부)는 DB 에 기록되며 이 파일에는 적지 않는다.",
+  "episodes": [
+    {
+      "episode_number": 1,
+      "title": null,
+      "description": null,
+      "keywords": [],
+      "video_path": "episodes/EP01.mp4",
+      "video_url": null,
+      "thumbnail": "episodes/EP01_thumb.jpg",
+      "release_datetime": null,
+      "clues": [
+        "E-01"
+      ],
+      "questions": []
+    },
+    {
+      "episode_number": 2,
+      "title": null,
+      "description": null,
+      "keywords": [],
+      "video_path": "episodes/EP02.mp4",
+      "video_url": null,
+      "thumbnail": "episodes/EP02_thumb.jpg",
+      "release_datetime": null,
+      "clues": [],
+      "questions": []
+    },
+    {
+      "episode_number": 3,
+      "title": null,
+      "description": null,
+      "keywords": [],
+      "video_path": "episodes/EP03.mp4",
+      "video_url": null,
+      "thumbnail": "episodes/EP03_thumb.jpg",
+      "release_datetime": null,
+      "clues": [],
+      "questions": []
+    },
+    {
+      "episode_number": 4,
+      "title": null,
+      "description": null,
+      "keywords": [],
+      "video_path": "episodes/EP04.mp4",
+      "video_url": null,
+      "thumbnail": "episodes/EP04_thumb.jpg",
+      "release_datetime": null,
+      "clues": [
+        "E-02"
+      ],
+      "questions": []
+    },
+    {
+      "episode_number": 5,
+      "title": null,
+      "description": null,
+      "keywords": [],
+      "video_path": "episodes/EP05.mp4",
+      "video_url": null,
+      "thumbnail": "episodes/EP05_thumb.jpg",
+      "release_datetime": null,
+      "clues": [
+        "E-03"
+      ],
+      "questions": []
+    },
+    {
+      "episode_number": 6,
+      "title": null,
+      "description": null,
+      "keywords": [],
+      "video_path": "episodes/EP06.mp4",
+      "video_url": null,
+      "thumbnail": "episodes/EP06_thumb.jpg",
+      "release_datetime": null,
+      "clues": [
+        "E-06"
+      ],
+      "questions": []
+    },
+    {
+      "episode_number": 7,
+      "title": null,
+      "description": null,
+      "keywords": [],
+      "video_path": "episodes/EP07.mp4",
+      "video_url": null,
+      "thumbnail": "episodes/EP07_thumb.jpg",
+      "release_datetime": null,
+      "clues": [
+        "E-04"
+      ],
+      "questions": []
+    },
+    {
+      "episode_number": 8,
+      "title": null,
+      "description": null,
+      "keywords": [],
+      "video_path": "episodes/EP08.mp4",
+      "video_url": null,
+      "thumbnail": "episodes/EP08_thumb.jpg",
+      "release_datetime": null,
+      "clues": [
+        "E-07"
+      ],
+      "questions": []
+    },
+    {
+      "episode_number": 9,
+      "title": null,
+      "description": null,
+      "keywords": [],
+      "video_path": "episodes/EP09.mp4",
+      "video_url": null,
+      "thumbnail": "episodes/EP09_thumb.jpg",
+      "release_datetime": null,
+      "clues": [],
+      "questions": []
+    },
+    {
+      "episode_number": 10,
+      "title": null,
+      "description": null,
+      "keywords": [],
+      "video_path": "episodes/EP10.mp4",
+      "video_url": null,
+      "thumbnail": "episodes/EP10_thumb.jpg",
+      "release_datetime": null,
+      "clues": [
+        "E-05"
+      ],
+      "questions": []
+    },
+    {
+      "episode_number": 11,
+      "title": null,
+      "description": null,
+      "keywords": [],
+      "video_path": "episodes/EP11.mp4",
+      "video_url": null,
+      "thumbnail": "episodes/EP11_thumb.jpg",
+      "release_datetime": null,
+      "clues": [],
+      "questions": []
+    },
+    {
+      "episode_number": 12,
+      "title": null,
+      "description": null,
+      "keywords": [],
+      "video_path": "episodes/EP12.mp4",
+      "video_url": null,
+      "thumbnail": "episodes/EP12_thumb.jpg",
+      "release_datetime": null,
+      "clues": [
+        "E-08"
+      ],
+      "questions": []
+    }
+  ]
+}

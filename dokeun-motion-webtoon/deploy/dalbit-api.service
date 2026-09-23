@@ -1,0 +1,15 @@
+[Unit]
+Description=달빛 방송부 웹 조사실 API (FastAPI)
+After=network-online.target
+
+[Service]
+Type=simple
+User=dalbit
+WorkingDirectory=/opt/dokeun-motion-webtoon
+EnvironmentFile=/opt/dokeun-motion-webtoon/bot/.env
+ExecStart=/opt/dokeun-motion-webtoon/.venv/bin/uvicorn api.app:app --host 127.0.0.1 --port 8000 --proxy-headers
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

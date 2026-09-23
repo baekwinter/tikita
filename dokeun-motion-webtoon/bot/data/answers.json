@@ -1,0 +1,363 @@
+{
+ "_comment": "정답 데이터 — 서버(봇/웹 API) 전용. 절대 프론트엔드나 참가자 명령어로 직접 노출하지 않는다.",
+ "answers": {
+  "Q-BROADCAST": {
+   "answer": "YES",
+   "minimum_episode": 1,
+   "related_evidence": "E-01",
+   "response_text": "추석 특별 방송 도중, 고백이 스피커로 흘러나왔습니다.",
+   "confirmed": true
+  },
+  "Q-UNSCHEDULED": {
+   "answer": "NO",
+   "minimum_episode": 1,
+   "related_evidence": "E-01",
+   "response_text": "편성표에 없던, 예정에 없던 음성이었습니다.",
+   "confirmed": true
+  },
+  "Q-TIME21": {
+   "answer": "YES",
+   "minimum_episode": 1,
+   "related_evidence": "E-04",
+   "response_text": "방송실 기록상 송출 시각은 21:00입니다.",
+   "confirmed": true
+  },
+  "Q-2026": {
+   "answer": "YES",
+   "minimum_episode": 2,
+   "related_evidence": "E-01",
+   "response_text": "",
+   "confirmed": true
+  },
+  "Q-HWI-REC": {
+   "answer": "YES",
+   "minimum_episode": 3,
+   "related_evidence": "E-01",
+   "response_text": "고백 음성의 목소리는 반휘혈의 것입니다.",
+   "confirmed": true
+  },
+  "Q-REC-NAM": {
+   "answer": "NO",
+   "minimum_episode": 3,
+   "related_evidence": "E-01",
+   "response_text": "",
+   "confirmed": true
+  },
+  "Q-REC-SERI": {
+   "answer": "NO",
+   "minimum_episode": 3,
+   "related_evidence": "E-01",
+   "response_text": "",
+   "confirmed": true
+  },
+  "Q-HWI-TARGET": {
+   "answer": "YES",
+   "minimum_episode": 4,
+   "related_evidence": "E-01",
+   "response_text": "그 고백은 온하늘에게 전하려던 마음이었습니다.",
+   "confirmed": true
+  },
+  "Q-TARGET-HANEUL": {
+   "answer": "YES",
+   "minimum_episode": 4,
+   "related_evidence": "E-01",
+   "response_text": "",
+   "confirmed": true
+  },
+  "Q-TARGET-SERI": {
+   "answer": "NO",
+   "minimum_episode": 4,
+   "related_evidence": "E-01",
+   "response_text": "",
+   "confirmed": true
+  },
+  "Q-TARGET-NAM": {
+   "answer": "NO",
+   "minimum_episode": 4,
+   "related_evidence": "E-01",
+   "response_text": "",
+   "confirmed": true
+  },
+  "Q-LOVE": {
+   "answer": "YES",
+   "minimum_episode": 4,
+   "related_evidence": "E-01",
+   "response_text": "반휘혈의 마음은 1년이 지나도 그대로였습니다.",
+   "confirmed": true
+  },
+  "Q-MUTUAL": {
+   "answer": "YES",
+   "minimum_episode": 9,
+   "related_evidence": "E-07",
+   "response_text": "두 사람의 마음은 처음부터 같은 방향을 향하고 있었습니다.",
+   "confirmed": true
+  },
+  "Q-HANEUL-LOVE": {
+   "answer": "YES",
+   "minimum_episode": 9,
+   "related_evidence": "E-07",
+   "response_text": "",
+   "confirmed": true
+  },
+  "Q-2025-CONFESS": {
+   "answer": "YES",
+   "minimum_episode": 5,
+   "related_evidence": "E-02",
+   "response_text": "2025년, 반휘혈은 한 번 마음을 전하려 했습니다.",
+   "confirmed": true
+  },
+  "Q-HANEUL-REPLY": {
+   "answer": "YES",
+   "minimum_episode": 5,
+   "related_evidence": "E-02",
+   "response_text": "2025년의 답장은 온하늘의 목소리였습니다.",
+   "confirmed": true
+  },
+  "Q-REPLY-2025": {
+   "answer": "YES",
+   "minimum_episode": 4,
+   "related_evidence": "E-02",
+   "response_text": "",
+   "confirmed": true
+  },
+  "Q-REPLY-TO-HWI": {
+   "answer": "YES",
+   "minimum_episode": 5,
+   "related_evidence": "E-02",
+   "response_text": "",
+   "confirmed": true
+  },
+  "Q-REPLY-DELIVERED": {
+   "answer": "NO",
+   "minimum_episode": 5,
+   "related_evidence": "E-03",
+   "response_text": "2025년의 답장은 정상적으로 전달되지 않았습니다.",
+   "confirmed": true
+  },
+  "Q-MISUNDERSTAND": {
+   "answer": "YES",
+   "minimum_episode": 9,
+   "related_evidence": "E-07",
+   "response_text": "답장이 닿지 않은 1년 동안, 두 사람은 서로 거절당했다고 믿었습니다.",
+   "confirmed": true
+  },
+  "Q-HANEUL-REJECT": {
+   "answer": "NO",
+   "minimum_episode": 9,
+   "related_evidence": "E-07",
+   "response_text": "",
+   "confirmed": true
+  },
+  "Q-HWI-REJECT": {
+   "answer": "NO",
+   "minimum_episode": 9,
+   "related_evidence": "E-07",
+   "response_text": "",
+   "confirmed": true
+  },
+  "Q-SAME-INCIDENT": {
+   "answer": "NO",
+   "minimum_episode": 8,
+   "related_evidence": "E-03",
+   "response_text": "1년의 간격을 둔 두 일은 서로 다른 사건입니다.",
+   "confirmed": true
+  },
+  "Q-NAM-EDIT": {
+   "answer": "YES",
+   "minimum_episode": 6,
+   "related_evidence": "E-06",
+   "response_text": "남궁호는 음성 편집을 도왔습니다.",
+   "confirmed": true
+  },
+  "Q-NAM-BROADCAST": {
+   "answer": "NO",
+   "minimum_episode": 8,
+   "related_evidence": "E-04",
+   "response_text": "편집을 도운 것과 송출은 별개의 일입니다.",
+   "confirmed": true
+  },
+  "Q-NAM-ACCOMPLICE": {
+   "answer": "NO",
+   "minimum_episode": 9,
+   "related_evidence": "E-07",
+   "response_text": "남궁호는 송출의 공범이 아닙니다.",
+   "confirmed": true
+  },
+  "Q-HWI-BROADCAST": {
+   "answer": "NO",
+   "minimum_episode": 9,
+   "related_evidence": "E-07",
+   "response_text": "",
+   "confirmed": true
+  },
+  "Q-HANEUL-BROADCAST": {
+   "answer": "NO",
+   "minimum_episode": 9,
+   "related_evidence": "E-07",
+   "response_text": "",
+   "confirmed": true
+  },
+  "Q-SERI-FOUND": {
+   "answer": "YES",
+   "minimum_episode": 10,
+   "related_evidence": "E-05",
+   "response_text": "",
+   "confirmed": true
+  },
+  "Q-SERI-SCHEDULE": {
+   "answer": "YES",
+   "minimum_episode": 11,
+   "related_evidence": "E-04",
+   "response_text": "",
+   "confirmed": true
+  },
+  "Q-SERI-BROADCAST": {
+   "answer": "YES",
+   "minimum_episode": 11,
+   "related_evidence": "E-04",
+   "response_text": "",
+   "confirmed": true
+  },
+  "Q-SERI-MOTIVE": {
+   "answer": "YES",
+   "minimum_episode": 12,
+   "related_evidence": "E-08",
+   "response_text": "",
+   "confirmed": true
+  },
+  "Q-SERI-NOPERM": {
+   "answer": "YES",
+   "minimum_episode": 12,
+   "related_evidence": "E-08",
+   "response_text": "두 사람의 허락 없이 이루어진 송출이었습니다.",
+   "confirmed": true
+  },
+  "Q-SERI-PERM": {
+   "answer": "NO",
+   "minimum_episode": 12,
+   "related_evidence": "E-08",
+   "response_text": "",
+   "confirmed": true
+  },
+  "Q-BOTH-FILES": {
+   "answer": "YES",
+   "minimum_episode": 7,
+   "related_evidence": "E-04",
+   "response_text": "21:00, 예약 목록에 추가된 두 파일이 차례로 송출되었습니다.",
+   "confirmed": true
+  },
+  "Q-REPLY-BROADCAST": {
+   "answer": "YES",
+   "minimum_episode": 7,
+   "related_evidence": "E-04",
+   "response_text": "",
+   "confirmed": true
+  },
+  "Q-REAL": {
+   "answer": "IRRELEVANT",
+   "minimum_episode": 1,
+   "related_evidence": null,
+   "response_text": "이 사건은 허구의 이야기입니다. 실제 인물과는 관계가 없습니다.",
+   "confirmed": true
+  },
+  "Q-DELIVERY-SABOTAGE": {
+   "answer": null,
+   "minimum_episode": 5,
+   "related_evidence": "E-03",
+   "response_text": "",
+   "confirmed": false
+  },
+  "Q-SERI-2025": {
+   "answer": null,
+   "minimum_episode": 5,
+   "related_evidence": "E-03",
+   "response_text": "",
+   "confirmed": false
+  },
+  "Q-NAM-REQUESTER": {
+   "answer": null,
+   "minimum_episode": 6,
+   "related_evidence": "E-06",
+   "response_text": "",
+   "confirmed": false
+  }
+ },
+ "final": {
+  "q1": {
+   "label": "새로운 고백을 녹음한 사람은?",
+   "answer": "반휘혈"
+  },
+  "q2": {
+   "label": "고백의 상대는?",
+   "answer": "온하늘"
+  },
+  "q3": {
+   "label": "과거 답장을 녹음한 사람은?",
+   "answer": "온하늘"
+  },
+  "q4": {
+   "label": "방송 예약 목록을 수정한 사람(최종 송출자)은?",
+   "answer": "차세리"
+  },
+  "q5": {
+   "label": "그 사람은 왜, 어떻게 그런 행동을 했나요?",
+   "model_answer": "두 사람의 오해를 풀고 싶어 과거 답장과 현재 고백을 허락 없이 방송에 송출했다.",
+   "rubric": {
+    "groups": [
+     {
+      "name": "동기: 오해를 풀기 위해",
+      "required": true,
+      "any": [
+       "오해",
+       "착각",
+       "풀어",
+       "풀고",
+       "풀려",
+       "이어주",
+       "이어 주",
+       "화해"
+      ]
+     },
+     {
+      "name": "방법: 예약 목록 수정·송출",
+      "required": false,
+      "any": [
+       "예약",
+       "목록",
+       "편성",
+       "송출",
+       "방송",
+       "틀었",
+       "내보"
+      ]
+     },
+     {
+      "name": "무단: 허락 없이",
+      "required": false,
+      "any": [
+       "허락",
+       "무단",
+       "몰래",
+       "동의",
+       "허가",
+       "멋대로",
+       "마음대로"
+      ]
+     },
+     {
+      "name": "대상: 과거 답장과 현재 고백",
+      "required": false,
+      "any": [
+       "답장",
+       "두 파일",
+       "두 음성",
+       "둘 다",
+       "두 녹음"
+      ]
+     }
+    ],
+    "min_optional": 2
+   }
+  }
+ }
+}

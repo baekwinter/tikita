@@ -1,0 +1,1539 @@
+{
+ "_comment": "YES/NO 질문 인식 데이터(정답 없음). 정답·공개 회차는 answers.json 에 분리되어 서버에서만 읽는다. match: entity_sets=질문에 등장해야 하는 인물/연도 조합(정확히 일치), concepts=모두 충족해야 하는 개념 그룹(그룹 안에서는 하나만 있으면 됨), optional=있어도 되는 개념, subject=문장의 주어여야 하는 인물, not_subject=주어면 안 되는 인물, subject_strict=true 이면 '반휘혈의 ~' 같은 소유격을 주어로 인정하지 않음.",
+ "lexicon": {
+  "aliases": {
+   "반휘혈": [
+    "반휘혈",
+    "휘혈이",
+    "휘혈"
+   ],
+   "온하늘": [
+    "온하늘",
+    "하늘이",
+    "하늘"
+   ],
+   "남궁호": [
+    "남궁호",
+    "남궁",
+    "궁호"
+   ],
+   "차세리": [
+    "차세리",
+    "세리"
+   ],
+   "2025": [
+    "2025년",
+    "2025",
+    "작년",
+    "1년전",
+    "일년전"
+   ],
+   "2026": [
+    "2026년",
+    "2026",
+    "올해",
+    "이번추석"
+   ],
+   "두사람": [
+    "두사람",
+    "둘이",
+    "둘은",
+    "둘의",
+    "두명",
+    "그둘"
+   ]
+  },
+  "stop_phrases": [
+   "방송부원",
+   "방송부",
+   "방송실",
+   "달빛"
+  ],
+  "concepts": {
+   "좋아": [
+    "좋아",
+    "사랑",
+    "호감",
+    "반했",
+    "마음이있",
+    "마음에들",
+    "짝사랑",
+    "설레",
+    "좋아해"
+   ],
+   "고백": [
+    "고백"
+   ],
+   "마음전하": [
+    "마음을전하",
+    "마음을전했",
+    "마음전하",
+    "마음을전하려"
+   ],
+   "녹음": [
+    "녹음",
+    "녹취"
+   ],
+   "답장": [
+    "답장",
+    "대답",
+    "답변",
+    "회신"
+   ],
+   "전달": [
+    "전달",
+    "전해",
+    "도착",
+    "받았",
+    "받은",
+    "수신"
+   ],
+   "보내": [
+    "보냈",
+    "보낸",
+    "보내"
+   ],
+   "남기": [
+    "남겼",
+    "남긴",
+    "남기"
+   ],
+   "송출": [
+    "송출",
+    "방송에",
+    "방송으로",
+    "방송했",
+    "방송한",
+    "방송됐",
+    "방송되",
+    "방송",
+    "틀었",
+    "틀어",
+    "내보냈",
+    "내보내",
+    "재생"
+   ],
+   "범인": [
+    "범인",
+    "범행",
+    "진범",
+    "송출자"
+   ],
+   "예약": [
+    "예약목록",
+    "방송예약",
+    "예약",
+    "편성표",
+    "편성",
+    "목록"
+   ],
+   "수정": [
+    "수정",
+    "바꿨",
+    "바꾼",
+    "변경",
+    "조작",
+    "추가",
+    "넣었",
+    "넣은",
+    "끼워"
+   ],
+   "편집": [
+    "편집",
+    "다듬",
+    "잘라",
+    "믹싱",
+    "보정"
+   ],
+   "돕": [
+    "도와",
+    "도왔",
+    "돕",
+    "도움"
+   ],
+   "공범": [
+    "공범",
+    "공모",
+    "한패",
+    "공동범",
+    "공범인",
+    "공범이"
+   ],
+   "발견": [
+    "발견",
+    "찾았",
+    "찾아냈",
+    "찾은",
+    "알게"
+   ],
+   "오해": [
+    "오해",
+    "착각",
+    "잘못알"
+   ],
+   "풀": [
+    "풀어",
+    "풀려",
+    "풀고",
+    "풀기",
+    "풀리"
+   ],
+   "거절": [
+    "거절",
+    "차였",
+    "찼",
+    "퇴짜"
+   ],
+   "무단": [
+    "무단",
+    "허락없이",
+    "허락도없이",
+    "허락을받지않",
+    "허락받지않",
+    "동의없이",
+    "몰래",
+    "마음대로",
+    "멋대로"
+   ],
+   "허락": [
+    "허락",
+    "동의",
+    "허가"
+   ],
+   "예정": [
+    "예정",
+    "계획된",
+    "원래편성"
+   ],
+   "둘다": [
+    "두파일",
+    "두음성",
+    "두개",
+    "둘다",
+    "두녹음",
+    "함께",
+    "같이"
+   ],
+   "같은사건": [
+    "같은사건",
+    "동일한사건",
+    "한사건",
+    "같은일"
+   ],
+   "서로": [
+    "서로"
+   ],
+   "실제": [
+    "실제",
+    "현실",
+    "서버멤버",
+    "진짜사람"
+   ],
+   "시각21": [
+    "21시",
+    "2100",
+    "밤9시",
+    "밤아홉시",
+    "오후9시"
+   ],
+   "고의": [
+    "고의",
+    "일부러",
+    "방해",
+    "막았",
+    "가로채"
+   ],
+   "부탁": [
+    "부탁",
+    "요청",
+    "의뢰",
+    "맡겼",
+    "맡긴"
+   ],
+   "파일": [
+    "파일",
+    "음성",
+    "녹음본"
+   ]
+  }
+ },
+ "questions": [
+  {
+   "question_id": "Q-BROADCAST",
+   "canonical_question": "고백이 방송으로 송출되었나요?",
+   "accepted_variations": [
+    "고백이 방송됐어?",
+    "방송에서 고백이 나왔나요?"
+   ],
+   "match": {
+    "entity_sets": [
+     [],
+     [
+      "2026"
+     ],
+     [
+      "반휘혈"
+     ]
+    ],
+    "concepts": [
+     [
+      "고백"
+     ],
+     [
+      "송출"
+     ]
+    ],
+    "optional": [
+     "파일",
+     "녹음"
+    ],
+    "subject": null,
+    "not_subject": [
+     "반휘혈"
+    ],
+    "subject_strict": false
+   }
+  },
+  {
+   "question_id": "Q-UNSCHEDULED",
+   "canonical_question": "그 고백은 원래 방송 예정이었나요?",
+   "accepted_variations": [
+    "고백은 편성표에 있던 거야?",
+    "원래 틀기로 한 방송이었나요?"
+   ],
+   "match": {
+    "entity_sets": [
+     []
+    ],
+    "concepts": [
+     [
+      "예정"
+     ]
+    ],
+    "optional": [
+     "고백",
+     "송출",
+     "파일",
+     "예약"
+    ],
+    "subject": null,
+    "not_subject": [],
+    "subject_strict": false
+   }
+  },
+  {
+   "question_id": "Q-TIME21",
+   "canonical_question": "고백은 21시에 송출되었나요?",
+   "accepted_variations": [
+    "밤 9시에 방송됐어?"
+   ],
+   "match": {
+    "entity_sets": [
+     [],
+     [
+      "2026"
+     ]
+    ],
+    "concepts": [
+     [
+      "시각21"
+     ]
+    ],
+    "optional": [
+     "고백",
+     "송출",
+     "파일",
+     "답장",
+     "둘다"
+    ],
+    "subject": null,
+    "not_subject": [],
+    "subject_strict": false
+   }
+  },
+  {
+   "question_id": "Q-2026",
+   "canonical_question": "고백은 2026년에 녹음되었나요?",
+   "accepted_variations": [
+    "이번 고백은 올해 녹음된 거야?"
+   ],
+   "match": {
+    "entity_sets": [
+     [
+      "2026"
+     ]
+    ],
+    "concepts": [
+     [
+      "고백",
+      "녹음"
+     ]
+    ],
+    "optional": [
+     "파일"
+    ],
+    "subject": null,
+    "not_subject": [],
+    "subject_strict": false
+   }
+  },
+  {
+   "question_id": "Q-HWI-REC",
+   "canonical_question": "새 고백을 녹음한 사람은 반휘혈인가요?",
+   "accepted_variations": [
+    "반휘혈이 고백을 녹음했나요?",
+    "휘혈이가 고백했어?",
+    "고백한 사람이 반휘혈이야?"
+   ],
+   "match": {
+    "entity_sets": [
+     [
+      "반휘혈"
+     ],
+     [
+      "반휘혈",
+      "2026"
+     ]
+    ],
+    "concepts": [
+     [
+      "고백",
+      "녹음"
+     ]
+    ],
+    "optional": [
+     "파일"
+    ],
+    "subject": "반휘혈",
+    "not_subject": [],
+    "subject_strict": true
+   }
+  },
+  {
+   "question_id": "Q-REC-NAM",
+   "canonical_question": "새 고백을 녹음한 사람은 남궁호인가요?",
+   "accepted_variations": [
+    "남궁호가 고백했어?"
+   ],
+   "match": {
+    "entity_sets": [
+     [
+      "남궁호"
+     ],
+     [
+      "남궁호",
+      "2026"
+     ]
+    ],
+    "concepts": [
+     [
+      "고백"
+     ]
+    ],
+    "optional": [
+     "녹음",
+     "파일"
+    ],
+    "subject": "남궁호",
+    "not_subject": [],
+    "subject_strict": true
+   }
+  },
+  {
+   "question_id": "Q-REC-SERI",
+   "canonical_question": "새 고백을 녹음한 사람은 차세리인가요?",
+   "accepted_variations": [
+    "차세리가 고백했어?"
+   ],
+   "match": {
+    "entity_sets": [
+     [
+      "차세리"
+     ],
+     [
+      "차세리",
+      "2026"
+     ]
+    ],
+    "concepts": [
+     [
+      "고백"
+     ]
+    ],
+    "optional": [
+     "녹음",
+     "파일"
+    ],
+    "subject": "차세리",
+    "not_subject": [],
+    "subject_strict": true
+   }
+  },
+  {
+   "question_id": "Q-HWI-TARGET",
+   "canonical_question": "반휘혈의 고백 상대는 온하늘인가요?",
+   "accepted_variations": [
+    "반휘혈이 온하늘에게 고백했나요?",
+    "휘혈이가 하늘이한테 고백한 거야?"
+   ],
+   "match": {
+    "entity_sets": [
+     [
+      "반휘혈",
+      "온하늘"
+     ]
+    ],
+    "concepts": [
+     [
+      "고백",
+      "녹음",
+      "마음전하"
+     ]
+    ],
+    "optional": [
+     "파일"
+    ],
+    "subject": "반휘혈",
+    "not_subject": [],
+    "subject_strict": false
+   }
+  },
+  {
+   "question_id": "Q-TARGET-HANEUL",
+   "canonical_question": "고백의 상대는 온하늘인가요?",
+   "accepted_variations": [
+    "고백 받는 사람이 온하늘이야?",
+    "온하늘에게 한 고백인가요?"
+   ],
+   "match": {
+    "entity_sets": [
+     [
+      "온하늘"
+     ]
+    ],
+    "concepts": [
+     [
+      "고백"
+     ]
+    ],
+    "optional": [
+     "파일",
+     "녹음"
+    ],
+    "subject": null,
+    "not_subject": [
+     "온하늘"
+    ],
+    "subject_strict": false
+   }
+  },
+  {
+   "question_id": "Q-TARGET-SERI",
+   "canonical_question": "반휘혈의 고백 상대는 차세리인가요?",
+   "accepted_variations": [
+    "반휘혈이 차세리에게 고백했나요?"
+   ],
+   "match": {
+    "entity_sets": [
+     [
+      "반휘혈",
+      "차세리"
+     ]
+    ],
+    "concepts": [
+     [
+      "고백"
+     ]
+    ],
+    "optional": [
+     "녹음",
+     "파일"
+    ],
+    "subject": "반휘혈",
+    "not_subject": [],
+    "subject_strict": false
+   }
+  },
+  {
+   "question_id": "Q-TARGET-NAM",
+   "canonical_question": "반휘혈의 고백 상대는 남궁호인가요?",
+   "accepted_variations": [
+    "반휘혈이 남궁호에게 고백했나요?"
+   ],
+   "match": {
+    "entity_sets": [
+     [
+      "반휘혈",
+      "남궁호"
+     ]
+    ],
+    "concepts": [
+     [
+      "고백"
+     ]
+    ],
+    "optional": [
+     "녹음",
+     "파일"
+    ],
+    "subject": "반휘혈",
+    "not_subject": [],
+    "subject_strict": false
+   }
+  },
+  {
+   "question_id": "Q-LOVE",
+   "canonical_question": "반휘혈은 온하늘을 좋아하나요?",
+   "accepted_variations": [
+    "휘혈이는 하늘이를 좋아해?",
+    "반휘혈이 온하늘에게 마음이 있나요?",
+    "반휘혈은 온하늘을 사랑하나요?"
+   ],
+   "match": {
+    "entity_sets": [
+     [
+      "반휘혈",
+      "온하늘"
+     ]
+    ],
+    "concepts": [
+     [
+      "좋아"
+     ]
+    ],
+    "optional": [
+     "고백"
+    ],
+    "subject": "반휘혈",
+    "not_subject": [],
+    "subject_strict": false
+   }
+  },
+  {
+   "question_id": "Q-MUTUAL",
+   "canonical_question": "두 사람은 서로 좋아하나요?",
+   "accepted_variations": [
+    "둘이 서로 좋아했던 거야?",
+    "반휘혈과 온하늘은 서로 좋아하나요?",
+    "둘은 서로 마음이 있었나요?"
+   ],
+   "match": {
+    "entity_sets": [
+     [
+      "두사람"
+     ],
+     [],
+     [
+      "반휘혈",
+      "온하늘"
+     ]
+    ],
+    "concepts": [
+     [
+      "서로"
+     ],
+     [
+      "좋아"
+     ]
+    ],
+    "optional": [
+     "2025",
+     "고백"
+    ],
+    "subject": null,
+    "not_subject": [],
+    "subject_strict": false
+   }
+  },
+  {
+   "question_id": "Q-HANEUL-LOVE",
+   "canonical_question": "온하늘은 반휘혈을 좋아하나요?",
+   "accepted_variations": [
+    "하늘이도 휘혈이를 좋아해?",
+    "온하늘도 반휘혈에게 마음이 있나요?"
+   ],
+   "match": {
+    "entity_sets": [
+     [
+      "반휘혈",
+      "온하늘"
+     ]
+    ],
+    "concepts": [
+     [
+      "좋아"
+     ]
+    ],
+    "optional": [
+     "고백",
+     "답장"
+    ],
+    "subject": "온하늘",
+    "not_subject": [],
+    "subject_strict": false
+   }
+  },
+  {
+   "question_id": "Q-2025-CONFESS",
+   "canonical_question": "2025년에도 고백이 있었나요?",
+   "accepted_variations": [
+    "작년에도 고백했어?",
+    "반휘혈은 2025년에 온하늘에게 마음을 전하려 했나요?"
+   ],
+   "match": {
+    "entity_sets": [
+     [
+      "2025"
+     ],
+     [
+      "2025",
+      "반휘혈"
+     ],
+     [
+      "2025",
+      "반휘혈",
+      "온하늘"
+     ]
+    ],
+    "concepts": [
+     [
+      "고백",
+      "마음전하"
+     ]
+    ],
+    "optional": [
+     "좋아",
+     "녹음"
+    ],
+    "subject": null,
+    "not_subject": [
+     "온하늘"
+    ],
+    "subject_strict": false
+   }
+  },
+  {
+   "question_id": "Q-HANEUL-REPLY",
+   "canonical_question": "온하늘은 답장을 녹음했나요?",
+   "accepted_variations": [
+    "온하늘이 답장을 남겼나요?",
+    "하늘이가 대답을 녹음했어?",
+    "과거 답장을 녹음한 사람은 온하늘인가요?"
+   ],
+   "match": {
+    "entity_sets": [
+     [
+      "온하늘"
+     ],
+     [
+      "온하늘",
+      "2025"
+     ]
+    ],
+    "concepts": [
+     [
+      "답장"
+     ]
+    ],
+    "optional": [
+     "녹음",
+     "남기",
+     "보내"
+    ],
+    "subject": "온하늘",
+    "not_subject": [],
+    "subject_strict": false
+   }
+  },
+  {
+   "question_id": "Q-REPLY-2025",
+   "canonical_question": "과거 답장은 2025년에 녹음되었나요?",
+   "accepted_variations": [
+    "답장은 작년에 녹음된 거야?"
+   ],
+   "match": {
+    "entity_sets": [
+     [
+      "2025"
+     ]
+    ],
+    "concepts": [
+     [
+      "답장"
+     ]
+    ],
+    "optional": [
+     "녹음"
+    ],
+    "subject": null,
+    "not_subject": [],
+    "subject_strict": false
+   }
+  },
+  {
+   "question_id": "Q-REPLY-TO-HWI",
+   "canonical_question": "온하늘의 답장은 반휘혈에게 보낸 것인가요?",
+   "accepted_variations": [
+    "하늘이의 답장은 휘혈이에게 한 대답이야?"
+   ],
+   "match": {
+    "entity_sets": [
+     [
+      "온하늘",
+      "반휘혈"
+     ],
+     [
+      "온하늘",
+      "반휘혈",
+      "2025"
+     ]
+    ],
+    "concepts": [
+     [
+      "답장"
+     ]
+    ],
+    "optional": [
+     "녹음",
+     "보내",
+     "고백"
+    ],
+    "subject": "온하늘",
+    "not_subject": [],
+    "subject_strict": false
+   }
+  },
+  {
+   "question_id": "Q-REPLY-DELIVERED",
+   "canonical_question": "2025년에 온하늘의 답장은 반휘혈에게 제대로 전달되었나요?",
+   "accepted_variations": [
+    "답장이 전달됐어?",
+    "반휘혈은 2025년에 답장을 받았나요?",
+    "답장이 제대로 도착했나요?"
+   ],
+   "match": {
+    "entity_sets": [
+     [],
+     [
+      "2025"
+     ],
+     [
+      "온하늘"
+     ],
+     [
+      "반휘혈"
+     ],
+     [
+      "온하늘",
+      "반휘혈"
+     ],
+     [
+      "2025",
+      "온하늘"
+     ],
+     [
+      "2025",
+      "반휘혈"
+     ],
+     [
+      "2025",
+      "온하늘",
+      "반휘혈"
+     ]
+    ],
+    "concepts": [
+     [
+      "답장"
+     ],
+     [
+      "전달"
+     ]
+    ],
+    "optional": [
+     "녹음",
+     "보내",
+     "파일"
+    ],
+    "subject": null,
+    "not_subject": [],
+    "subject_strict": false
+   }
+  },
+  {
+   "question_id": "Q-MISUNDERSTAND",
+   "canonical_question": "두 사람은 서로 거절당했다고 오해했나요?",
+   "accepted_variations": [
+    "둘 다 차였다고 착각한 거야?",
+    "반휘혈과 온하늘은 서로 오해했나요?"
+   ],
+   "match": {
+    "entity_sets": [
+     [
+      "두사람"
+     ],
+     [],
+     [
+      "반휘혈",
+      "온하늘"
+     ]
+    ],
+    "concepts": [
+     [
+      "오해"
+     ]
+    ],
+    "optional": [
+     "2025",
+     "거절",
+     "고백",
+     "답장",
+     "서로"
+    ],
+    "subject": null,
+    "not_subject": [],
+    "subject_strict": false
+   }
+  },
+  {
+   "question_id": "Q-HANEUL-REJECT",
+   "canonical_question": "온하늘은 반휘혈을 거절했나요?",
+   "accepted_variations": [
+    "하늘이가 휘혈이를 찼어?",
+    "온하늘이 반휘혈의 고백을 거절했나요?"
+   ],
+   "match": {
+    "entity_sets": [
+     [
+      "온하늘",
+      "반휘혈"
+     ],
+     [
+      "온하늘"
+     ]
+    ],
+    "concepts": [
+     [
+      "거절"
+     ]
+    ],
+    "optional": [
+     "고백",
+     "답장",
+     "2025"
+    ],
+    "subject": "온하늘",
+    "not_subject": [],
+    "subject_strict": false
+   }
+  },
+  {
+   "question_id": "Q-HWI-REJECT",
+   "canonical_question": "반휘혈은 온하늘을 거절했나요?",
+   "accepted_variations": [
+    "휘혈이가 하늘이를 찼어?"
+   ],
+   "match": {
+    "entity_sets": [
+     [
+      "반휘혈",
+      "온하늘"
+     ],
+     [
+      "반휘혈"
+     ]
+    ],
+    "concepts": [
+     [
+      "거절"
+     ]
+    ],
+    "optional": [
+     "답장",
+     "2025"
+    ],
+    "subject": "반휘혈",
+    "not_subject": [],
+    "subject_strict": false
+   }
+  },
+  {
+   "question_id": "Q-SAME-INCIDENT",
+   "canonical_question": "2025년 답장 문제와 2026년 송출은 같은 사건인가요?",
+   "accepted_variations": [
+    "답장이 전달 안 된 것과 이번 방송 사고는 같은 사건이야?"
+   ],
+   "match": {
+    "entity_sets": [
+     [
+      "2025",
+      "2026"
+     ],
+     []
+    ],
+    "concepts": [
+     [
+      "같은사건"
+     ]
+    ],
+    "optional": [
+     "답장",
+     "송출",
+     "전달",
+     "고백"
+    ],
+    "subject": null,
+    "not_subject": [],
+    "subject_strict": false
+   }
+  },
+  {
+   "question_id": "Q-NAM-EDIT",
+   "canonical_question": "남궁호가 음성 편집을 도왔나요?",
+   "accepted_variations": [
+    "남궁호가 편집했어?",
+    "궁호가 파일 편집에 관여했나요?"
+   ],
+   "match": {
+    "entity_sets": [
+     [
+      "남궁호"
+     ],
+     [
+      "남궁호",
+      "2026"
+     ]
+    ],
+    "concepts": [
+     [
+      "편집"
+     ]
+    ],
+    "optional": [
+     "돕",
+     "고백",
+     "녹음",
+     "파일"
+    ],
+    "subject": "남궁호",
+    "not_subject": [],
+    "subject_strict": false
+   }
+  },
+  {
+   "question_id": "Q-NAM-BROADCAST",
+   "canonical_question": "남궁호가 방송에 파일을 넣었나요?",
+   "accepted_variations": [
+    "남궁호가 송출했어?",
+    "남궁호가 예약 목록을 수정했나요?",
+    "남궁호가 범인인가요?"
+   ],
+   "match": {
+    "entity_sets": [
+     [
+      "남궁호"
+     ]
+    ],
+    "concepts": [
+     [
+      "송출",
+      "예약",
+      "범인"
+     ]
+    ],
+    "optional": [
+     "수정",
+     "파일",
+     "고백",
+     "답장",
+     "둘다"
+    ],
+    "subject": "남궁호",
+    "not_subject": [],
+    "subject_strict": true
+   }
+  },
+  {
+   "question_id": "Q-NAM-ACCOMPLICE",
+   "canonical_question": "남궁호는 무단 송출의 공범인가요?",
+   "accepted_variations": [
+    "남궁호도 한패야?",
+    "남궁호가 차세리와 공모했나요?"
+   ],
+   "match": {
+    "entity_sets": [
+     [
+      "남궁호"
+     ],
+     [
+      "남궁호",
+      "차세리"
+     ]
+    ],
+    "concepts": [
+     [
+      "공범"
+     ]
+    ],
+    "optional": [
+     "송출",
+     "무단",
+     "범인"
+    ],
+    "subject": null,
+    "not_subject": [],
+    "subject_strict": false
+   }
+  },
+  {
+   "question_id": "Q-HWI-BROADCAST",
+   "canonical_question": "반휘혈이 직접 고백을 송출했나요?",
+   "accepted_variations": [
+    "반휘혈이 방송에 틀었어?",
+    "반휘혈이 범인인가요?"
+   ],
+   "match": {
+    "entity_sets": [
+     [
+      "반휘혈"
+     ]
+    ],
+    "concepts": [
+     [
+      "송출",
+      "예약",
+      "범인"
+     ]
+    ],
+    "optional": [
+     "파일",
+     "고백",
+     "답장",
+     "수정"
+    ],
+    "subject": "반휘혈",
+    "not_subject": [],
+    "subject_strict": true
+   }
+  },
+  {
+   "question_id": "Q-HANEUL-BROADCAST",
+   "canonical_question": "온하늘이 파일을 송출했나요?",
+   "accepted_variations": [
+    "온하늘이 방송에 틀었어?",
+    "온하늘이 범인인가요?"
+   ],
+   "match": {
+    "entity_sets": [
+     [
+      "온하늘"
+     ]
+    ],
+    "concepts": [
+     [
+      "송출",
+      "예약",
+      "범인"
+     ]
+    ],
+    "optional": [
+     "파일",
+     "고백",
+     "답장",
+     "수정"
+    ],
+    "subject": "온하늘",
+    "not_subject": [],
+    "subject_strict": true
+   }
+  },
+  {
+   "question_id": "Q-SERI-FOUND",
+   "canonical_question": "차세리가 두 음성 파일을 발견했나요?",
+   "accepted_variations": [
+    "세리가 파일을 찾았어?",
+    "차세리는 답장과 고백을 둘 다 알게 되었나요?"
+   ],
+   "match": {
+    "entity_sets": [
+     [
+      "차세리"
+     ]
+    ],
+    "concepts": [
+     [
+      "발견"
+     ]
+    ],
+    "optional": [
+     "파일",
+     "고백",
+     "답장",
+     "둘다",
+     "녹음"
+    ],
+    "subject": "차세리",
+    "not_subject": [],
+    "subject_strict": false
+   }
+  },
+  {
+   "question_id": "Q-SERI-SCHEDULE",
+   "canonical_question": "차세리가 방송 예약 목록을 수정했나요?",
+   "accepted_variations": [
+    "세리가 편성표를 바꿨어?",
+    "예약 목록을 수정한 사람은 차세리인가요?"
+   ],
+   "match": {
+    "entity_sets": [
+     [
+      "차세리"
+     ]
+    ],
+    "concepts": [
+     [
+      "예약"
+     ]
+    ],
+    "optional": [
+     "수정",
+     "송출",
+     "파일",
+     "고백",
+     "답장",
+     "둘다"
+    ],
+    "subject": "차세리",
+    "not_subject": [],
+    "subject_strict": true
+   }
+  },
+  {
+   "question_id": "Q-SERI-BROADCAST",
+   "canonical_question": "차세리가 고백을 방송에 송출했나요?",
+   "accepted_variations": [
+    "범인은 차세리인가요?",
+    "세리가 방송에 틀었어?",
+    "최종 송출자는 차세리야?"
+   ],
+   "match": {
+    "entity_sets": [
+     [
+      "차세리"
+     ]
+    ],
+    "concepts": [
+     [
+      "송출",
+      "범인"
+     ]
+    ],
+    "optional": [
+     "예약",
+     "수정",
+     "파일",
+     "고백",
+     "답장",
+     "둘다",
+     "시각21"
+    ],
+    "subject": "차세리",
+    "not_subject": [],
+    "subject_strict": true
+   }
+  },
+  {
+   "question_id": "Q-SERI-MOTIVE",
+   "canonical_question": "차세리는 두 사람의 오해를 풀려고 했나요?",
+   "accepted_variations": [
+    "세리는 둘의 오해를 풀어 주고 싶었어?"
+   ],
+   "match": {
+    "entity_sets": [
+     [
+      "차세리"
+     ],
+     [
+      "차세리",
+      "두사람"
+     ],
+     [
+      "차세리",
+      "반휘혈",
+      "온하늘"
+     ]
+    ],
+    "concepts": [
+     [
+      "오해"
+     ]
+    ],
+    "optional": [
+     "풀",
+     "돕",
+     "송출"
+    ],
+    "subject": null,
+    "not_subject": [],
+    "subject_strict": false
+   }
+  },
+  {
+   "question_id": "Q-SERI-NOPERM",
+   "canonical_question": "차세리는 허락 없이 송출했나요?",
+   "accepted_variations": [
+    "허락 없이 방송된 거야?",
+    "세리가 몰래 틀었어?"
+   ],
+   "match": {
+    "entity_sets": [
+     [
+      "차세리"
+     ],
+     [],
+     [
+      "차세리",
+      "두사람"
+     ],
+     [
+      "두사람"
+     ]
+    ],
+    "concepts": [
+     [
+      "무단"
+     ]
+    ],
+    "optional": [
+     "송출",
+     "고백",
+     "답장",
+     "파일",
+     "녹음",
+     "둘다"
+    ],
+    "subject": null,
+    "not_subject": [],
+    "subject_strict": false
+   }
+  },
+  {
+   "question_id": "Q-SERI-PERM",
+   "canonical_question": "차세리는 두 사람의 허락을 받고 송출했나요?",
+   "accepted_variations": [
+    "허락 받고 방송한 거야?"
+   ],
+   "match": {
+    "entity_sets": [
+     [
+      "차세리"
+     ],
+     [],
+     [
+      "차세리",
+      "두사람"
+     ],
+     [
+      "두사람"
+     ]
+    ],
+    "concepts": [
+     [
+      "허락"
+     ]
+    ],
+    "optional": [
+     "송출",
+     "고백",
+     "답장",
+     "파일",
+     "녹음",
+     "둘다"
+    ],
+    "subject": null,
+    "not_subject": [],
+    "subject_strict": false
+   }
+  },
+  {
+   "question_id": "Q-BOTH-FILES",
+   "canonical_question": "두 음성 파일이 함께 송출되었나요?",
+   "accepted_variations": [
+    "고백과 답장이 같이 방송됐어?"
+   ],
+   "match": {
+    "entity_sets": [
+     [],
+     [
+      "2025",
+      "2026"
+     ]
+    ],
+    "concepts": [
+     [
+      "둘다"
+     ],
+     [
+      "송출"
+     ]
+    ],
+    "optional": [
+     "답장",
+     "고백",
+     "파일",
+     "시각21"
+    ],
+    "subject": null,
+    "not_subject": [],
+    "subject_strict": false
+   }
+  },
+  {
+   "question_id": "Q-REPLY-BROADCAST",
+   "canonical_question": "과거 답장도 송출되었나요?",
+   "accepted_variations": [
+    "2025년 답장도 방송에 나왔어?",
+    "온하늘의 답장도 방송됐나요?"
+   ],
+   "match": {
+    "entity_sets": [
+     [],
+     [
+      "2025"
+     ],
+     [
+      "온하늘"
+     ],
+     [
+      "2025",
+      "온하늘"
+     ]
+    ],
+    "concepts": [
+     [
+      "답장"
+     ],
+     [
+      "송출"
+     ]
+    ],
+    "optional": [
+     "파일",
+     "녹음"
+    ],
+    "subject": null,
+    "not_subject": [
+     "온하늘"
+    ],
+    "subject_strict": false
+   }
+  },
+  {
+   "question_id": "Q-REAL",
+   "canonical_question": "실제 서버 멤버가 사건과 관련 있나요?",
+   "accepted_variations": [
+    "현실 사람이 등장해?"
+   ],
+   "match": {
+    "entity_sets": [
+     []
+    ],
+    "concepts": [
+     [
+      "실제"
+     ]
+    ],
+    "optional": [],
+    "subject": null,
+    "not_subject": [],
+    "subject_strict": false
+   }
+  },
+  {
+   "question_id": "Q-DELIVERY-SABOTAGE",
+   "canonical_question": "2025년 답장 전달을 누군가 고의로 막았나요?",
+   "accepted_variations": [
+    "누가 일부러 답장을 가로챘어?"
+   ],
+   "match": {
+    "entity_sets": [
+     [],
+     [
+      "2025"
+     ]
+    ],
+    "concepts": [
+     [
+      "고의"
+     ]
+    ],
+    "optional": [
+     "답장",
+     "전달"
+    ],
+    "subject": null,
+    "not_subject": [],
+    "subject_strict": false
+   }
+  },
+  {
+   "question_id": "Q-SERI-2025",
+   "canonical_question": "차세리가 2025년 답장 전달을 방해했나요?",
+   "accepted_variations": [
+    "세리가 작년에 답장을 막았어?"
+   ],
+   "match": {
+    "entity_sets": [
+     [
+      "차세리"
+     ],
+     [
+      "차세리",
+      "2025"
+     ]
+    ],
+    "concepts": [
+     [
+      "고의"
+     ]
+    ],
+    "optional": [
+     "답장",
+     "전달"
+    ],
+    "subject": null,
+    "not_subject": [],
+    "subject_strict": false
+   }
+  },
+  {
+   "question_id": "Q-NAM-REQUESTER",
+   "canonical_question": "남궁호에게 편집을 부탁한 사람은 반휘혈인가요?",
+   "accepted_variations": [
+    "휘혈이가 궁호한테 편집을 맡겼어?"
+   ],
+   "match": {
+    "entity_sets": [
+     [
+      "남궁호",
+      "반휘혈"
+     ]
+    ],
+    "concepts": [
+     [
+      "편집"
+     ],
+     [
+      "부탁"
+     ]
+    ],
+    "optional": [
+     "돕",
+     "고백"
+    ],
+    "subject": null,
+    "not_subject": [],
+    "subject_strict": false
+   }
+  }
+ ]
+}

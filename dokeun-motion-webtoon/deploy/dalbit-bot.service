@@ -1,0 +1,16 @@
+[Unit]
+Description=도근고등학교 달빛 방송부 디스코드 봇
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=dalbit
+WorkingDirectory=/opt/dokeun-motion-webtoon
+ExecStart=/opt/dokeun-motion-webtoon/.venv/bin/python -m bot.main
+Restart=always
+RestartSec=10
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target

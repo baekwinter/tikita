@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "증거 데이터 (bot/data/evidence.json)",
+  "type": "object",
+  "required": [
+    "evidence"
+  ],
+  "properties": {
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "evidence_id",
+          "title",
+          "release_episode",
+          "summary",
+          "detail"
+        ],
+        "properties": {
+          "evidence_id": {
+            "type": "string",
+            "pattern": "^E-\\d{2}$"
+          },
+          "title": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "release_episode": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "summary": {
+            "type": "string"
+          },
+          "detail": {
+            "type": "string"
+          },
+          "image": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}
