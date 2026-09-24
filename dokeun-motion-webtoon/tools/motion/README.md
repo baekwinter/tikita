@@ -30,3 +30,15 @@ pip install pillow numpy opencv-python-headless imageio-ffmpeg torch spandrel
 1. 시트를 `source/storyboards/EPxx.webp` 로 저장하고 작업 폴더에 복사.
 2. `panels.py` 의 `SHEETS` 에 배너 하단 y 와 컷 좌표를 추가 (흰 구분선 기준).
 3. 컷 분리 후 `python upscale.py` → `python build.py <회차번호>` → `python trailer.py`.
+
+## 기존 영상 업스케일 (`vup.py`)
+
+```bash
+python vup.py 원본.mp4 결과.mp4     # 1080p 유지, 디스코드 10MB 이하로 인코딩, 오디오 그대로
+```
+
+영상 대부분이 정지 그림 + 느린 카메라 이동이라, 모든 프레임에 AI 를 돌리지 않습니다.
+키프레임만 Real-ESRGAN(realesr-animevideov3, 960×540 입력 → 4배)으로 업스케일해 **디테일 층**(AI 결과 − 원본)을 만들고,
+다음 프레임들은 ECC 로 추적한 움직임만큼 디테일 층을 옮겨 원본에 더합니다.
+추적 오차(고주파 잔차)가 커지면 — 컷 전환, 자막 등장, 크로스페이드 — 그 프레임이 새 키프레임이 됩니다.
+실측 키프레임 비율 약 13%, 1분 45초 영상 1편 ≈ 22분 (CPU 4코어).
