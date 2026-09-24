@@ -1,0 +1,14 @@
+# Fly.io 배포 설정 (Railway 대신 쓸 때). 앱 이름은 fly launch 때 정해진 값으로 바꾼다.
+app = "dalbit-bot"
+primary_region = "nrt"
+
+[build]
+  dockerfile = "Dockerfile"
+
+[[mounts]]
+  source = "dalbit_data"
+  destination = "/data"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "512mb"

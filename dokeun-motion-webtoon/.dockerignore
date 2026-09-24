@@ -1,0 +1,14 @@
+**/.env
+**/*.db*
+**/__pycache__
+bot/var/
+bot/tests/
+web/
+api/
+shared/
+docs/
+deploy/
+source/
+story/
+characters/
+output/

@@ -40,6 +40,7 @@ dokeun-motion-webtoon/
 │  ├─ public/ next.config.js package.json .env.example
 ├─ shared/schema/  데이터 파일 JSON Schema
 ├─ shared/content/ 콘텐츠 편집 안내
+├─ Dockerfile railway.json fly.toml   봇 컨테이너 배포 설정
 ├─ deploy/         systemd 서비스 3개 + Caddyfile
 └─ docs/OPERATIONS.md  운영진 매뉴얼 · 테스트 시나리오 · 장애 대응
 ```
@@ -142,7 +143,10 @@ python -m bot.cli invite
 ## 7. 배포 (이벤트 기간 내내 켜 두기)
 
 봇이 꺼져 있으면 아무것도 자동 게시되지 않습니다. 9/23~9/28 동안 상시 실행되는 서버가 필요합니다.
-권장: 소형 리눅스 VM 1대(1 vCPU / 1GB)에 봇·API·웹을 함께 실행.
+
+**가장 간단한 방법: [docs/DEPLOY.md](docs/DEPLOY.md)** — `Dockerfile` + `railway.json` 으로 Railway 에 봇을 올립니다 (Fly.io 용 `fly.toml` 포함).
+
+웹 조사실까지 함께 운영하려면 소형 리눅스 VM 1대(1 vCPU / 1GB)에 봇·API·웹을 함께 실행합니다.
 
 ```bash
 sudo useradd -r -m dalbit && sudo mkdir -p /opt && sudo chown dalbit /opt
