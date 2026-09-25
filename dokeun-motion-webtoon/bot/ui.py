@@ -191,7 +191,16 @@ def ending_embeds(game: GameService) -> list[discord.Embed]:
 # ---------------------------------------------------------------------------
 # 개인 화면 임베드
 # ---------------------------------------------------------------------------
-def dashboard_embed(game: GameService, user_id: int, with_image: bool = False) -> discord.Embed:
+def banner_embed(game: GameService) -> discord.Embed:
+    """수사 수첩 맨 위 배너 (디스코드는 임베드 이미지를 아래에 두므로 따로 한 장 먼저 보낸다)."""
+    e = discord.Embed(colour=COLOR_ONAIR)
+    e.set_author(name=f"🎙️ {case_tag(game)}")
+    e.set_image(url="attachment://scene.png")
+    e.set_footer(text="도근고등학교 방송실 · 2026 추석 특별 방송")
+    return e
+
+
+def dashboard_embed(game: GameService, user_id: int) -> discord.Embed:
     info = game.case_info()
     prog = game.progress(user_id)
     ep = info["episode"]
@@ -204,9 +213,6 @@ def dashboard_embed(game: GameService, user_id: int, with_image: bool = False) -
         + " ".join(f"`{c}`" for c in CHARACTERS)
         + f"\n\n-# 자유 수사 · 오늘의 질문 (매일 0시에 충전)\n## {used} / {q['limit']}\n{bar(used, q['limit'], 16)} 남은 질문 **{q['remaining']}**"
     ))
-    e.set_author(name=f"🎙️ {case_tag(game)}")
-    if with_image:
-        e.set_image(url="attachment://scene.png")
     e.add_field(name="확보 증거", value=f"**{prog['evidence_found']}/{prog['evidence_released']}**", inline=True)
     e.add_field(name="추리 시도", value=f"**{prog['theories'] + prog['final_attempts']}**", inline=True)
     e.add_field(name=prog["currency"], value=f"**{prog['points']}**", inline=True)
@@ -428,8 +434,8 @@ async def open_dashboard(interaction: discord.Interaction) -> None:
     reg = bot.game.register(interaction.user.id, name_of(interaction))
     ep = bot.catalog.episodes.get(bot.game.current_episode)
     file = scene_attachment(ep)
-    embed = dashboard_embed(bot.game, interaction.user.id, with_image=file is not None)
-    kwargs: dict[str, Any] = {"embed": embed, "view": DashboardView(bot, interaction.user.id), "ephemeral": True}
+    embeds = ([banner_embed(bot.game)] if file else []) + [dashboard_embed(bot.game, interaction.user.id)]
+    kwargs: dict[str, Any] = {"embeds": embeds, "view": DashboardView(bot, interaction.user.id), "ephemeral": True}
     if reg["new"]:
         kwargs["content"] = f"🎙️ 특별 조사원 등록이 완료되었습니다. 환영합니다!{points_toast(reg['gained'])}"
     if file:
