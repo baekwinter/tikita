@@ -34,6 +34,50 @@ def footer(ref: str | None = None) -> str:
     return f"{FOOTER} · {ref}" if ref else FOOTER
 
 
+# ---------------------------------------------------------------------------
+# 게임 HUD 요소 (웹 조사실과 같은 느낌을 디스코드 임베드로)
+# ---------------------------------------------------------------------------
+def bar(done: int, total: int, width: int = 12) -> str:
+    total = max(total, 1)
+    filled = round(width * min(done, total) / total)
+    return "▰" * filled + "▱" * (width - filled)
+
+
+def score_pips(correct: int, total: int) -> str:
+    return "🟪" * correct + "⬛" * max(total - correct, 0)
+
+
+def hud_line(game: GameService, user_id: int) -> str:
+    p = game.progress(user_id)
+    return (f"`ROUND {p['current_episode']:02d}/{p['total_episodes']}` · `질문 {p['questions']['total']}` · "
+            f"`증거 {p['evidence_found']}/{p['evidence_released']}` · `{p['points']}점`")
+
+
+def episode_grid(game: GameService, user_id: int) -> str:
+    current = game.current_episode
+    watched = game.db.watched_episodes(user_id)
+    cells = []
+    for n in range(1, game.catalog.episode_count + 1):
+        if n > current:
+            icon = "🔒"
+        elif n == current:
+            icon = "🔴"
+        elif n in watched:
+            icon = "✅"
+        else:
+            icon = "▶️"
+        cells.append(f"{icon}`{n:02d}`")
+    rows = [" ".join(cells[i:i + 6]) for i in range(0, len(cells), 6)]
+    return "\n".join(rows) + "\n-# 🔴 ON AIR · ✅ 시청 완료 · ▶️ 미시청 · 🔒 잠김"
+
+
+def points_toast(gained: int, currency: str = "달빛 수사 포인트") -> str:
+    return f"\n\n> ✨ **+{gained} {currency}**" if gained else ""
+
+
+VERDICT_BADGE = {"YES": "🟢 YES", "NO": "🔴 NO", "IRRELEVANT": "⚪ 관계없음"}
+
+
 def web_url(bot: "DalbitBot") -> str | None:
     return os.getenv("DG_WEB_URL") or bot.cfg.section("event").get("web_url") or None
 
@@ -129,55 +173,59 @@ def dashboard_embed(game: GameService, user_id: int) -> discord.Embed:
     info = game.case_info()
     prog = game.progress(user_id)
     ep = info["episode"]
-    e = discord.Embed(title=f"[{BOT_NAME}]", colour=COLOR_MAIN)
-    e.add_field(name="사건명", value=GAME_TITLE, inline=False)
-    e.add_field(name="현재 공개된 이야기", value=ep["title"] if ep else "개막 전", inline=True)
-    e.add_field(name="수사 진행 상태", value=prog["status"], inline=True)
-    e.add_field(name=prog["currency"], value=f"{prog['points']}점", inline=True)
-    e.add_field(name="확보한 증거", value=f"{prog['evidence_found']} / {prog['evidence_released']}", inline=True)
+    e = discord.Embed(title=f"🎙️ ON AIR · 달빛 방송부 수사실", colour=COLOR_MAIN, description=(
+        f"{hud_line(game, user_id)}\n\n"
+        f"## {GAME_TITLE}\n"
+        "누가 녹음했을까? 누구에게 전하려던 마음이었을까?\n그리고 누가 이 고백을 방송에 송출했을까?\n"
+        + " ".join(f"`{c}`" for c in CHARACTERS)
+    ))
+    e.add_field(name=f"📺 {ep['title'] if ep else '개막 전'}", value=episode_grid(game, user_id), inline=False)
+    e.add_field(name="🔎 증거 수집", value=f"{bar(prog['evidence_found'], prog['evidence_released'], 10)} {prog['evidence_found']}/{prog['evidence_released']}", inline=True)
     q = prog["questions"]
-    e.add_field(name="오늘 남은 질문", value=f"{q['remaining']} / {q['limit']}", inline=True)
-    e.add_field(name="최종 추리", value=f"{prog['final_attempts']} / {prog['final_max_attempts']}회 제출", inline=True)
+    e.add_field(name="❓ 오늘 남은 질문", value=f"{bar(q['remaining'], q['limit'], 10)} {q['remaining']}/{q['limit']}", inline=True)
+    left = prog["final_max_attempts"] - prog["final_attempts"]
+    e.add_field(name="📝 최종 추리", value=f"남은 기회 **{left}/{prog['final_max_attempts']}** · {prog['status']}", inline=False)
     if info["next_episode"]:
-        e.add_field(name="다음 방송", value=f"EP.{info['next_episode']['number']:02d} · {info['next_episode']['at_kst']}", inline=False)
-    e.set_footer(text="이 화면은 나에게만 보입니다.")
+        e.add_field(name="⏭️ 다음 방송", value=f"EP.{info['next_episode']['number']:02d} · {info['next_episode']['at_kst']}", inline=False)
+    e.set_footer(text="이 화면은 나에게만 보입니다 · 특별 조사원 전용")
     return e
 
 
 def answer_embed(res: dict[str, Any]) -> discord.Embed:
     colour = {"YES": COLOR_MAIN, "NO": COLOR_ONAIR, "IRRELEVANT": COLOR_NIGHT}.get(res["verdict"], COLOR_NIGHT)
-    e = discord.Embed(title=f"방송부 응답 · {res['label']}", colour=colour)
-    e.add_field(name="질문", value=res["question"][:1000], inline=False)
+    badge = VERDICT_BADGE.get(res["verdict"], f"🔒 {res['label']}")
+    lines = [f"-# 방송부 응답", f"> {res['question'][:900]}", f"## {badge}"]
     if res["response_text"]:
-        e.add_field(name="방송부 메모", value=res["response_text"], inline=False)
+        lines.append(f"📻 {res['response_text']}")
     if res["hint"]:
-        e.add_field(name="안내", value=res["hint"], inline=False)
+        lines.append(f"-# {res['hint']}")
     if res.get("related_evidence"):
         rel = res["related_evidence"]
-        e.add_field(name="관련 증거", value=f"{rel['id']} {rel['title']}", inline=False)
+        lines.append(f"🔎 관련 증거 `{rel['id']}` **{rel['title']}**")
+    e = discord.Embed(description="\n".join(lines) + points_toast(res["gained"]), colour=colour)
     q = res["quota"]
     tail = f"오늘 남은 질문 {q['remaining']}/{q['limit']}"
     if res["duplicate"]:
         tail += " · 같은 질문은 횟수에서 차감하지 않았습니다"
     elif not res["counted"]:
         tail += " · 해석하지 못한 질문은 차감하지 않습니다"
-    if res["gained"]:
-        tail += f" · +{res['gained']}점"
     e.set_footer(text=tail)
     return e
 
 
 def evidence_board_embed(game: GameService, user_id: int) -> discord.Embed:
     board = game.evidence_board(user_id)
-    e = discord.Embed(title="증거 목록", colour=COLOR_PINK)
-    lines = []
-    for item in board:
+    found = sum(1 for i in board if not i["locked"] and i["found"])
+    released = sum(1 for i in board if not i["locked"])
+    e = discord.Embed(title="🗂️ EVIDENCE · 증거 보관함", colour=COLOR_PINK,
+                      description=f"{bar(found, len(board))} 확보 {found} · 공개 {released} · 전체 {len(board)}")
+    for item in board[:25]:
         if item["locked"]:
-            lines.append(f"`{item['id']}` 잠김 — EP.{item['episode']:02d} 공개 후 열림")
+            e.add_field(name=f"🔒 {item['id']} · 잠긴 증거", value=f"-# EP.{item['episode']:02d} 공개 후 열립니다.", inline=True)
         else:
-            mark = "확보" if item["found"] else "미조사"
-            lines.append(f"`{item['id']}` **{item['title']}** · {item['category']} · {mark}")
-    e.description = "\n".join(lines) or "공개된 증거가 없습니다."
+            mark = "✅ 수사 수첩에 기록됨" if item["found"] else "🔍 조사하기"
+            e.add_field(name=f"{'📁' if item['found'] else '🔓'} {item['id']} · {item['title']}"[:256],
+                        value=f"-# {item['category']}\n{mark}", inline=True)
     e.set_footer(text="아래 메뉴에서 증거를 골라 조사하세요.")
     return e
 
@@ -187,7 +235,8 @@ def evidence_detail_embed(data: dict[str, Any]) -> discord.Embed:
     e.add_field(name="분류", value=data["category"] or "-", inline=True)
     e.add_field(name="공개 회차", value=f"EP.{data['episode']:02d}", inline=True)
     if data.get("new"):
-        e.set_footer(text=f"증거 {data['id']}이(가) 수사 수첩에 기록되었습니다. +{data.get('gained', 0)}점")
+        e.description = (e.description or "") + points_toast(data.get("gained", 0))
+        e.set_footer(text=f"증거 {data['id']}이(가) 수사 수첩에 기록되었습니다.")
     else:
         e.set_footer(text="이미 수사 수첩에 기록된 증거입니다.")
     return e
@@ -236,17 +285,43 @@ def case_embed(game: GameService) -> discord.Embed:
 
 def final_status_embed(game: GameService, user_id: int) -> discord.Embed:
     st = game.final_status(user_id)
-    e = discord.Embed(title="최종 추리", colour=COLOR_ONAIR)
+    left = st["max_attempts"] - st["attempts"]
+    e = discord.Embed(title="📝 FINAL REPORT · 최종 추리", colour=COLOR_ONAIR, description=(
+        f"-# 남은 기회 {left}/{st['max_attempts']}\n"
+        "누가 녹음했고, 누구를 향했고, 누가 어떻게·왜 송출했는지까지 밝혀야 사건 해결입니다."
+    ))
     for item in st["form"][:5]:
-        e.add_field(name=item["key"].upper(), value=item["label"], inline=False)
-    e.add_field(name="제출", value=f"{st['attempts']} / {st['max_attempts']}회", inline=True)
+        e.add_field(name=f"{item['key'].upper()}", value=item["label"], inline=False)
     if st["feedback"] == "count":
         e.add_field(name="채점", value="제출하면 5문항 중 몇 개를 맞혔는지만 알려 드립니다.", inline=True)
     else:
         e.add_field(name="채점", value="결과는 엔딩 공개 때 함께 발표됩니다.", inline=True)
     if st["last"] and "correct" in st["last"]:
-        e.add_field(name="마지막 제출", value=f"{st['last']['correct']} / {st['last']['total']}", inline=True)
-    e.set_footer(text="이름만 맞히는 것이 아니라, 방법과 이유(Q5)까지 설명해야 사건 해결로 인정됩니다.")
+        e.add_field(name="마지막 제출", value=f"{score_pips(st['last']['correct'], st['last']['total'])} {st['last']['correct']}/{st['last']['total']}", inline=True)
+    e.set_footer(text="Q1~Q4 는 아래 메뉴에서 고르고, Q5 는 직접 써서 제출합니다.")
+    return e
+
+
+def final_result_embed(res: dict[str, Any]) -> discord.Embed:
+    lines = ["-# FINAL REPORT", "### 최종 추리 · 채점 결과"]
+    if "correct" in res:
+        correct, total = res["correct"], res["total"]
+        lines.append(f"# {correct} / {total}")
+        lines.append(score_pips(correct, total))
+        if res.get("solved"):
+            msg, colour = "🌕 **사건의 진실에 도달했습니다!** 엔딩 공개를 기다려 주세요.", COLOR_PINK
+        elif correct == 0:
+            msg, colour = "아직 진실과는 거리가 있어요. 공개된 증거부터 다시 살펴볼까요?", COLOR_NIGHT
+        else:
+            msg, colour = "아직 맞지 않는 조각이 있어요. 증거와 질문으로 다시 확인해 보세요.", COLOR_MAIN
+        lines.append(f"\n{msg}")
+    else:
+        colour = COLOR_MAIN
+        lines.append("# 접수 완료")
+        lines.append("채점 결과는 엔딩 공개 때 발표됩니다.")
+    lines.append(f"-# 제출 {res['attempts']}/{res['max_attempts']}회")
+    e = discord.Embed(description="\n".join(lines) + points_toast(res.get("gained", 0)), colour=colour)
+    e.set_footer(text="이 결과는 나에게만 보입니다.")
     return e
 
 
@@ -310,7 +385,7 @@ async def open_dashboard(interaction: discord.Interaction) -> None:
     embed = dashboard_embed(bot.game, interaction.user.id)
     content = None
     if reg["new"]:
-        content = f"특별 조사원 등록이 완료되었습니다. 환영합니다! (+{reg['gained']}점)"
+        content = f"🎙️ 특별 조사원 등록이 완료되었습니다. 환영합니다!{points_toast(reg['gained'])}"
     await reply(interaction, content, embed=embed, view=DashboardView(bot, interaction.user.id))
 
 
@@ -421,16 +496,7 @@ class FinalReasonModal(discord.ui.Modal, title="최종 추리 · Q5"):
             bot: DalbitBot = interaction.client  # type: ignore[assignment]
             answers = dict(self.picks, q5=str(self.reason.value), story=str(self.story.value or ""))
             res = bot.game.submit_final(interaction.user.id, answers, name_of(interaction))
-            lines = [f"최종 추리가 접수되었습니다. ({res['attempts']}/{res['max_attempts']}회)"]
-            if "correct" in res:
-                lines.append(f"채점 결과: 5문항 중 **{res['correct']}개** 정답")
-                if res.get("solved"):
-                    lines.append("사건의 진실에 도달했습니다. 엔딩 공개를 기다려 주세요.")
-            else:
-                lines.append("채점 결과는 엔딩 공개 때 발표됩니다.")
-            if res["gained"]:
-                lines.append(f"+{res['gained']}점")
-            await reply(interaction, "\n".join(lines))
+            await reply(interaction, embed=final_result_embed(res), view=ResultView(bot, interaction.user.id))
         await run_safely(interaction, run)
 
 
@@ -477,6 +543,22 @@ class DashboardView(OwnerView):
     @discord.ui.button(label="최종 추리", style=discord.ButtonStyle.danger, row=1)
     async def final(self, interaction: discord.Interaction, _: discord.ui.Button) -> None:
         await run_safely(interaction, lambda: show_final(interaction))
+
+
+class ResultView(OwnerView):
+    """최종 추리 결과 아래: 다시 조사하러 가기."""
+
+    @discord.ui.button(label="증거 보관함", style=discord.ButtonStyle.secondary)
+    async def evidence(self, interaction: discord.Interaction, _: discord.ui.Button) -> None:
+        await run_safely(interaction, lambda: show_evidence(interaction))
+
+    @discord.ui.button(label="YES/NO 질문", style=discord.ButtonStyle.primary)
+    async def question(self, interaction: discord.Interaction, _: discord.ui.Button) -> None:
+        await interaction.response.send_modal(QuestionModal())
+
+    @discord.ui.button(label="수사 수첩", style=discord.ButtonStyle.secondary)
+    async def dashboard(self, interaction: discord.Interaction, _: discord.ui.Button) -> None:
+        await run_safely(interaction, lambda: open_dashboard(interaction))
 
 
 class EpisodeWatchView(OwnerView):
@@ -603,7 +685,7 @@ async def _watch(interaction: discord.Interaction, number: int) -> None:
     bot: DalbitBot = interaction.client  # type: ignore[assignment]
     res = bot.game.mark_watched(interaction.user.id, number, name_of(interaction))
     if res["new"]:
-        await reply(interaction, f"EP.{number:02d} 시청이 수사 수첩에 기록되었습니다. +{res['gained']}점")
+        await reply(interaction, f"📺 EP.{number:02d} 시청이 수사 수첩에 기록되었습니다.{points_toast(res['gained'])}")
     else:
         await reply(interaction, f"EP.{number:02d} 은(는) 이미 시청 완료로 기록되어 있습니다.")
 

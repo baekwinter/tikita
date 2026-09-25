@@ -35,3 +35,12 @@ def test_video_override_persists_over_episodes_json(db, catalog):
     fresh = Catalog.load()  # 재시작해도 DB 값이 다시 적용된다
     apply_video_overrides(fresh, db)
     assert fresh.episodes[2].video_url == "https://youtu.be/abc"
+
+
+def test_final_result_embed_shows_score_like_game():
+    from bot.ui import final_result_embed
+
+    e = final_result_embed({"correct": 3, "total": 5, "solved": False, "attempts": 1, "max_attempts": 3, "gained": 10})
+    assert "# 3 / 5" in e.description and "🟪🟪🟪⬛⬛" in e.description
+    assert "제출 1/3회" in e.description and "+10" in e.description
+    assert len(e) <= 6000
