@@ -1,7 +1,9 @@
 import discord
+from types import SimpleNamespace
 
 from bot.commands import register_commands
 from bot.main import DalbitBot, invite_url
+from bot.ui import in_event_channel
 
 
 async def test_command_tree_builds(cfg):
@@ -21,3 +23,13 @@ def test_invite_url_uses_minimal_permissions():
     url = invite_url(123)
     assert "permissions=117760" in url and "applications.commands" in url
     assert "administrator" not in url
+
+
+def test_game_commands_allow_event_and_discussion_channels(cfg):
+    client = SimpleNamespace(cfg=cfg)
+    for channel_id in (cfg.event_channel_id, cfg.game_channel_id):
+        interaction = SimpleNamespace(client=client, guild_id=cfg.guild_id, channel_id=channel_id)
+        assert in_event_channel(interaction)
+
+    other = SimpleNamespace(client=client, guild_id=cfg.guild_id, channel_id=999)
+    assert not in_event_channel(other)

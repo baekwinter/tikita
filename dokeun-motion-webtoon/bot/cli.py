@@ -26,7 +26,10 @@ def data_report(cfg: Config, game: GameService) -> str:
     lines: list[str] = []
     cat, bank = game.catalog, game.bank
     lines.append(f"개막: {kst(cfg.start_at_utc, cfg)} KST = {cfg.start_at_utc.isoformat()}")
-    lines.append(f"서버 {cfg.guild_id} · 채널 {cfg.event_channel_id} · 테스트모드 {'ON' if cfg.test_mode else 'OFF'}")
+    lines.append(
+        f"서버 {cfg.guild_id} · 게시 채널 {cfg.event_channel_id} · 게임 채널 {cfg.game_channel_id}"
+        f" · 테스트모드 {'ON' if cfg.test_mode else 'OFF'}"
+    )
     problems = cat.validate() + bank.validate(set(cat.evidence))
     sched = episode_schedule(cfg, cat, game.db.schedule_overrides())
     problems += schedule_problems(cfg, sched)

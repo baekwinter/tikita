@@ -188,8 +188,9 @@ class DalbitBot(discord.Client):
         log.info("길드 명령어 %d개 등록 (서버 %s)", len(synced), self.cfg.guild_id)
 
     async def on_ready(self) -> None:
-        log.info("로그인: %s (id=%s) · 이벤트 채널 %s · 개막 %s",
-                 self.user, self.user.id if self.user else "?", self.cfg.event_channel_id, self.cfg.start_at_utc.isoformat())
+        log.info("로그인: %s (id=%s) · 이벤트 채널 %s · 게임 채널 %s · 개막 %s",
+                 self.user, self.user.id if self.user else "?", self.cfg.event_channel_id,
+                 self.cfg.game_channel_id, self.cfg.start_at_utc.isoformat())
         if self.application_id:
             log.info("초대 링크: %s", invite_url(self.application_id))
         if self.get_guild(self.cfg.guild_id) is None:

@@ -22,6 +22,7 @@ DATA_DIR = BOT_DIR / "data"
 # 운영 서버 고정값 (지시서 14절). 테스트 서버에서만 .env 로 덮어쓸 수 있다.
 PRODUCTION_GUILD_ID = 1539519514956398692
 PRODUCTION_EVENT_CHANNEL_ID = 1548252787002048572
+PRODUCTION_GAME_CHANNEL_ID = 1552877179187232798
 
 BOT_NAME = "도근고등학교 달빛 방송부"
 GAME_TITLE = "고백이 잘못 송출되었습니다."
@@ -55,6 +56,7 @@ class Config:
     application_id: int | None
     guild_id: int
     event_channel_id: int
+    game_channel_id: int
     admin_user_ids: set[int]
     admin_role_ids: set[int]
     admin_allow_manage_guild: bool
@@ -117,10 +119,12 @@ def load_config(env_file: Path | None = None) -> Config:
 
     guild_id = PRODUCTION_GUILD_ID
     channel_id = PRODUCTION_EVENT_CHANNEL_ID
+    game_channel_id = PRODUCTION_GAME_CHANNEL_ID
     start_override = None
     if test_mode:
         guild_id = _env_int("DG_TEST_GUILD_ID") or guild_id
         channel_id = _env_int("DG_TEST_CHANNEL_ID") or channel_id
+        game_channel_id = channel_id
         raw_start = (os.getenv("DG_TEST_START_AT") or "").strip()
         if raw_start:
             if guild_id == PRODUCTION_GUILD_ID:
@@ -140,6 +144,7 @@ def load_config(env_file: Path | None = None) -> Config:
         application_id=_env_int("DISCORD_APPLICATION_ID"),
         guild_id=guild_id,
         event_channel_id=channel_id,
+        game_channel_id=game_channel_id,
         admin_user_ids=_env_id_list("DG_ADMIN_USER_IDS"),
         admin_role_ids=_env_id_list("DG_ADMIN_ROLE_IDS"),
         admin_allow_manage_guild=_env_bool("DG_ADMIN_ALLOW_MANAGE_GUILD", True),

@@ -8,7 +8,13 @@ import pytest
 ROOT = Path(__file__).resolve().parents[2]  # dokeun-motion-webtoon/
 sys.path.insert(0, str(ROOT))
 
-from bot.config import Config, PRODUCTION_EVENT_CHANNEL_ID, PRODUCTION_GUILD_ID, load_settings  # noqa: E402
+from bot.config import (  # noqa: E402
+    Config,
+    PRODUCTION_EVENT_CHANNEL_ID,
+    PRODUCTION_GAME_CHANNEL_ID,
+    PRODUCTION_GUILD_ID,
+    load_settings,
+)
 from bot.database import Database  # noqa: E402
 from bot.evidence import Catalog  # noqa: E402
 from bot.game import FinalKey, GameService  # noqa: E402
@@ -24,7 +30,8 @@ def make_config(tmp_path: Path, **settings_patch) -> Config:
         section, key = dotted.split("__")
         settings[section][key] = value
     return Config(
-        token=None, application_id=None, guild_id=PRODUCTION_GUILD_ID, event_channel_id=PRODUCTION_EVENT_CHANNEL_ID,
+        token=None, application_id=None, guild_id=PRODUCTION_GUILD_ID,
+        event_channel_id=PRODUCTION_EVENT_CHANNEL_ID, game_channel_id=PRODUCTION_GAME_CHANNEL_ID,
         admin_user_ids={1}, admin_role_ids=set(), admin_allow_manage_guild=True, admin_alert_channel_id=None,
         test_mode=False, db_path=tmp_path / "t.db", ai_enabled=False, ai_model="", anthropic_api_key=None,
         settings=settings, tz=ZoneInfo("Asia/Seoul"),
