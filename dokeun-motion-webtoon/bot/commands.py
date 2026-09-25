@@ -305,13 +305,14 @@ def register_commands(bot: "DalbitBot") -> None:
         await interaction.followup.send(f"{ep.code} 은 이미 공개된 회차라 영상 링크를 이벤트 채널에 올렸습니다.", ephemeral=True)
 
     @admin.command(name="공지", description="이벤트 채널에 방송부 이름으로 공지 게시")
-    @app_commands.describe(내용="공지 내용 (줄바꿈은 \\n 으로 입력)")
-    async def notice_cmd(interaction: discord.Interaction, 내용: app_commands.Range[str, 1, 1800]) -> None:
+    @app_commands.describe(내용="공지 내용 (줄바꿈은 \\n 으로 입력)", 전체알림="@everyone 으로 서버 전체에 알림")
+    async def notice_cmd(interaction: discord.Interaction, 내용: app_commands.Range[str, 1, 1800],
+                         전체알림: bool = False) -> None:
         if not await admin_only(interaction):
             return
         await interaction.response.defer(ephemeral=True, thinking=True)
         try:
-            await bot.publisher.post_notice(내용.replace("\\n", "\n"))
+            await bot.publisher.post_notice(내용.replace("\\n", "\n"), mention_everyone=전체알림)
         except discord.HTTPException as exc:
             await interaction.followup.send(f"공지 게시 실패: {exc}", ephemeral=True)
             return

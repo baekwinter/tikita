@@ -116,7 +116,7 @@ class DiscordPublisher:
         return await self._send(embed=embed, view=view)
 
     async def post_notice(self, text: str, title: str | None = None, ref: str | None = None,
-                          banner: bool = False) -> tuple[int, int]:
+                          banner: bool = False, mention_everyone: bool = False) -> tuple[int, int]:
         embed = discord.Embed(title=title or f"[{BOT_NAME}] 공지", description=text, colour=ui.COLOR_ONAIR)
         if ref:
             embed.set_footer(text=ui.footer(ref))
@@ -125,6 +125,10 @@ class DiscordPublisher:
             files.append(discord.File(ui.SCENE_FILE, filename="scene.png"))
             embed.set_image(url="attachment://scene.png")
         view = ui.public_view(self.bot, ["start", "episodes", "progress", "evidence", "final"])
+        if mention_everyone:
+            # 봇 기본값은 멘션 차단. 공지에서만 @everyone 을 허용한다 (채널에서 봇 역할에 '@everyone 멘션' 권한 필요)
+            return await self._send(content="@everyone", embed=embed, files=files, view=view,
+                                    allowed_mentions=discord.AllowedMentions(everyone=True))
         return await self._send(embed=embed, files=files, view=view)
 
     async def post_video_link(self, episode: Episode) -> tuple[int, int]:
