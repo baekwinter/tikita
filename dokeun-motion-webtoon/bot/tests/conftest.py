@@ -26,6 +26,7 @@ START = datetime(2026, 9, 23, 15, 0, tzinfo=timezone.utc)
 
 def make_config(tmp_path: Path, **settings_patch) -> Config:
     settings = load_settings()
+    settings["event"]["auto_start_late"] = False  # 기본 테스트는 정상 편성 흐름을 본다
     for dotted, value in settings_patch.items():
         section, key = dotted.split("__")
         settings[section][key] = value

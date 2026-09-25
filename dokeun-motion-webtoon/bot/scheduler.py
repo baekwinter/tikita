@@ -202,6 +202,11 @@ class ReleaseScheduler:
         """한 번의 점검. 개막 공지 + 1화처럼 연달아 필요한 게시는 최대 2건까지 처리한다."""
         done: list[str] = []
         async with self._lock:
+            late = await self._late_start(now or utcnow())
+            if late:
+                done.extend(late)
+                await self.flush_alerts()
+                return done
             posted_episode = False
             for _ in range(3):
                 action = plan_next(self.state(now or utcnow()))
@@ -228,6 +233,20 @@ class ReleaseScheduler:
                     done.append(f"ending:{res}")
                     break
             await self.flush_alerts()
+        return done
+
+    async def _late_start(self, now: datetime) -> list[str]:
+        """event.auto_start_late 가 켜져 있으면, 개막 시각이 지났는데 개막·1화가 없을 때
+        `/운영 시작` 과 똑같이 개막 공지 + 1화(영상이 없어도)를 한 번만 게시한다."""
+        if not self.cfg.section("event").get("auto_start_late") or self.db.paused or now < self.cfg.start_at_utc:
+            return []
+        if self.db.is_posted("opening") and self.db.is_posted("episode", 1):
+            return []
+        res1 = await self._publish("opening", "main", self.publisher.post_opening, manual=True)
+        done = [f"opening:{res1}"]
+        if res1 in (POSTED, ALREADY):
+            res2 = await self._publish_episode(1, manual=True)
+            done.append(f"episode:1:{res2}")
         return done
 
     # ---- 운영진 알림 ------------------------------------------------------

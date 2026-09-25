@@ -5,7 +5,8 @@
     "start_at": "2026-09-24T00:00:00",
     "poster_path": "assets/poster.png",
     "poster_url": null,
-    "web_url": null
+    "web_url": null,
+    "auto_start_late": true
   },
   "schedule": {
     "mode": "4days_3per_day",
