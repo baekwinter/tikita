@@ -8,6 +8,7 @@
     "web_url": null,
     "auto_start_late": true,
     "repost_on_channel_change": true,
+    "cleanup_channels": ["1548252787002048572"],
     "announcements": [
       {
         "id": "hq-open",

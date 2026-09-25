@@ -237,3 +237,33 @@ async def test_channel_move_reposts_opening_and_episodes_once(tmp_path, catalog)
         await sched(cfg, db, catalog, pub).tick(now + timedelta(seconds=20 * i))
     assert pub.posts == ["opening", "ep1", "ep2"]
     assert db.is_posted("evidence", "E-05")  # 증거 수동 공개 기록은 유지
+
+
+async def test_delete_own_messages_only_removes_bot_posts(monkeypatch):
+    from types import SimpleNamespace
+
+    from bot import main
+
+    monkeypatch.setattr(main.asyncio, "sleep", _no_sleep)
+    removed = []
+
+    def msg(mid, author):
+        async def delete():
+            removed.append(mid)
+        return SimpleNamespace(id=mid, author=SimpleNamespace(id=author), delete=delete)
+
+    msgs = [msg(1, 99), msg(2, 5), msg(3, 99)]
+
+    class Channel:
+        def history(self, limit):
+            async def gen():
+                for m in msgs:
+                    yield m
+            return gen()
+
+    n = await main.delete_own_messages(Channel(), 99)
+    assert n == 2 and removed == [1, 3]
+
+
+async def _no_sleep(_):
+    return None
