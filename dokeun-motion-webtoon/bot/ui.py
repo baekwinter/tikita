@@ -395,7 +395,10 @@ async def reply(interaction: discord.Interaction, content: str | None = None, *,
 
 def in_event_channel(interaction: discord.Interaction) -> bool:
     bot: DalbitBot = interaction.client  # type: ignore[assignment]
-    return interaction.guild_id == bot.cfg.guild_id and interaction.channel_id == bot.cfg.event_channel_id
+    return (
+        interaction.guild_id == bot.cfg.guild_id
+        and interaction.channel_id in {bot.cfg.event_channel_id, bot.cfg.game_channel_id}
+    )
 
 
 async def guard(interaction: discord.Interaction) -> bool:
@@ -403,7 +406,7 @@ async def guard(interaction: discord.Interaction) -> bool:
     if in_event_channel(interaction):
         return True
     bot: DalbitBot = interaction.client  # type: ignore[assignment]
-    await reply(interaction, f"수사는 <#{bot.cfg.event_channel_id}> 채널에서만 진행할 수 있어요.")
+    await reply(interaction, f"수사는 <#{bot.cfg.game_channel_id}> 채널에서 진행해 주세요.")
     return False
 
 

@@ -1,7 +1,9 @@
 import discord
+from types import SimpleNamespace
 
 from bot.commands import register_commands
 from bot.main import DalbitBot, invite_url
+from bot.ui import in_event_channel
 
 
 async def test_command_tree_builds(cfg):
@@ -62,3 +64,13 @@ def test_dashboard_has_case_banner_and_interrogation(game, db):
     names = [f.name for f in e.fields]
     assert {"확보 증거", "추리 시도"} <= set(names) and any("방송부 심문" in n for n in names)
     assert len(e) <= 6000 and len(ui.interrogation_embed(game, 7)) <= 6000
+
+
+def test_game_commands_allow_event_and_discussion_channels(cfg):
+    client = SimpleNamespace(cfg=cfg)
+    for channel_id in (cfg.event_channel_id, cfg.game_channel_id):
+        interaction = SimpleNamespace(client=client, guild_id=cfg.guild_id, channel_id=channel_id)
+        assert in_event_channel(interaction)
+
+    other = SimpleNamespace(client=client, guild_id=cfg.guild_id, channel_id=999)
+    assert not in_event_channel(other)
