@@ -166,3 +166,45 @@ async def test_auto_start_late_respects_pause(tmp_path, catalog):
     pub = FakePublisher()
     await sched(cfg, db, catalog, pub).tick(START + timedelta(days=1))
     assert pub.posts == []
+
+
+async def test_hq_notice_then_opening_then_release_through_ep4(tmp_path, catalog):
+    from datetime import timedelta
+
+    from bot.database import Database
+
+    from .conftest import make_config
+
+    cfg = make_config(tmp_path, event__auto_start_late=True, schedule__release_through=4,
+                      event__announcements=[{"id": "hq-open", "title": "수사본부 OPEN", "body": "시작"}])
+    db = Database(cfg.db_path)
+    pub = FakePublisher()
+
+    async def post_notice(text, title=None, ref=None, banner=False):
+        return await pub._post(f"notice:{title}", ref)
+    pub.post_notice = post_notice
+
+    now = START + timedelta(days=1, hours=18)
+    for i in range(10):
+        await sched(cfg, db, catalog, pub).tick(now + timedelta(seconds=20 * i))  # 매 틱 재시작해도 중복 없음
+    assert pub.posts == ["notice:수사본부 OPEN", "opening", "ep1", "ep2", "ep3", "ep4"]
+
+
+def test_episode_list_has_video_buttons(game, db):
+    import asyncio
+
+    from bot.ui import EpisodeWatchView
+
+    from .conftest import open_event
+
+    open_event(db, 4)
+    for ep in game.catalog.episodes.values():
+        ep.video_url = f"https://youtu.be/ep{ep.number}"
+    info = game.case_info()
+
+    async def build():
+        return EpisodeWatchView(None, info["episodes"], set())  # type: ignore[arg-type]
+    view = asyncio.run(build())
+    links = [c for c in view.children if getattr(c, "url", None)]
+    assert [c.label for c in links] == ["1화", "2화", "3화", "4화"]
+    assert links[0].url == "https://youtu.be/ep1"

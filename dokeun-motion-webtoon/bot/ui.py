@@ -145,7 +145,7 @@ def episode_embeds(ep: Episode, new_evidence: list[Evidence], media: str, has_th
     e = discord.Embed(title=f"ON AIR · {ep.display_title}", colour=COLOR_MAIN)
     lines = [ep.description] if ep.description else []
     if media == "url":
-        lines.append(f"[영상 보기]({ep.video_url})")
+        lines.append("🎬 아래 **[영상 보기]** 를 눌러 시청하세요.")
     elif media in {"missing", "too_large"}:
         lines.append("영상은 방송부가 준비되는 대로 이 채널에 올려 드립니다.")
     lines.append("\n시청을 마쳤다면 **[시청 완료]** 를 눌러 수사 수첩에 기록하세요.")
@@ -455,6 +455,7 @@ async def show_interrogation(interaction: discord.Interaction) -> None:
 
 
 async def show_episodes(interaction: discord.Interaction) -> None:
+    """[영상 보기]: 공개된 회차를 1화, 2화 … 버튼으로 보여 준다 (나에게만 보임)."""
     bot: DalbitBot = interaction.client  # type: ignore[assignment]
     bot.game.gate()
     info = bot.game.case_info()
@@ -462,11 +463,16 @@ async def show_episodes(interaction: discord.Interaction) -> None:
         await reply(interaction, "아직 공개된 회차가 없습니다.")
         return
     watched = bot.db.watched_episodes(interaction.user.id)
-    e = discord.Embed(title="공개된 이야기", colour=COLOR_MAIN)
+    lines = []
     for ep in info["episodes"]:
-        link = ep["discord_link"] or ep["video_url"]
-        mark = "시청 완료" if ep["number"] in watched else "미시청"
-        e.add_field(name=f"{ep['title']} · {mark}", value=f"[방송 보러 가기]({link})" if link else "방송 준비 중", inline=False)
+        mark = "✅" if ep["number"] in watched else "▶️"
+        state = "" if ep["video_url"] else " · 영상 준비 중"
+        lines.append(f"{mark} **{ep['title']}**{state}")
+    nxt = info.get("next_episode")
+    if nxt:
+        lines.append(f"\n-# 다음 방송 EP.{nxt['number']:02d} · {nxt['at_kst']}")
+    e = discord.Embed(title="🎬 영상 보기 · 공개된 이야기", description="\n".join(lines), colour=COLOR_MAIN)
+    e.set_footer(text="버튼을 누르면 영상이 열립니다 · 다 본 회차는 아래 메뉴로 시청 완료를 기록하세요")
     await reply(interaction, embed=e, view=EpisodeWatchView(bot, info["episodes"], watched))
 
 
@@ -653,12 +659,17 @@ class ResultView(OwnerView):
 class EpisodeWatchView(OwnerView):
     def __init__(self, bot: "DalbitBot", episodes: list[dict], watched: set[int]):
         super().__init__(bot, 0)
+        # 회차별 영상 링크 버튼 (한 줄에 5개, 최대 15개)
+        with_video = [ep for ep in episodes if ep.get("video_url")][:15]
+        for i, ep in enumerate(with_video):
+            self.add_item(discord.ui.Button(label=f"{ep['number']}화", url=ep["video_url"], row=i // 5))
         options = [
             discord.SelectOption(label=f"{ep['title']}"[:100], value=str(ep["number"]),
                                  description="시청 완료" if ep["number"] in watched else "시청 완료로 기록하기")
             for ep in episodes[-25:]
         ]
-        select = discord.ui.Select(placeholder="시청을 마친 회차를 골라 기록하세요", options=options)
+        select = discord.ui.Select(placeholder="시청을 마친 회차를 골라 기록하세요", options=options,
+                                   row=min(3, (len(with_video) + 4) // 5))
         select.callback = self._picked  # type: ignore[assignment]
         self.select = select
         self.add_item(select)
@@ -728,7 +739,7 @@ class FinalView(OwnerView):
 # ---------------------------------------------------------------------------
 ACTION_LABELS = {
     "start": ("수사 시작하기", discord.ButtonStyle.primary),
-    "episodes": ("현재 공개 화 보기", discord.ButtonStyle.secondary),
+    "episodes": ("영상 보기", discord.ButtonStyle.primary),
     "progress": ("내 진행도", discord.ButtonStyle.secondary),
     "evidence": ("증거 확인", discord.ButtonStyle.secondary),
     "final": ("최종 추리 안내", discord.ButtonStyle.danger),

@@ -101,13 +101,12 @@ class DiscordPublisher:
         if media == "attach" and episode.video_file:
             files.append(discord.File(episode.video_file, filename=episode.video_file.name))
             used += episode.video_file.stat().st_size
-        elif media == "url":
-            content = episode.video_url  # 디스코드가 링크 미리보기(플레이어)를 붙인다
+        # media == "url" 이면 채널에는 영상을 펼치지 않고 [영상 보기] 버튼으로 연다
         thumb = episode.thumbnail_file
         has_thumb = bool(thumb and used + thumb.stat().st_size <= limit)
         if has_thumb and thumb:
             files.append(discord.File(thumb, filename="thumbnail.jpg"))
-        view = ui.public_view(self.bot, ["watch", "ask", "evidence", "progress"], episode=episode.number)
+        view = ui.public_view(self.bot, ["episodes", "watch", "ask", "evidence", "progress"], episode=episode.number)
         embeds = ui.episode_embeds(episode, new_evidence, media, has_thumb)
         return await self._send(content=content, embeds=embeds, files=files, view=view)
 
@@ -116,15 +115,24 @@ class DiscordPublisher:
         view = ui.public_view(self.bot, ["evidence", "ask", "progress"], with_web=True)
         return await self._send(embed=embed, view=view)
 
-    async def post_notice(self, text: str) -> tuple[int, int]:
-        embed = discord.Embed(title=f"[{BOT_NAME}] 공지", description=text, colour=ui.COLOR_ONAIR)
+    async def post_notice(self, text: str, title: str | None = None, ref: str | None = None,
+                          banner: bool = False) -> tuple[int, int]:
+        embed = discord.Embed(title=title or f"[{BOT_NAME}] 공지", description=text, colour=ui.COLOR_ONAIR)
+        if ref:
+            embed.set_footer(text=ui.footer(ref))
+        files = []
+        if banner and ui.SCENE_FILE.is_file():
+            files.append(discord.File(ui.SCENE_FILE, filename="scene.png"))
+            embed.set_image(url="attachment://scene.png")
         view = ui.public_view(self.bot, ["start", "episodes", "progress", "evidence", "final"])
-        return await self._send(embed=embed, view=view)
+        return await self._send(embed=embed, files=files, view=view)
 
     async def post_video_link(self, episode: Episode) -> tuple[int, int]:
-        # 링크를 본문에 두어야 디스코드가 유튜브 플레이어 미리보기를 붙인다
-        view = ui.public_view(self.bot, ["watch", "ask", "evidence", "progress"], episode=episode.number)
-        return await self._send(content=f"🎬 **{episode.display_title}** 영상이 올라왔습니다\n{episode.video_url}", view=view)
+        # 채널에는 알림만 올리고, 영상은 [영상 보기] 버튼에서 연다
+        embed = discord.Embed(title=f"🎬 {episode.display_title} 영상이 올라왔습니다",
+                              description="아래 **[영상 보기]** 를 눌러 시청하세요.", colour=ui.COLOR_MAIN)
+        view = ui.public_view(self.bot, ["episodes", "watch", "ask"], episode=episode.number)
+        return await self._send(embed=embed, view=view)
 
     async def post_ending(self) -> tuple[int, int]:
         view = ui.public_view(self.bot, ["progress"])

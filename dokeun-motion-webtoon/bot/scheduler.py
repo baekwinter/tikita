@@ -202,7 +202,13 @@ class ReleaseScheduler:
         """한 번의 점검. 개막 공지 + 1화처럼 연달아 필요한 게시는 최대 2건까지 처리한다."""
         done: list[str] = []
         async with self._lock:
+            notices = await self._announcements()
+            if notices:
+                done.extend(notices)
+                return done
             late = await self._late_start(now or utcnow())
+            if not late:
+                late = await self._release_through()
             if late:
                 done.extend(late)
                 await self.flush_alerts()
@@ -234,6 +240,31 @@ class ReleaseScheduler:
                     break
             await self.flush_alerts()
         return done
+
+    async def _announcements(self) -> list[str]:
+        """settings.json event.announcements 의 공지를 id 별로 한 번만 게시한다 (틱당 1건)."""
+        if self.db.paused:
+            return []
+        for item in self.cfg.section("event").get("announcements") or []:
+            nid = str(item.get("id") or "").strip()
+            if not nid or self.db.is_posted("notice", nid):
+                continue
+            send = lambda item=item, nid=nid: self.publisher.post_notice(
+                item.get("body", ""), title=item.get("title"), ref=marker("notice", nid), banner=bool(item.get("banner")))
+            res = await self._publish("notice", nid, send, manual=True)
+            return [f"notice:{nid}:{res}"]
+        return []
+
+    async def _release_through(self) -> list[str]:
+        """schedule.release_through = N 이면 개막 후 1~N화를 순서대로(틱당 1편) 공개한다."""
+        target = int(self.cfg.section("schedule").get("release_through") or 0)
+        if not target or self.db.paused or not self.db.is_posted("opening"):
+            return []
+        for n in range(1, min(target, self.catalog.episode_count) + 1):
+            if not self.db.is_posted("episode", n):
+                res = await self._publish_episode(n, manual=True)
+                return [f"episode:{n}:{res}"]
+        return []
 
     async def _late_start(self, now: datetime) -> list[str]:
         """event.auto_start_late 가 켜져 있으면, 개막 시각이 지났는데 개막·1화가 없을 때
