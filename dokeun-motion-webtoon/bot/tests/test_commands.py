@@ -13,7 +13,7 @@ async def test_command_tree_builds(cfg):
     for c in cmds:
         c.to_dict(bot.tree)  # Discord 규칙 위반 시 여기서 예외
     admin = next(c for c in cmds if c.name == "운영")
-    assert {c.name for c in admin.commands} == {"상태", "공개", "예약", "시작", "중지", "재개", "테스트", "결과"}
+    assert {c.name for c in admin.commands} == {"상태", "공개", "예약", "시작", "중지", "재개", "테스트", "결과", "영상", "공지"}
     await bot.close()
 
 
@@ -21,3 +21,17 @@ def test_invite_url_uses_minimal_permissions():
     url = invite_url(123)
     assert "permissions=117760" in url and "applications.commands" in url
     assert "administrator" not in url
+
+
+def test_video_override_persists_over_episodes_json(db, catalog):
+    from bot.evidence import Catalog
+    from bot.game import VIDEO_OVERRIDES_KEY, apply_video_overrides
+
+    db.set_kv(VIDEO_OVERRIDES_KEY, {"2": "https://youtu.be/abc", "3": ""})
+    apply_video_overrides(catalog, db)
+    assert catalog.episodes[2].video_url == "https://youtu.be/abc"
+    assert catalog.episodes[2].media_status(10) in {"attach", "url"}
+    assert catalog.episodes[3].video_url is None
+    fresh = Catalog.load()  # 재시작해도 DB 값이 다시 적용된다
+    apply_video_overrides(fresh, db)
+    assert fresh.episodes[2].video_url == "https://youtu.be/abc"

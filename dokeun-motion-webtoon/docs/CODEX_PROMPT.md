@@ -14,7 +14,7 @@
 - 배포 설정: dokeun-motion-webtoon/Dockerfile, railway.json, fly.toml
 - 안내서: dokeun-motion-webtoon/docs/DEPLOY.md, docs/OPERATIONS.md, README.md — 먼저 읽고 그대로 따른다.
 - 봇 이름: 도근고등학교 달빛 방송부
-- 디스코드 서버 ID 1539519514956398692, 이벤트 채널 ID 1548252787002048572
+- 디스코드 서버 ID 1539519514956398692, 이벤트 채널 ID 1552877179187232798
 - 개막: 2026-09-24 00:00 Asia/Seoul (이미 지났을 수 있음)
 
 ## 완료 기준
@@ -55,7 +55,7 @@
    - `GET https://discord.com/api/v10/users/@me` (헤더 `Authorization: Bot $DISCORD_TOKEN`) → 봇 id/이름 확인.
      응답의 id 가 DISCORD_APPLICATION_ID 와 일치하는지 확인.
    - `GET /users/@me/guilds` 에 1539519514956398692 가 있는지 확인. 없으면 초대 링크를 제시하고 승인을 기다린다.
-   - `GET /channels/1548252787002048572` 가 200 인지 확인(403 이면 채널 권한 문제로 보고).
+   - `GET /channels/1552877179187232798` 가 200 인지 확인(403 이면 채널 권한 문제로 보고).
    - 네트워크 정책으로 discord.com 이 막혀 있으면 그 사실을 보고하고 배포 단계로 넘어간다.
 3. 배포 (Railway 우선)
    - railway CLI 를 설치한다(`npm i -g @railway/cli`). 명령과 플래그는 추측하지 말고 `railway --help`,
