@@ -44,3 +44,20 @@ def test_final_result_embed_shows_score_like_game():
     assert "# 3 / 5" in e.description and "🟪🟪🟪⬛⬛" in e.description
     assert "제출 1/3회" in e.description and "+10" in e.description
     assert len(e) <= 6000
+
+
+def test_dashboard_has_case_banner_and_interrogation(game, db):
+    import asyncio
+
+    from bot import ui
+    from .conftest import open_event
+
+    open_event(db, 4)
+    game.register(7, "조사원")
+    asyncio.run(game.ask(7, "반휘혈이 고백을 녹음했나요?", "discord", "조사원"))
+    e = ui.dashboard_embed(game, 7, with_image=True)
+    assert e.author.name.endswith("CASE #01 · CONFIDENTIAL · EP.04")
+    assert e.image.url == "attachment://scene.png" and ui.SCENE_FILE.is_file()
+    names = [f.name for f in e.fields]
+    assert {"확보 증거", "추리 시도"} <= set(names) and any("방송부 심문" in n for n in names)
+    assert len(e) <= 6000 and len(ui.interrogation_embed(game, 7)) <= 6000

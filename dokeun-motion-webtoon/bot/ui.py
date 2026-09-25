@@ -12,7 +12,7 @@ from typing import TYPE_CHECKING, Any
 
 import discord
 
-from .config import BOT_NAME, GAME_TITLE
+from .config import BOT_NAME, GAME_TITLE, PROJECT_DIR
 from .evidence import Episode, Evidence
 from .game import CHARACTERS, GameError, GameService
 
@@ -76,6 +76,28 @@ def points_toast(gained: int, currency: str = "달빛 수사 포인트") -> str:
 
 
 VERDICT_BADGE = {"YES": "🟢 YES", "NO": "🔴 NO", "IRRELEVANT": "⚪ 관계없음"}
+SHORT_BADGE = {"YES": "`YES`", "NO": "`NO`", "IRRELEVANT": "`관계없음`", "UNRELEASED": "`미공개`",
+               "UNCLEAR": "`다시 질문`", "NEGATIVE_FORM": "`긍정형으로`", "UNCONFIRMED": "`미확인`"}
+
+SCENE_FILE = PROJECT_DIR / "assets" / "scene.png"  # web/public/scene-default.svg 를 PNG 로 변환한 방송실 배너
+
+
+def scene_attachment(ep: Episode | None) -> discord.File | None:
+    """수사 수첩 배너: 현재 회차 썸네일이 있으면 그것, 없으면 기본 방송실 그림."""
+    path = (ep.thumbnail_file if ep else None) or (SCENE_FILE if SCENE_FILE.is_file() else None)
+    return discord.File(path, filename="scene.png") if path else None
+
+
+def case_tag(game: GameService) -> str:
+    cur = game.current_episode
+    return "CASE #01 · CONFIDENTIAL" + (f" · EP.{cur:02d}" if cur else "")
+
+
+def interrogation_lines(game: GameService, user_id: int, limit: int) -> list[str]:
+    lines = []
+    for h in game.question_history(user_id, limit):
+        lines.append(f"{SHORT_BADGE.get(h['verdict'], '`?`')} {h['question'][:80]}")
+    return lines
 
 
 def web_url(bot: "DalbitBot") -> str | None:
@@ -169,25 +191,47 @@ def ending_embeds(game: GameService) -> list[discord.Embed]:
 # ---------------------------------------------------------------------------
 # 개인 화면 임베드
 # ---------------------------------------------------------------------------
-def dashboard_embed(game: GameService, user_id: int) -> discord.Embed:
+def dashboard_embed(game: GameService, user_id: int, with_image: bool = False) -> discord.Embed:
     info = game.case_info()
     prog = game.progress(user_id)
     ep = info["episode"]
-    e = discord.Embed(title=f"🎙️ ON AIR · 달빛 방송부 수사실", colour=COLOR_MAIN, description=(
-        f"{hud_line(game, user_id)}\n\n"
-        f"## {GAME_TITLE}\n"
-        "누가 녹음했을까? 누구에게 전하려던 마음이었을까?\n그리고 누가 이 고백을 방송에 송출했을까?\n"
-        + " ".join(f"`{c}`" for c in CHARACTERS)
-    ))
-    e.add_field(name=f"📺 {ep['title'] if ep else '개막 전'}", value=episode_grid(game, user_id), inline=False)
-    e.add_field(name="🔎 증거 수집", value=f"{bar(prog['evidence_found'], prog['evidence_released'], 10)} {prog['evidence_found']}/{prog['evidence_released']}", inline=True)
     q = prog["questions"]
-    e.add_field(name="❓ 오늘 남은 질문", value=f"{bar(q['remaining'], q['limit'], 10)} {q['remaining']}/{q['limit']}", inline=True)
+    used = q["limit"] - q["remaining"]
+    e = discord.Embed(title=f"사건명 · {GAME_TITLE}", colour=COLOR_MAIN, description=(
+        f"{hud_line(game, user_id)}\n\n"
+        "2026년 추석 특별 방송 도중, 방송실 스피커에서 예정에 없던 고백이 흘러나왔다.\n"
+        "누가 녹음했을까? 누구에게 전하려던 마음이었을까? 그리고 누가 이 고백을 방송에 송출했을까?\n"
+        + " ".join(f"`{c}`" for c in CHARACTERS)
+        + f"\n\n-# 자유 수사 · 오늘의 질문 (매일 0시에 충전)\n## {used} / {q['limit']}\n{bar(used, q['limit'], 16)} 남은 질문 **{q['remaining']}**"
+    ))
+    e.set_author(name=f"🎙️ {case_tag(game)}")
+    if with_image:
+        e.set_image(url="attachment://scene.png")
+    e.add_field(name="확보 증거", value=f"**{prog['evidence_found']}/{prog['evidence_released']}**", inline=True)
+    e.add_field(name="추리 시도", value=f"**{prog['theories'] + prog['final_attempts']}**", inline=True)
+    e.add_field(name=prog["currency"], value=f"**{prog['points']}**", inline=True)
+    e.add_field(name=f"📺 {ep['title'] if ep else '개막 전'}", value=episode_grid(game, user_id), inline=False)
+    recent = interrogation_lines(game, user_id, 3)
+    e.add_field(name=f"🌙 방송부 심문 · {q['total']}문",
+                value="\n".join(recent) if recent else "-# 아직 심문 기록이 없습니다. [YES/NO 질문] 으로 시작하세요.", inline=False)
     left = prog["final_max_attempts"] - prog["final_attempts"]
-    e.add_field(name="📝 최종 추리", value=f"남은 기회 **{left}/{prog['final_max_attempts']}** · {prog['status']}", inline=False)
+    e.add_field(name=f"📝 정답 제출하기 · 남은 기회 {left}/{prog['final_max_attempts']}", value=(
+        "범인의 이름만으로는 부족합니다. 누가 녹음했고, 누구를 향했고, 누가 어떻게·왜 송출했는지까지 밝혀야 사건 해결입니다."
+    ), inline=False)
     if info["next_episode"]:
         e.add_field(name="⏭️ 다음 방송", value=f"EP.{info['next_episode']['number']:02d} · {info['next_episode']['at_kst']}", inline=False)
-    e.set_footer(text="이 화면은 나에게만 보입니다 · 특별 조사원 전용")
+    e.set_footer(text=f"{prog['status']} · 이 화면은 나에게만 보입니다")
+    return e
+
+
+def interrogation_embed(game: GameService, user_id: int) -> discord.Embed:
+    q = game.question_quota(user_id)
+    lines = interrogation_lines(game, user_id, 15)
+    e = discord.Embed(title=f"🌙 INTERROGATION · 방송부 심문", colour=COLOR_NIGHT, description=(
+        f"-# 현재 심문 {q['total']}건 · 오늘 남은 질문 {q['remaining']}/{q['limit']}\n\n"
+        + ("\n".join(lines) if lines else "아직 심문 기록이 없습니다.")
+    ))
+    e.set_footer(text="최근 15건 · 같은 질문은 횟수에서 차감하지 않습니다")
     return e
 
 
@@ -382,11 +426,23 @@ def name_of(interaction: discord.Interaction) -> str:
 async def open_dashboard(interaction: discord.Interaction) -> None:
     bot: DalbitBot = interaction.client  # type: ignore[assignment]
     reg = bot.game.register(interaction.user.id, name_of(interaction))
-    embed = dashboard_embed(bot.game, interaction.user.id)
-    content = None
+    ep = bot.catalog.episodes.get(bot.game.current_episode)
+    file = scene_attachment(ep)
+    embed = dashboard_embed(bot.game, interaction.user.id, with_image=file is not None)
+    kwargs: dict[str, Any] = {"embed": embed, "view": DashboardView(bot, interaction.user.id), "ephemeral": True}
     if reg["new"]:
-        content = f"🎙️ 특별 조사원 등록이 완료되었습니다. 환영합니다!{points_toast(reg['gained'])}"
-    await reply(interaction, content, embed=embed, view=DashboardView(bot, interaction.user.id))
+        kwargs["content"] = f"🎙️ 특별 조사원 등록이 완료되었습니다. 환영합니다!{points_toast(reg['gained'])}"
+    if file:
+        kwargs["file"] = file
+    if interaction.response.is_done():
+        await interaction.followup.send(**kwargs)
+    else:
+        await interaction.response.send_message(**kwargs)
+
+
+async def show_interrogation(interaction: discord.Interaction) -> None:
+    bot: DalbitBot = interaction.client  # type: ignore[assignment]
+    await reply(interaction, embed=interrogation_embed(bot.game, interaction.user.id))
 
 
 async def show_episodes(interaction: discord.Interaction) -> None:
@@ -481,6 +537,22 @@ class TheoryModal(discord.ui.Modal, title="추리 기록"):
         await run_safely(interaction, run)
 
 
+class NoteModal(discord.ui.Modal, title="수사 노트"):
+    body = discord.ui.TextInput(label="나만 보는 수사 노트 (웹 조사실과 공유)", style=discord.TextStyle.paragraph,
+                                required=False, max_length=4000)
+
+    def __init__(self, current: str):
+        super().__init__()
+        self.body.default = current[:4000] or None
+
+    async def on_submit(self, interaction: discord.Interaction) -> None:
+        async def run():
+            bot: DalbitBot = interaction.client  # type: ignore[assignment]
+            bot.game.save_note(interaction.user.id, str(self.body.value or ""))
+            await reply(interaction, "📓 수사 노트를 저장했습니다.")
+        await run_safely(interaction, run)
+
+
 class FinalReasonModal(discord.ui.Modal, title="최종 추리 · Q5"):
     reason = discord.ui.TextInput(label="Q5. 왜, 어떻게 그런 행동을 했나요?", style=discord.TextStyle.paragraph,
                                   min_length=10, max_length=1000)
@@ -518,7 +590,7 @@ class DashboardView(OwnerView):
         super().__init__(bot, owner_id)
         url = web_url(bot)
         if url:
-            self.add_item(discord.ui.Button(label="웹 조사실 열기", url=url, row=2))
+            self.add_item(discord.ui.Button(label="웹 조사실 열기", url=url, row=3))
 
     @discord.ui.button(label="영상 시청", style=discord.ButtonStyle.secondary, row=0)
     async def videos(self, interaction: discord.Interaction, _: discord.ui.Button) -> None:
@@ -540,7 +612,15 @@ class DashboardView(OwnerView):
     async def theory(self, interaction: discord.Interaction, _: discord.ui.Button) -> None:
         await interaction.response.send_modal(TheoryModal())
 
-    @discord.ui.button(label="최종 추리", style=discord.ButtonStyle.danger, row=1)
+    @discord.ui.button(label="심문 기록", style=discord.ButtonStyle.secondary, row=1)
+    async def history(self, interaction: discord.Interaction, _: discord.ui.Button) -> None:
+        await run_safely(interaction, lambda: show_interrogation(interaction))
+
+    @discord.ui.button(label="수사 노트", style=discord.ButtonStyle.secondary, row=1)
+    async def note(self, interaction: discord.Interaction, _: discord.ui.Button) -> None:
+        await interaction.response.send_modal(NoteModal(self.bot.game.get_note(interaction.user.id)["body"]))
+
+    @discord.ui.button(label="질문 끝내기 · 최종 추리 제출", style=discord.ButtonStyle.danger, row=2)
     async def final(self, interaction: discord.Interaction, _: discord.ui.Button) -> None:
         await run_safely(interaction, lambda: show_final(interaction))
 
