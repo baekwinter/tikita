@@ -3,11 +3,11 @@
   "episodes": [
     {
       "episode_number": 1,
-      "title": null,
+      "title": "모든 것은 그날의 방송에서 시작됐다",
       "description": null,
       "keywords": [],
       "video_path": "episodes/EP01.mp4",
-      "video_url": null,
+      "video_url": "https://youtu.be/P3couaohepw",
       "thumbnail": "episodes/EP01_thumb.jpg",
       "release_datetime": null,
       "clues": [
@@ -17,11 +17,11 @@
     },
     {
       "episode_number": 2,
-      "title": null,
+      "title": "너, 아직도 걔 좋아해?",
       "description": null,
       "keywords": [],
       "video_path": "episodes/EP02.mp4",
-      "video_url": null,
+      "video_url": "https://youtu.be/sXZuVdrvNk0",
       "thumbnail": "episodes/EP02_thumb.jpg",
       "release_datetime": null,
       "clues": [],
@@ -29,11 +29,11 @@
     },
     {
       "episode_number": 3,
-      "title": null,
+      "title": "파란 별이 붙은 우산",
       "description": null,
       "keywords": [],
       "video_path": "episodes/EP03.mp4",
-      "video_url": null,
+      "video_url": "https://youtu.be/r8Rfx4An8b8",
       "thumbnail": "episodes/EP03_thumb.jpg",
       "release_datetime": null,
       "clues": [],
@@ -41,11 +41,11 @@
     },
     {
       "episode_number": 4,
-      "title": null,
+      "title": "네가 울던 날, 나는 거기 있었어",
       "description": null,
       "keywords": [],
       "video_path": "episodes/EP04.mp4",
-      "video_url": null,
+      "video_url": "https://youtu.be/jIY5larDIg8",
       "thumbnail": "episodes/EP04_thumb.jpg",
       "release_datetime": null,
       "clues": [
@@ -55,11 +55,11 @@
     },
     {
       "episode_number": 5,
-      "title": null,
+      "title": "가장 수상한 사람",
       "description": null,
       "keywords": [],
       "video_path": "episodes/EP05.mp4",
-      "video_url": null,
+      "video_url": "https://youtu.be/LWliumaf3M4",
       "thumbnail": "episodes/EP05_thumb.jpg",
       "release_datetime": null,
       "clues": [
@@ -69,11 +69,11 @@
     },
     {
       "episode_number": 6,
-      "title": null,
+      "title": "내가 좋아하는 애는 너니까",
       "description": null,
       "keywords": [],
       "video_path": "episodes/EP06.mp4",
-      "video_url": null,
+      "video_url": "https://youtu.be/_l2k7mHPJnM",
       "thumbnail": "episodes/EP06_thumb.jpg",
       "release_datetime": null,
       "clues": [

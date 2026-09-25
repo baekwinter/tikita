@@ -66,6 +66,9 @@ async def test_opening_and_first_episode_once_even_after_restart(cfg, db, with_v
 
 
 async def test_missing_video_holds_and_alerts(cfg, db, catalog):
+    ep1 = catalog.episodes[1]
+    ep1.video_url = None  # 영상 파일·링크가 모두 없는 상황
+    ep1.video_path = None
     pub = FakePublisher()
     await sched(cfg, db, catalog, pub).tick(START)
     assert pub.posts == ["opening"]
@@ -141,7 +144,7 @@ async def test_auto_start_late_posts_opening_and_ep1_without_video_once(tmp_path
     cfg = make_config(tmp_path, event__auto_start_late=True)
     db = Database(cfg.db_path)
     pub = FakePublisher()
-    late = START + timedelta(days=1, hours=18)  # 개막 12시간 유예도 훌쩍 지남, 1화 영상 없음
+    late = START + timedelta(days=1, hours=18)  # 개막 12시간 유예도 훌쩍 지남
     s = sched(cfg, db, catalog, pub)
     await s.tick(late)
     assert pub.posts == ["opening", "ep1"]
