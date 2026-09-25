@@ -11,7 +11,7 @@ async def test_command_tree_builds(cfg):
     register_commands(bot)
     cmds = bot.tree.get_commands(guild=discord.Object(id=cfg.guild_id))
     names = {c.name for c in cmds}
-    assert {"시작", "사건", "질문", "증거", "조사", "추리", "정답", "진행도", "도움말", "운영"} <= names
+    assert {"시작", "사건", "질문", "증거", "조사", "추리", "정답", "진행도", "관계도", "도움말", "운영"} <= names
     for c in cmds:
         c.to_dict(bot.tree)  # Discord 규칙 위반 시 여기서 예외
     admin = next(c for c in cmds if c.name == "운영")
@@ -74,3 +74,25 @@ def test_game_commands_allow_event_and_discussion_channels(cfg):
 
     other = SimpleNamespace(client=client, guild_id=cfg.guild_id, channel_id=999)
     assert not in_event_channel(other)
+
+
+def test_relationship_map_opens_only_what_player_asked(game, db):
+    import asyncio
+    from datetime import timedelta
+
+    from bot import ui
+    from .conftest import open_event
+
+    open_event(db, 4)
+    game.register(7, "조사원")
+    m = game.relationship_map(7)
+    assert m["found_count"] == 0 and m["total"] >= 10
+    asyncio.run(game.ask(7, "반휘혈은 온하늘을 좋아하나요?", "discord", "조사원"))
+    game.clock.now += timedelta(seconds=30)
+    asyncio.run(game.ask(7, "차세리는 온하늘을 아끼나요?", "discord", "조사원"))
+    m = game.relationship_map(7)
+    assert {r["question_id"] for r in m["found"]} == {"Q-LOVE", "Q-SERI-LOVE-HANEUL"}
+    assert game.relationship_map(8)["found_count"] == 0  # 다른 참가자에게는 열리지 않음
+    e = ui.relationship_embed(game, 7)
+    text = str(e.to_dict())
+    assert "좋아하고 아낌" in text and "💗 좋아함" in text and len(e) <= 6000

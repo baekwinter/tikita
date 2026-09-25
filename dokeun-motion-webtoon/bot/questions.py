@@ -27,6 +27,7 @@ class Verdict(str, Enum):
     UNCLEAR = "UNCLEAR"
     NEGATIVE_FORM = "NEGATIVE_FORM"
     UNCONFIRMED = "UNCONFIRMED"
+    NO_RECORD = "NO_RECORD"
 
 
 VERDICT_LABEL = {
@@ -37,6 +38,7 @@ VERDICT_LABEL = {
     Verdict.UNCLEAR: "질문을 조금 더 구체적으로 해주세요.",
     Verdict.NEGATIVE_FORM: "질문을 조금 더 구체적으로 해주세요.",
     Verdict.UNCONFIRMED: "질문을 조금 더 구체적으로 해주세요.",
+    Verdict.NO_RECORD: "방송부 기록에는 없는 내용이에요.",
 }
 
 VERDICT_HINT = {
@@ -44,6 +46,7 @@ VERDICT_HINT = {
     Verdict.NEGATIVE_FORM: "부정형 질문은 답이 헷갈릴 수 있어요. '~했나요?' 처럼 긍정형으로 다시 물어봐 주세요.",
     Verdict.UNCONFIRMED: "방송부가 아직 확인하지 못한 방향의 질문이에요. 다른 방향으로 질문해 보세요.",
     Verdict.UNRELEASED: "다음 회차가 공개된 뒤에 다시 물어봐 주세요.",
+    Verdict.NO_RECORD: "사건 해결에 필요한 질문이 아닐 수 있어요. 녹음·고백 상대·송출에 관한 질문을 해 보세요.",
 }
 
 # 부정 표현. '허락 없이' 같은 무단 개념은 개념 추출 단계에서 먼저 소거되므로 여기서 걸리지 않는다.
@@ -301,6 +304,22 @@ class QuestionBank:
             related_evidence=a.related_evidence,
         )
 
+    def suggest(self, p: Parsed, current_episode: int, limit: int = 2) -> list[str]:
+        """기록에 없는 질문일 때, 지금 답할 수 있는 비슷한 질문(인물·개념이 겹치는 것)을 고른다."""
+        people = set(p.entities) - NON_PERSON_ENTITIES
+        scored: list[tuple[int, str]] = []
+        for q in self.questions.values():
+            a = self.answers.get(q.question_id)
+            if not a or not a.confirmed or not a.answer or a.minimum_episode > current_episode:
+                continue
+            q_people = set().union(*q.entity_sets) - NON_PERSON_ENTITIES if q.entity_sets else set()
+            q_concepts = set().union(*q.concept_groups) if q.concept_groups else set()
+            score = 2 * len(people & q_people) + 3 * len(p.concepts & q_concepts)
+            if score:
+                scored.append((score, q.canonical))
+        scored.sort(key=lambda s: -s[0])
+        return [c for _, c in scored[:limit]]
+
     def ask(
         self,
         text: str,
@@ -321,8 +340,14 @@ class QuestionBank:
             if picked and picked in self.questions and any(c.question_id == picked for c in pool):
                 q, via = self.questions[picked], "ai"
         if q is None:
-            verdict = Verdict.NEGATIVE_FORM if reason == "negated" else Verdict.UNCLEAR
-            return AskResult(verdict, normalized=p.normalized, via=via)
+            if reason == "negated":
+                return AskResult(Verdict.NEGATIVE_FORM, normalized=p.normalized, via=via)
+            people = set(p.entities) - NON_PERSON_ENTITIES
+            if people and p.concepts:
+                # 인물과 행동은 알아들었지만 사건 기록에 없는 질문 → '구체적으로' 대신 기록 없음 + 추천 질문
+                return AskResult(Verdict.NO_RECORD, normalized=p.normalized, via=via,
+                                 extra={"suggestions": self.suggest(p, current_episode)})
+            return AskResult(Verdict.UNCLEAR, normalized=p.normalized, via=via)
         result = self.answer_for(q, current_episode, answer_unconfirmed)
         result.normalized = p.normalized
         result.via = via

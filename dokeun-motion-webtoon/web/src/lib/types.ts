@@ -1,4 +1,4 @@
-export type Verdict = "YES" | "NO" | "IRRELEVANT" | "UNRELEASED" | "UNCLEAR" | "NEGATIVE_FORM" | "UNCONFIRMED";
+export type Verdict = "YES" | "NO" | "IRRELEVANT" | "UNRELEASED" | "UNCLEAR" | "NEGATIVE_FORM" | "UNCONFIRMED" | "NO_RECORD";
 
 export interface EpisodeInfo {
   number: number;

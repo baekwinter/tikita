@@ -27,7 +27,7 @@ export const api = {
 
 export const VERDICT_TONE: Record<string, string> = {
   YES: "yes", NO: "no", IRRELEVANT: "irrelevant", UNRELEASED: "locked",
-  UNCLEAR: "unclear", NEGATIVE_FORM: "unclear", UNCONFIRMED: "unclear",
+  UNCLEAR: "unclear", NEGATIVE_FORM: "unclear", UNCONFIRMED: "unclear", NO_RECORD: "unclear",
 };
 
 export function formatTime(iso: string | null | undefined): string {

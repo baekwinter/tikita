@@ -28,6 +28,7 @@ def make_config(tmp_path: Path, **settings_patch) -> Config:
     settings = load_settings()
     settings["event"]["auto_start_late"] = False  # 기본 테스트는 정상 편성 흐름을 본다
     settings["event"]["announcements"] = []
+    settings["event"]["repost_on_channel_change"] = False
     settings["schedule"]["release_through"] = 0
     for dotted, value in settings_patch.items():
         section, key = dotted.split("__")

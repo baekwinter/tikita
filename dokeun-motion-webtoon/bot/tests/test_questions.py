@@ -50,7 +50,8 @@ def test_negative_questions_are_not_answered(bank):
 
 def test_keyword_only_is_not_enough(bank):
     for text in ["고백한 사람이 누구야?", "오늘 날씨 어때?", "남궁호가 녹음을 도왔나요?", "하늘이가 고백했어?"]:
-        assert bank.ask(text, 12).verdict == Verdict.UNCLEAR, text
+        # 키워드만으로 YES/NO 를 주지 않는다 (해석 불가 또는 기록 없음)
+        assert bank.ask(text, 12).verdict in {Verdict.UNCLEAR, Verdict.NO_RECORD}, text
 
 
 def test_unreleased_information_is_gated(bank):
@@ -76,3 +77,18 @@ def test_ai_picker_only_sees_answerable_questions_and_no_answers(bank):
     assert "Q-SERI-BROADCAST" not in ids          # 미공개 질문은 후보에 없음
     assert res.verdict == Verdict.UNCLEAR           # 후보 밖 선택은 무시
     assert all(not hasattr(q, "answer") for q in seen["pool"])
+
+
+def test_unknown_relationship_questions_get_no_record_with_suggestions(bank):
+    res = bank.ask("차세리는 반휘혈을 좋아하나요?", 4)
+    assert res.verdict == Verdict.NO_RECORD
+    assert res.label != Verdict.UNCLEAR and res.extra["suggestions"]
+    assert bank.ask("반휘혈과 온하늘은 사귀나요?", 4).verdict == Verdict.NO_RECORD
+    assert bank.ask("오늘 날씨 어때?", 4).verdict == Verdict.UNCLEAR
+
+
+def test_seri_cares_for_haneul(bank):
+    for text in ["차세리는 온하늘을 좋아하나요?", "세리가 하늘이 아껴?", "차세리는 온하늘을 아끼나요?"]:
+        res = bank.ask(text, 1)
+        assert res.verdict == Verdict.YES and res.question_id == "Q-SERI-LOVE-HANEUL", text
+    assert bank.ask("온하늘은 차세리를 좋아하나요?", 12).verdict != Verdict.YES

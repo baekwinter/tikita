@@ -1,0 +1,79 @@
+{
+ "_comment": "인물 관계도. 참가자가 해당 질문의 답을 직접 심문으로 얻었을 때만 그 관계선이 그 참가자의 관계도에 열린다. from/to 는 인물 이름, to 가 null 이면 사건과의 관계.",
+ "characters": {
+  "반휘혈": "🎙️",
+  "온하늘": "🌙",
+  "남궁호": "🎚️",
+  "차세리": "📻"
+ },
+ "relations": [
+  {
+   "question_id": "Q-LOVE",
+   "from": "반휘혈",
+   "to": "온하늘",
+   "label": "💗 좋아함"
+  },
+  {
+   "question_id": "Q-HWI-TARGET",
+   "from": "반휘혈",
+   "to": "온하늘",
+   "label": "💌 고백 상대"
+  },
+  {
+   "question_id": "Q-HANEUL-LOVE",
+   "from": "온하늘",
+   "to": "반휘혈",
+   "label": "💗 좋아함"
+  },
+  {
+   "question_id": "Q-MUTUAL",
+   "from": "반휘혈",
+   "to": "온하늘",
+   "label": "💞 서로 좋아함",
+   "both": true
+  },
+  {
+   "question_id": "Q-HANEUL-REPLY",
+   "from": "온하늘",
+   "to": "반휘혈",
+   "label": "📼 2025년 답장을 녹음"
+  },
+  {
+   "question_id": "Q-REPLY-DELIVERED",
+   "from": "온하늘",
+   "to": "반휘혈",
+   "label": "✉️ 답장이 제대로 전달되지 않음"
+  },
+  {
+   "question_id": "Q-MISUNDERSTAND",
+   "from": "반휘혈",
+   "to": "온하늘",
+   "label": "💔 서로 거절당했다고 오해",
+   "both": true
+  },
+  {
+   "question_id": "Q-SERI-LOVE-HANEUL",
+   "from": "차세리",
+   "to": "온하늘",
+   "label": "🤍 좋아하고 아낌"
+  },
+  {
+   "question_id": "Q-SERI-FOUND",
+   "from": "차세리",
+   "to": null,
+   "label": "🔎 두 음성 파일을 발견"
+  },
+  {
+   "question_id": "Q-SERI-MOTIVE",
+   "from": "차세리",
+   "to": "두 사람",
+   "label": "🕊️ 오해를 풀어 주려 함"
+  },
+  {
+   "question_id": "Q-NAM-EDIT",
+   "from": "남궁호",
+   "to": null,
+   "label": "🎚️ 음성 편집을 도움"
+  }
+ ]
+}

@@ -280,6 +280,13 @@
    "related_evidence": "E-06",
    "response_text": "",
    "confirmed": false
+  },
+  "Q-SERI-LOVE-HANEUL": {
+   "answer": "YES",
+   "minimum_episode": 1,
+   "related_evidence": null,
+   "response_text": "차세리는 온하늘을 좋아하고, 누구보다 아낍니다.",
+   "confirmed": true
   }
  },
  "final": {

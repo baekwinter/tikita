@@ -177,6 +177,7 @@ class ReleaseScheduler:
         self.on_ending = on_ending
         self.retry_delays = retry_delays
         self._lock = asyncio.Lock()
+        self._channel_checked = False
 
     # ---- 상태 -------------------------------------------------------------
     def schedule(self) -> dict[int, datetime | None]:
@@ -202,6 +203,13 @@ class ReleaseScheduler:
         """한 번의 점검. 개막 공지 + 1화처럼 연달아 필요한 게시는 최대 2건까지 처리한다."""
         done: list[str] = []
         async with self._lock:
+            if not self._channel_checked:
+                self._channel_checked = True
+                if self.cfg.section("event").get("repost_on_channel_change"):
+                    moved = self.db.forget_posts_outside(self.cfg.event_channel_id)
+                    if moved:
+                        log.warning("이벤트 채널이 바뀌어 게시물 %d건을 새 채널(%s)에 다시 올립니다",
+                                    moved, self.cfg.event_channel_id)
             notices = await self._announcements()
             if notices:
                 done.extend(notices)
