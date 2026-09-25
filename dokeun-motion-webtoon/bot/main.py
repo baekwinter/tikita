@@ -166,6 +166,21 @@ class DiscordPublisher:
                 log.warning("운영진 %s 에게 DM 을 보낼 수 없습니다", uid)
 
 
+async def delete_own_messages(channel, bot_user_id: int, limit: int = 500) -> int:
+    """채널에서 이 봇이 쓴 메시지만 지운다 (다른 사람 글은 건드리지 않는다)."""
+    deleted = 0
+    async for msg in channel.history(limit=limit):
+        if msg.author.id != bot_user_id:
+            continue
+        try:
+            await msg.delete()
+            deleted += 1
+        except discord.NotFound:
+            pass
+        await asyncio.sleep(0.5)  # 속도 제한 여유
+    return deleted
+
+
 class DalbitTree(app_commands.CommandTree):
     async def on_error(self, interaction: discord.Interaction, error: app_commands.AppCommandError) -> None:
         original = getattr(error, "original", error)
@@ -193,6 +208,25 @@ class DalbitBot(discord.Client):
         self.scheduler = ReleaseScheduler(cfg, self.db, self.catalog, self.publisher, on_ending=self._on_ending)
         self._stop = asyncio.Event()
         self._scheduler_task: asyncio.Task | None = None
+        self._cleanup_task: asyncio.Task | None = None
+
+    async def _cleanup_old_channels(self) -> None:
+        """settings.json event.cleanup_channels: 예전 이벤트 채널에 봇이 올린 글을 한 번 지운다."""
+        for cid in self.cfg.section("event").get("cleanup_channels") or []:
+            cid = int(cid)
+            key = f"cleaned_channel:{cid}"
+            if cid == self.cfg.event_channel_id or self.db.get_kv(key) or not self.user:
+                continue
+            try:
+                ch = self.get_channel(cid) or await self.fetch_channel(cid)
+                if getattr(ch, "guild", None) is None or ch.guild.id != self.cfg.guild_id:  # type: ignore[union-attr]
+                    log.error("정리 대상 채널 %s 이 이벤트 서버의 채널이 아닙니다", cid)
+                    continue
+                n = await delete_own_messages(ch, self.user.id)
+                self.db.set_kv(key, True)
+                log.info("예전 채널 %s 에서 봇 게시물 %d건 삭제", cid, n)
+            except discord.HTTPException:
+                log.exception("예전 채널 %s 정리 실패 (다음 재시작 때 다시 시도)", cid)
 
     async def _on_ending(self) -> None:
         total = self.game.finalize_all()
@@ -213,6 +247,8 @@ class DalbitBot(discord.Client):
             log.info("초대 링크: %s", invite_url(self.application_id))
         if self.get_guild(self.cfg.guild_id) is None:
             log.error("봇이 지정된 서버(%s)에 초대되어 있지 않습니다", self.cfg.guild_id)
+        if self._cleanup_task is None:
+            self._cleanup_task = asyncio.create_task(self._cleanup_old_channels())
         if self._scheduler_task is None:
             tick = float(self.cfg.section("schedule").get("tick_seconds", 20))
             self._scheduler_task = asyncio.create_task(run_forever(self.scheduler, tick, self._stop))
