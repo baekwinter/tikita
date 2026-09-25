@@ -1,7 +1,7 @@
 """슬래시 명령어.
 
 참가자: /시작 /사건 /질문 /증거 /조사 /추리 /정답 /진행도 /도움말
-운영진: /운영 상태·공개·예약·시작·중지·재개·테스트·결과
+운영진: /운영 상태·공개·예약·시작·중지·재개·테스트·결과·영상·공지
 
 명령어는 이벤트 서버에만 길드 명령어로 등록되고, 게임 기능은 이벤트 채널에서만 동작한다.
 운영 명령어는 기본적으로 '서버 관리' 권한자에게만 보이며, 실행 시 .env 의 운영진 ID/역할로 한 번 더 확인한다.
@@ -18,6 +18,7 @@ from discord import app_commands
 from . import ui
 from .config import parse_local
 from .database import utcnow
+from .game import VIDEO_OVERRIDES_KEY
 from .rewards import export_csv
 from .scheduler import ALREADY, FAILED, HELD, POSTED, episode_schedule, kst, schedule_problems
 
@@ -263,6 +264,53 @@ def register_commands(bot: "DalbitBot") -> None:
         e = discord.Embed(title="달빛 수사 포인트 순위", description="\n".join(lines) or "참가자가 없습니다.", colour=ui.COLOR_MAIN)
         e.set_footer(text=f"참가자 {len(bot.db.all_players())}명")
         await ui.reply(interaction, embed=e)
+
+    @admin.command(name="영상", description="회차 영상 링크(유튜브 일부공개 등) 등록 · 재배포 없이 바로 반영")
+    @app_commands.describe(회차="회차 번호 (1~12)", 링크="https:// 로 시작하는 영상 주소. '삭제' 입력 시 등록 취소")
+    async def video_cmd(interaction: discord.Interaction, 회차: int, 링크: str) -> None:
+        if not await admin_only(interaction):
+            return
+        ep = bot.catalog.episodes.get(회차)
+        if ep is None:
+            await ui.reply(interaction, "없는 회차입니다.")
+            return
+        url = 링크.strip()
+        if url == "삭제":
+            url = ""
+        elif not url.startswith("https://") or any(ch.isspace() for ch in url):
+            await ui.reply(interaction, "링크는 https:// 로 시작하는 주소 하나만 입력하세요. 예) https://youtu.be/xxxx")
+            return
+        overrides = dict(bot.db.get_kv(VIDEO_OVERRIDES_KEY, {}) or {})
+        overrides[str(회차)] = url
+        bot.db.set_kv(VIDEO_OVERRIDES_KEY, overrides)
+        ep.video_url = url or None
+        if not url:
+            await ui.reply(interaction, f"{ep.code} 영상 링크 등록을 취소했습니다.")
+            return
+        bot.db.clear_alert(f"media:episode:{회차}")
+        if not bot.db.is_posted("episode", 회차):
+            await ui.reply(interaction, f"{ep.code} 영상 링크를 등록했습니다. 회차가 공개될 때 함께 게시됩니다.")
+            return
+        await interaction.response.defer(ephemeral=True, thinking=True)
+        try:
+            await bot.publisher.post_video_link(ep)
+        except discord.HTTPException as exc:
+            await interaction.followup.send(f"링크는 등록했지만 채널 게시에 실패했습니다: {exc}", ephemeral=True)
+            return
+        await interaction.followup.send(f"{ep.code} 은 이미 공개된 회차라 영상 링크를 이벤트 채널에 올렸습니다.", ephemeral=True)
+
+    @admin.command(name="공지", description="이벤트 채널에 방송부 이름으로 공지 게시")
+    @app_commands.describe(내용="공지 내용 (줄바꿈은 \\n 으로 입력)")
+    async def notice_cmd(interaction: discord.Interaction, 내용: app_commands.Range[str, 1, 1800]) -> None:
+        if not await admin_only(interaction):
+            return
+        await interaction.response.defer(ephemeral=True, thinking=True)
+        try:
+            await bot.publisher.post_notice(내용.replace("\\n", "\n"))
+        except discord.HTTPException as exc:
+            await interaction.followup.send(f"공지 게시 실패: {exc}", ephemeral=True)
+            return
+        await interaction.followup.send("이벤트 채널에 공지를 올렸습니다.", ephemeral=True)
 
     tree.add_command(admin)
 

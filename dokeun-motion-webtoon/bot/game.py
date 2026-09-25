@@ -441,6 +441,17 @@ class GameService:
         return self.get_note(user_id)
 
 
+VIDEO_OVERRIDES_KEY = "video_urls"
+
+
+def apply_video_overrides(catalog: Catalog, db: Database) -> None:
+    """/운영 영상 으로 등록한 링크(DB)를 episodes.json 값보다 우선 적용한다."""
+    for number, url in (db.get_kv(VIDEO_OVERRIDES_KEY, {}) or {}).items():
+        ep = catalog.episodes.get(int(number))
+        if ep is not None:
+            ep.video_url = url or None
+
+
 def build_service(cfg: Config, db: Database | None = None) -> GameService:
     """봇·웹 API·CLI 가 같은 방식으로 게임 서비스를 조립한다."""
     from .ai import make_ai_picker
@@ -448,6 +459,7 @@ def build_service(cfg: Config, db: Database | None = None) -> GameService:
 
     db = db or Database(cfg.db_path)
     catalog = Catalog.load()
+    apply_video_overrides(catalog, db)
     bank = QuestionBank.load()
     rewards = RewardService(db, RewardTable.load())
     ai_pick = make_ai_picker(cfg.anthropic_api_key, cfg.ai_model) if cfg.ai_enabled else None

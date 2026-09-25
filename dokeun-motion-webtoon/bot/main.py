@@ -116,6 +116,16 @@ class DiscordPublisher:
         view = ui.public_view(self.bot, ["evidence", "ask", "progress"], with_web=True)
         return await self._send(embed=embed, view=view)
 
+    async def post_notice(self, text: str) -> tuple[int, int]:
+        embed = discord.Embed(title=f"[{BOT_NAME}] 공지", description=text, colour=ui.COLOR_ONAIR)
+        view = ui.public_view(self.bot, ["start", "episodes", "progress", "evidence", "final"])
+        return await self._send(embed=embed, view=view)
+
+    async def post_video_link(self, episode: Episode) -> tuple[int, int]:
+        # 링크를 본문에 두어야 디스코드가 유튜브 플레이어 미리보기를 붙인다
+        view = ui.public_view(self.bot, ["watch", "ask", "evidence", "progress"], episode=episode.number)
+        return await self._send(content=f"🎬 **{episode.display_title}** 영상이 올라왔습니다\n{episode.video_url}", view=view)
+
     async def post_ending(self) -> tuple[int, int]:
         view = ui.public_view(self.bot, ["progress"])
         return await self._send(embeds=ui.ending_embeds(self.bot.game), view=view)
