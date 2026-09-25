@@ -129,3 +129,37 @@ async def test_paused_event_does_not_post(cfg, db, with_video):
     pub = FakePublisher()
     await sched(cfg, db, with_video, pub).tick(START)
     assert pub.posts == []
+
+
+async def test_auto_start_late_posts_opening_and_ep1_without_video_once(tmp_path, catalog):
+    from datetime import timedelta
+
+    from bot.database import Database
+
+    from .conftest import make_config
+
+    cfg = make_config(tmp_path, event__auto_start_late=True)
+    db = Database(cfg.db_path)
+    pub = FakePublisher()
+    late = START + timedelta(days=1, hours=18)  # 개막 12시간 유예도 훌쩍 지남, 1화 영상 없음
+    s = sched(cfg, db, catalog, pub)
+    await s.tick(late)
+    assert pub.posts == ["opening", "ep1"]
+    await s.tick(late + timedelta(minutes=1))
+    await sched(cfg, db, catalog, pub).tick(late + timedelta(minutes=2))  # 재시작 후에도
+    assert pub.posts == ["opening", "ep1"]
+
+
+async def test_auto_start_late_respects_pause(tmp_path, catalog):
+    from datetime import timedelta
+
+    from bot.database import Database
+
+    from .conftest import make_config
+
+    cfg = make_config(tmp_path, event__auto_start_late=True)
+    db = Database(cfg.db_path)
+    db.set_kv("paused", True)
+    pub = FakePublisher()
+    await sched(cfg, db, catalog, pub).tick(START + timedelta(days=1))
+    assert pub.posts == []
