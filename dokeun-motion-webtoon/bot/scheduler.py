@@ -258,7 +258,8 @@ class ReleaseScheduler:
             if not nid or self.db.is_posted("notice", nid):
                 continue
             send = lambda item=item, nid=nid: self.publisher.post_notice(
-                item.get("body", ""), title=item.get("title"), ref=marker("notice", nid), banner=bool(item.get("banner")))
+                item.get("body", ""), title=item.get("title"), ref=marker("notice", nid), banner=bool(item.get("banner")),
+                mention_everyone=bool(item.get("mention_everyone")))
             res = await self._publish("notice", nid, send, manual=True)
             return [f"notice:{nid}:{res}"]
         return []

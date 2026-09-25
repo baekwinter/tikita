@@ -180,7 +180,7 @@ async def test_hq_notice_then_opening_then_release_through_ep4(tmp_path, catalog
     db = Database(cfg.db_path)
     pub = FakePublisher()
 
-    async def post_notice(text, title=None, ref=None, banner=False):
+    async def post_notice(text, title=None, ref=None, banner=False, mention_everyone=False):
         return await pub._post(f"notice:{title}", ref)
     pub.post_notice = post_notice
 
@@ -267,3 +267,24 @@ async def test_delete_own_messages_only_removes_bot_posts(monkeypatch):
 
 async def _no_sleep(_):
     return None
+
+
+async def test_notice_can_mention_everyone(cfg):
+    import discord
+
+    from bot.main import DalbitBot, DiscordPublisher
+
+    bot = DalbitBot(cfg)
+    pub = DiscordPublisher(bot)
+    sent = []
+
+    async def fake_send(**kwargs):
+        sent.append(kwargs)
+        return 1, 2
+    pub._send = fake_send  # type: ignore[method-assign]
+    await pub.post_notice("본문", title="수사본부 OPEN", mention_everyone=True)
+    await pub.post_notice("본문")
+    assert sent[0]["content"] == "@everyone" and sent[0]["allowed_mentions"].everyone is True
+    assert "content" not in sent[1] and "allowed_mentions" not in sent[1]  # 기본은 멘션 없음
+    assert isinstance(sent[0]["embed"], discord.Embed)
+    await bot.close()
