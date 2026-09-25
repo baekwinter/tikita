@@ -208,3 +208,32 @@ def test_episode_list_has_video_buttons(game, db):
     links = [c for c in view.children if getattr(c, "url", None)]
     assert [c.label for c in links] == ["1화", "2화", "3화", "4화"]
     assert links[0].url == "https://youtu.be/ep1"
+
+
+async def test_channel_move_reposts_opening_and_episodes_once(tmp_path, catalog):
+    from datetime import timedelta
+
+    from bot.database import Database
+
+    from .conftest import make_config
+
+    cfg = make_config(tmp_path, event__auto_start_late=True, schedule__release_through=2,
+                      event__repost_on_channel_change=True)
+    db = Database(cfg.db_path)
+    for kind, item in [("opening", "main"), ("episode", 1), ("episode", 2)]:
+        db.claim_release(kind, item)
+        db.complete_release(kind, item, 1548252787002048572, 10)  # 예전 채널에 올라간 기록
+    db.claim_release("evidence", "E-05")
+    db.complete_release("evidence", "E-05", 1548252787002048572, 11)
+
+    class NewChannelPublisher(FakePublisher):
+        async def _post(self, label, mk):
+            _, mid = await super()._post(label, mk)
+            return cfg.event_channel_id, mid
+
+    pub = NewChannelPublisher()
+    now = START + timedelta(days=1, hours=18)
+    for i in range(6):
+        await sched(cfg, db, catalog, pub).tick(now + timedelta(seconds=20 * i))
+    assert pub.posts == ["opening", "ep1", "ep2"]
+    assert db.is_posted("evidence", "E-05")  # 증거 수동 공개 기록은 유지

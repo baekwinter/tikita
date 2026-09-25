@@ -182,6 +182,15 @@ class Database:
         with self.tx() as c:
             c.execute("DELETE FROM releases WHERE kind=? AND item_id=?", (kind, str(item_id)))
 
+    def forget_posts_outside(self, channel_id: int) -> int:
+        """다른 채널에 게시된 개막·회차·공지·엔딩 기록을 지워 새 채널에 다시 게시되게 한다.
+        (증거 수동 공개 기록과 참가자 진행도는 그대로 둔다.)"""
+        with self.tx() as c:
+            cur = c.execute(
+                "DELETE FROM releases WHERE status='posted' AND channel_id IS NOT NULL AND channel_id != ? "
+                "AND kind IN ('opening', 'episode', 'notice', 'ending')", (channel_id,))
+            return cur.rowcount
+
     def releases(self, kind: str, status: str | None = "posted") -> list[sqlite3.Row]:
         if status is None:
             return self.query("SELECT * FROM releases WHERE kind=?", (kind,))

@@ -75,9 +75,9 @@ def points_toast(gained: int, currency: str = "달빛 수사 포인트") -> str:
     return f"\n\n> ✨ **+{gained} {currency}**" if gained else ""
 
 
-VERDICT_BADGE = {"YES": "🟢 YES", "NO": "🔴 NO", "IRRELEVANT": "⚪ 관계없음"}
+VERDICT_BADGE = {"YES": "🟢 YES", "NO": "🔴 NO", "IRRELEVANT": "⚪ 관계없음", "NO_RECORD": "📭 기록 없음"}
 SHORT_BADGE = {"YES": "`YES`", "NO": "`NO`", "IRRELEVANT": "`관계없음`", "UNRELEASED": "`미공개`",
-               "UNCLEAR": "`다시 질문`", "NEGATIVE_FORM": "`긍정형으로`", "UNCONFIRMED": "`미확인`"}
+               "UNCLEAR": "`다시 질문`", "NEGATIVE_FORM": "`긍정형으로`", "UNCONFIRMED": "`미확인`", "NO_RECORD": "`기록 없음`"}
 
 SCENE_FILE = PROJECT_DIR / "assets" / "scene.png"  # web/public/scene-default.svg 를 PNG 로 변환한 방송실 배너
 
@@ -230,6 +230,30 @@ def dashboard_embed(game: GameService, user_id: int) -> discord.Embed:
     return e
 
 
+def relationship_embed(game: GameService, user_id: int) -> discord.Embed:
+    m = game.relationship_map(user_id)
+    icons = m["characters"]
+    e = discord.Embed(title="🕸️ 인물 관계도", colour=COLOR_PINK, description=(
+        f"{bar(m['found_count'], m['total'])} 밝혀낸 관계 **{m['found_count']}/{m['total']}**\n"
+        "-# 심문(YES/NO 질문)으로 직접 확인한 관계만 이 관계도에 기록됩니다."
+    ))
+    for name, icon in icons.items():
+        lines = []
+        for r in m["found"]:
+            if r["from"] != name:
+                continue
+            target = r.get("to")
+            arrow = "↔" if r.get("both") else "→"
+            who = f"{icons.get(target, '👥')} {target}" if target else "📁 사건"
+            lines.append(f"{arrow} {who} · {r['label']}")
+        hidden = m["hidden_by_character"].get(name, 0)
+        if hidden:
+            lines.append(f"-# ❔ 아직 밝혀지지 않은 관계 {hidden}개")
+        e.add_field(name=f"{icon} {name}", value="\n".join(lines) or "-# 알려진 관계가 없습니다.", inline=False)
+    e.set_footer(text="이 화면은 나에게만 보입니다 · 누가 누구를 향했는지 추리해 보세요")
+    return e
+
+
 def interrogation_embed(game: GameService, user_id: int) -> discord.Embed:
     q = game.question_quota(user_id)
     lines = interrogation_lines(game, user_id, 15)
@@ -312,7 +336,7 @@ def help_embed() -> discord.Embed:
         "**/질문** YES/NO 질문 — 예) `/질문 반휘혈이 고백을 녹음했나요?`\n"
         "**/증거** 공개된 증거 목록 · **/조사** 증거 상세 보기\n"
         "**/추리** 지금까지의 가설 기록 · **/정답** 최종 추리 제출\n"
-        "**/진행도** 내 수사 기록\n\n"
+        "**/진행도** 내 수사 기록 · **/관계도** 심문으로 밝혀낸 인물 관계도\n\n"
         "방송부의 응답은 YES · NO · 관계없음 · 아직 공개되지 않은 정보입니다 중 하나입니다.\n"
         "인물 이름과 행동을 넣어 긍정형으로 물을수록 정확하게 답할 수 있어요.\n"
         "모든 응답은 나에게만 보입니다."
@@ -447,6 +471,12 @@ async def open_dashboard(interaction: discord.Interaction) -> None:
         await interaction.followup.send(**kwargs)
     else:
         await interaction.response.send_message(**kwargs)
+
+
+async def show_relationships(interaction: discord.Interaction) -> None:
+    bot: DalbitBot = interaction.client  # type: ignore[assignment]
+    bot.game.gate()
+    await reply(interaction, embed=relationship_embed(bot.game, interaction.user.id))
 
 
 async def show_interrogation(interaction: discord.Interaction) -> None:
@@ -634,6 +664,10 @@ class DashboardView(OwnerView):
     @discord.ui.button(label="수사 노트", style=discord.ButtonStyle.secondary, row=1)
     async def note(self, interaction: discord.Interaction, _: discord.ui.Button) -> None:
         await interaction.response.send_modal(NoteModal(self.bot.game.get_note(interaction.user.id)["body"]))
+
+    @discord.ui.button(label="인물 관계도", style=discord.ButtonStyle.secondary, row=1)
+    async def relations(self, interaction: discord.Interaction, _: discord.ui.Button) -> None:
+        await run_safely(interaction, lambda: show_relationships(interaction))
 
     @discord.ui.button(label="질문 끝내기 · 최종 추리 제출", style=discord.ButtonStyle.danger, row=2)
     async def final(self, interaction: discord.Interaction, _: discord.ui.Button) -> None:

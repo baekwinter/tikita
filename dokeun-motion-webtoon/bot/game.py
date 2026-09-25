@@ -226,11 +226,16 @@ class GameService:
             related = {"id": ev.evidence_id, "title": ev.title}
 
         answered = result.verdict in {Verdict.YES, Verdict.NO, Verdict.IRRELEVANT}
+        hint = result.hint
+        suggestions = result.extra.get("suggestions") or []
+        if suggestions:
+            hint += "\n이런 질문은 답할 수 있어요: " + " / ".join(suggestions)
         return {
             "question": text,
             "verdict": result.verdict.value,
             "label": result.label,
-            "hint": result.hint,
+            "hint": hint,
+            "suggestions": suggestions,
             "response_text": result.response_text if answered else "",
             "matched": result.canonical if answered else None,
             "related_evidence": related if answered else None,
@@ -254,6 +259,25 @@ class GameService:
                 "label": AskResult(verdict).label,
             })
         return out
+
+    # ---- 인물 관계도 -------------------------------------------------------
+    def relationship_map(self, user_id: int) -> dict[str, Any]:
+        """참가자가 심문으로 직접 답을 얻은 관계만 연다 (스포일러 방지)."""
+        data = load_json(DATA_DIR / "relations.json")
+        rows = self.db.query(
+            "SELECT DISTINCT question_id FROM question_log WHERE user_id=? AND question_id IS NOT NULL "
+            "AND result IN ('YES', 'NO', 'IRRELEVANT')", (user_id,))
+        asked = {r["question_id"] for r in rows}
+        relations = [r for r in data["relations"] if r["question_id"] in self.bank.questions]
+        found = [r for r in relations if r["question_id"] in asked]
+        return {
+            "characters": data["characters"],
+            "found": found,
+            "found_count": len(found),
+            "total": len(relations),
+            "hidden_by_character": {c: sum(1 for r in relations if r["from"] == c and r not in found)
+                                    for c in data["characters"]},
+        }
 
     # ---- 증거 -------------------------------------------------------------
     def evidence_board(self, user_id: int | None = None) -> list[dict[str, Any]]:

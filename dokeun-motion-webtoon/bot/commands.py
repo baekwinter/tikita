@@ -1,6 +1,6 @@
 """슬래시 명령어.
 
-참가자: /시작 /사건 /질문 /증거 /조사 /추리 /정답 /진행도 /도움말
+참가자: /시작 /사건 /질문 /증거 /조사 /추리 /정답 /진행도 /관계도 /도움말
 운영진: /운영 상태·공개·예약·시작·중지·재개·테스트·결과·영상·공지
 
 명령어는 이벤트 서버에만 길드 명령어로 등록되고, 게임 기능은 이벤트 채널에서만 동작한다.
@@ -107,6 +107,11 @@ def register_commands(bot: "DalbitBot") -> None:
     async def progress_cmd(interaction: discord.Interaction) -> None:
         if await ui.guard(interaction):
             await ui.run_safely(interaction, lambda: ui.show_progress(interaction))
+
+    @tree.command(name="관계도", description="심문으로 밝혀낸 인물 관계도를 확인합니다", guild=guild)
+    async def relations_cmd(interaction: discord.Interaction) -> None:
+        if await ui.guard(interaction):
+            await ui.run_safely(interaction, lambda: ui.show_relationships(interaction))
 
     @tree.command(name="도움말", description="게임 방법을 확인합니다", guild=guild)
     async def help_cmd(interaction: discord.Interaction) -> None:
