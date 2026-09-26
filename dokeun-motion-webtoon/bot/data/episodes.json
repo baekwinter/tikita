@@ -61,7 +61,7 @@
       "video_path": "episodes/EP05.mp4",
       "video_url": "https://youtu.be/LWliumaf3M4",
       "thumbnail": "episodes/EP05_thumb.jpg",
-      "release_datetime": null,
+      "release_datetime": "2026-09-26 12:00",
       "clues": [
         "E-03"
       ],
@@ -75,7 +75,7 @@
       "video_path": "episodes/EP06.mp4",
       "video_url": "https://youtu.be/_l2k7mHPJnM",
       "thumbnail": "episodes/EP06_thumb.jpg",
-      "release_datetime": null,
+      "release_datetime": "2026-09-26 15:00",
       "clues": [
         "E-06"
       ],
@@ -89,7 +89,7 @@
       "video_path": "episodes/EP07.mp4",
       "video_url": null,
       "thumbnail": "episodes/EP07_thumb.jpg",
-      "release_datetime": null,
+      "release_datetime": "2026-09-26 18:00",
       "clues": [
         "E-04"
       ],
@@ -103,7 +103,7 @@
       "video_path": "episodes/EP08.mp4",
       "video_url": null,
       "thumbnail": "episodes/EP08_thumb.jpg",
-      "release_datetime": null,
+      "release_datetime": "2026-09-26 21:00",
       "clues": [
         "E-07"
       ],
@@ -117,7 +117,7 @@
       "video_path": "episodes/EP09.mp4",
       "video_url": null,
       "thumbnail": "episodes/EP09_thumb.jpg",
-      "release_datetime": null,
+      "release_datetime": "2026-09-27 12:00",
       "clues": [],
       "questions": []
     },
@@ -129,7 +129,7 @@
       "video_path": "episodes/EP10.mp4",
       "video_url": null,
       "thumbnail": "episodes/EP10_thumb.jpg",
-      "release_datetime": null,
+      "release_datetime": "2026-09-27 15:00",
       "clues": [
         "E-05"
       ],
@@ -143,7 +143,7 @@
       "video_path": "episodes/EP11.mp4",
       "video_url": null,
       "thumbnail": "episodes/EP11_thumb.jpg",
-      "release_datetime": null,
+      "release_datetime": "2026-09-27 18:00",
       "clues": [],
       "questions": []
     },
@@ -155,7 +155,7 @@
       "video_path": "episodes/EP12.mp4",
       "video_url": null,
       "thumbnail": "episodes/EP12_thumb.jpg",
-      "release_datetime": null,
+      "release_datetime": "2026-09-27 21:00",
       "clues": [
         "E-08"
       ],

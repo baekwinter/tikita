@@ -10,10 +10,18 @@ def test_start_is_kst_midnight(cfg):
     assert cfg.start_at_utc.isoformat() == "2026-09-23T15:00:00+00:00"
 
 
-def test_default_schedule_first_episode_at_start_and_rest_unset(cfg, catalog):
+def test_configured_episode_schedule(cfg, catalog):
     sched = episode_schedule(cfg, catalog)
     assert sched[1] == START
-    assert all(sched[n] is None for n in range(2, 13))   # 나머지 시각은 임의로 정하지 않는다
+    assert all(sched[n] is None for n in range(2, 5))
+    assert sched[5] == START + timedelta(days=2, hours=12)
+    assert sched[6] == START + timedelta(days=2, hours=15)
+    assert sched[7] == START + timedelta(days=2, hours=18)
+    assert sched[8] == START + timedelta(days=2, hours=21)
+    assert sched[9] == START + timedelta(days=3, hours=12)
+    assert sched[10] == START + timedelta(days=3, hours=15)
+    assert sched[11] == START + timedelta(days=3, hours=18)
+    assert sched[12] == START + timedelta(days=3, hours=21)
 
 
 def test_presets_shapes(tmp_path):
