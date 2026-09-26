@@ -39,6 +39,11 @@ def test_video_override_persists_over_episodes_json(db, catalog):
     assert fresh.episodes[2].video_url == "https://youtu.be/abc"
 
 
+def test_episode_10_and_11_video_links_are_not_swapped(catalog):
+    assert catalog.episodes[10].video_url == "https://youtu.be/YCPormw46Rw"
+    assert catalog.episodes[11].video_url == "https://youtu.be/vnkwehwMutU"
+
+
 def test_final_result_embed_shows_score_like_game():
     from bot.ui import final_result_embed
 
