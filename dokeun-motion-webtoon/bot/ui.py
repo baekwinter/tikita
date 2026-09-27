@@ -82,6 +82,8 @@ SHORT_BADGE = {"YES": "`YES`", "NO": "`NO`", "IRRELEVANT": "`관계없음`", "UN
                "UNCLEAR": "`다시 질문`", "NEGATIVE_FORM": "`긍정형으로`", "UNCONFIRMED": "`미확인`", "NO_RECORD": "`기록 없음`",
                "INFO": "`정보`", "SEALED": "`정답 제출`", "CLARIFY": "`대상 확인`"}
 
+EVIDENCE_TYPE_ICON = {"digital": "💾", "emotion": "💗", "testimony": "🗣️", "decisive": "🔑"}
+
 SCENE_FILE = PROJECT_DIR / "assets" / "scene.png"  # web/public/scene-default.svg 를 PNG 로 변환한 방송실 배너
 RELATIONSHIP_MAP_FILE = PROJECT_DIR / "assets" / "relationship_map_public.png"
 
@@ -320,22 +322,54 @@ def evidence_board_embed(game: GameService, user_id: int) -> discord.Embed:
         if item["locked"]:
             e.add_field(name=f"🔒 {item['id']} · 잠긴 증거", value=f"-# EP.{item['episode']:02d} 공개 후 열립니다.", inline=True)
         else:
-            mark = "✅ 수사 수첩에 기록됨" if item["found"] else "🔍 조사하기"
+            icon = EVIDENCE_TYPE_ICON.get(item.get("type", ""), "🗂️")
+            if item["found"]:
+                mark = "✅ 수사 수첩에 기록됨"
+            elif item.get("investigable"):
+                mark = "🔍 조사 가능 — 단서가 더 있습니다"
+            else:
+                mark = "🔍 조사하기"
             e.add_field(name=f"{'📁' if item['found'] else '🔓'} {item['id']} · {item['title']}"[:256],
-                        value=f"-# {item['category']}\n{mark}", inline=True)
-    e.set_footer(text="아래 메뉴에서 증거를 골라 조사하세요.")
+                        value=f"-# {icon} {item['category']} · EP.{item['episode']:02d}\n{mark}", inline=True)
+    e.set_footer(text="아래 메뉴에서 증거를 골라 조사하세요. 조사하면 추가 단서와 관련 증거가 열립니다.")
     return e
 
 
 def evidence_detail_embed(data: dict[str, Any]) -> discord.Embed:
+    icon = EVIDENCE_TYPE_ICON.get(data.get("type", ""), "🗂️")
     e = discord.Embed(title=f"{data['id']} · {data['title']}", description=data["detail"], colour=COLOR_PINK)
-    e.add_field(name="분류", value=data["category"] or "-", inline=True)
+    e.add_field(name="분류", value=f"{icon} {data['category'] or '-'}", inline=True)
     e.add_field(name="공개 회차", value=f"EP.{data['episode']:02d}", inline=True)
+    if data.get("related_characters"):
+        e.add_field(name="관련 인물", value=" · ".join(data["related_characters"]), inline=True)
+    # 조사(심화) 결과: investigate() 로 열람했을 때만 채워진다.
+    if data.get("investigated"):
+        if data.get("investigation_result"):
+            e.add_field(name="🔬 조사 결과", value=data["investigation_result"][:1024], inline=False)
+        if data.get("inference"):
+            e.add_field(name="🧩 추리 단서", value=data["inference"][:1024], inline=False)
+        rel = data.get("related_evidence") or []
+        if rel:
+            # 참가자 경로: [{id,title}] 목록. 운영진 미리보기: 원본 문자열 ID 목록일 수 있어 둘 다 처리.
+            def _fmt(r: Any) -> str:
+                if isinstance(r, dict):
+                    return f"`{r['id']}` {r.get('title', '')}".strip()
+                return f"`{r}`"
+            e.add_field(name="🔗 연결된 증거",
+                        value=" · ".join(_fmt(r) for r in rel)[:1024], inline=False)
+    toast = ""
+    if data.get("gained"):
+        toast += points_toast(data.get("gained", 0))
+    if data.get("investigate_gained"):
+        toast += points_toast(data.get("investigate_gained", 0), currency="조사 포인트")
+    if toast:
+        e.description = (e.description or "") + toast
     if data.get("new"):
-        e.description = (e.description or "") + points_toast(data.get("gained", 0))
         e.set_footer(text=f"증거 {data['id']}이(가) 수사 수첩에 기록되었습니다.")
+    elif data.get("investigate_gained"):
+        e.set_footer(text="증거를 상세 조사해 새로운 단서를 확보했습니다.")
     else:
-        e.set_footer(text="이미 수사 수첩에 기록된 증거입니다.")
+        e.set_footer(text="이미 조사한 증거입니다. 연결된 증거를 따라가 보세요.")
     return e
 
 

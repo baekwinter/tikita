@@ -421,7 +421,7 @@ async def run_test(bot: "DalbitBot", interaction: discord.Interaction, item: str
             await ui.reply(interaction, "없는 증거입니다.")
             return
         await ui.reply(interaction, f"[미리보기] {ev.evidence_id} · {ev.release_episode}화 공개 · 이미지 {'있음' if ev.image_file else '없음'}",
-                       embed=ui.evidence_detail_embed(ev.public(True)))
+                       embed=ui.evidence_detail_embed(ev.public(True, investigated=True)))
     elif item == "question":
         if not question:
             await ui.reply(interaction, "질문을 입력하세요.")

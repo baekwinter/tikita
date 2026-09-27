@@ -14,7 +14,7 @@ from typing import Any, Callable
 from .config import BOT_NAME, GAME_TITLE, Config, DATA_DIR, load_json
 from .character_questions import CharacterQuestionBank, normalize_character_question
 from .database import Database, utcnow
-from .evidence import Catalog
+from .evidence import Catalog, Evidence
 from .questions import AskResult, Question, QuestionBank, Verdict
 from .rewards import RewardService
 from .scheduler import episode_schedule, kst
@@ -349,8 +349,11 @@ class GameService:
         found = self.db.found_evidence(user_id) if user_id else set()
         board = []
         for ev in self.catalog.sorted_evidence():
-            if ev.release_episode <= cur or ev.evidence_id in manual:
-                board.append(ev.public(found=ev.evidence_id in found))
+            if self.catalog._released(ev, cur, manual):
+                item = ev.public(found=ev.evidence_id in found)
+                # 목록에서는 조사 가능한(획득했고 심화 단서가 있는) 증거를 표시해 다음 행동을 유도한다.
+                item["investigable"] = bool(ev.investigation_result or ev.inference)
+                board.append(item)
             else:
                 board.append(ev.locked())
         return board
@@ -358,7 +361,25 @@ class GameService:
     def released_evidence_ids(self) -> list[str]:
         return [e.evidence_id for e in self.catalog.released_evidence(self.current_episode, self.db.manually_released_evidence())]
 
+    def _visible_related(self, ev: "Evidence") -> list[dict[str, Any]]:
+        """이 증거와 연결되며 '현재 공개된' 관련 증거만 노출한다(미공개 증거 ID·제목 누출 방지)."""
+        cur = self.current_episode
+        manual = self.db.manually_released_evidence()
+        out = []
+        for rid in ev.related_evidence:
+            rel = self.catalog.evidence.get(rid)
+            if rel and self.catalog._released(rel, cur, manual):
+                out.append({"id": rel.evidence_id, "title": rel.title})
+        return out
+
     def investigate(self, user_id: int, evidence_id: str, display_name: str | None = None) -> dict[str, Any]:
+        """증거를 조사한다.
+
+        - 첫 조사: 증거를 '획득'(수사 수첩 기록)하고 evidence_found 보상을 준다(기존 계약 유지).
+        - 조사(심화): 획득 여부와 무관하게 investigation_result·inference·공개된 관련 증거를 보여 준다.
+          심화 조사를 처음 완료하면 evidence_investigated 보상을 1회 지급한다(중복 없음).
+        획득 보상은 data['gained'], 심화 보상은 data['investigate_gained'] 로 분리해 반환한다.
+        """
         self.gate()
         self.ensure_player(user_id, display_name)
         evidence_id = (evidence_id or "").strip().upper()
@@ -367,8 +388,13 @@ class GameService:
         ev = self.catalog.evidence[evidence_id]
         new = self.db.mark_evidence(user_id, evidence_id)
         gained = self.rewards.grant(user_id, "evidence_found", evidence_id) if new else 0
-        data = ev.public(found=True)
-        data.update({"new": new, "gained": gained})
+        # 심화 조사 보상: 심화 단서가 있는 증거에 한해, 사람당 증거별 1회.
+        investigate_gained = 0
+        if ev.investigation_result or ev.inference:
+            investigate_gained = self.rewards.grant(user_id, "evidence_investigated", evidence_id)
+        data = ev.public(found=True, investigated=True)
+        data["related_evidence"] = self._visible_related(ev)
+        data.update({"new": new, "gained": gained, "investigate_gained": investigate_gained})
         return data
 
     # ---- 회차 시청 --------------------------------------------------------

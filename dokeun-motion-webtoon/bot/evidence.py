@@ -71,14 +71,26 @@ class Evidence:
     detail: str
     image: str | None
     tags: list[str]
+    # ---- PHASE 2 확장 필드 (모두 선택. 없으면 기존 동작과 동일) ----------------
+    evidence_type: str = ""            # digital | emotion | testimony | decisive
+    related_characters: list[str] = field(default_factory=list)
+    related_evidence: list[str] = field(default_factory=list)
+    investigation_result: str = ""     # 조사(심화)했을 때만 보여 주는 추가 단서 (공개용)
+    inference: str = ""                # 이 증거가 추리에 기여하는 방향 (공개용, 스포일러 아님)
+    reward: int | None = None          # 이 증거 조사 보상(미지정이면 기본 evidence_found 표 사용)
+    spoiler_level: int = 0             # 0=공개 안전, 1=회차 열람 후, 2=확정 스포일러(엄격 게이팅)
+    # 운영진 전용 메모(정답 해설). 참가자 공개 payload 에는 절대 넣지 않는다.
+    admin_note: str = ""
 
     @property
     def image_file(self) -> Path | None:
         p = resolve(self.image)
         return p if p and p.is_file() else None
 
-    def public(self, found: bool = False) -> dict[str, Any]:
-        return {
+    def public(self, found: bool = False, investigated: bool = False) -> dict[str, Any]:
+        """참가자 공개용 payload. admin_note 는 절대 포함하지 않는다.
+        investigation_result/inference 는 조사(investigated=True)한 뒤에만 채운다."""
+        data = {
             "id": self.evidence_id,
             "title": self.title,
             "category": self.category,
@@ -87,9 +99,17 @@ class Evidence:
             "detail": self.detail,
             "has_image": self.image_file is not None,
             "tags": self.tags,
+            "type": self.evidence_type,
+            "related_characters": list(self.related_characters),
+            "related_evidence": list(self.related_evidence),
             "found": found,
+            "investigated": investigated,
             "locked": False,
         }
+        if investigated:
+            data["investigation_result"] = self.investigation_result
+            data["inference"] = self.inference
+        return data
 
     def locked(self) -> dict[str, Any]:
         """잠긴 증거는 번호와 '몇 화에 열리는지'만 보여 준다. 제목도 숨긴다."""
@@ -115,15 +135,25 @@ class Catalog:
             self.episodes[ep.number] = ep
         self.evidence: dict[str, Evidence] = {}
         for raw in evidence_doc["evidence"]:
+            # minimum_episode 는 release_episode 의 별칭으로도 허용(하위 호환)
+            release_ep = int(raw.get("release_episode", raw.get("minimum_episode")))
             ev = Evidence(
                 evidence_id=raw["evidence_id"],
                 title=raw["title"],
                 category=raw.get("category", ""),
-                release_episode=int(raw["release_episode"]),
+                release_episode=release_ep,
                 summary=raw.get("summary", ""),
                 detail=raw.get("detail", ""),
                 image=raw.get("image"),
                 tags=list(raw.get("tags") or []),
+                evidence_type=raw.get("evidence_type", ""),
+                related_characters=list(raw.get("related_characters") or []),
+                related_evidence=list(raw.get("related_evidence") or []),
+                investigation_result=raw.get("investigation_result", ""),
+                inference=raw.get("inference", ""),
+                reward=raw.get("reward"),
+                spoiler_level=int(raw.get("spoiler_level", 0)),
+                admin_note=raw.get("admin_note", ""),
             )
             self.evidence[ev.evidence_id] = ev
 
@@ -141,13 +171,23 @@ class Catalog:
     def sorted_evidence(self) -> list[Evidence]:
         return sorted(self.evidence.values(), key=lambda e: (e.release_episode, e.evidence_id))
 
+    @staticmethod
+    def _released(ev: Evidence, current_episode: int, manual: set[str]) -> bool:
+        """공개 여부. spoiler_level 2(확정 스포일러)는 수동 공개로도 조기 해금하지 못하고,
+        반드시 release_episode 회차가 실제로 공개되어야 열린다."""
+        if ev.release_episode <= current_episode:
+            return True
+        if ev.spoiler_level >= 2:
+            return False  # 확정 스포일러는 회차 게이팅만 인정 (임의/수동 조기 공개 차단)
+        return ev.evidence_id in manual
+
     def released_evidence(self, current_episode: int, manual: set[str] | None = None) -> list[Evidence]:
         manual = manual or set()
-        return [e for e in self.sorted_evidence() if e.release_episode <= current_episode or e.evidence_id in manual]
+        return [e for e in self.sorted_evidence() if self._released(e, current_episode, manual)]
 
     def is_evidence_released(self, evidence_id: str, current_episode: int, manual: set[str] | None = None) -> bool:
         ev = self.evidence.get(evidence_id)
-        return bool(ev and (ev.release_episode <= current_episode or evidence_id in (manual or set())))
+        return bool(ev and self._released(ev, current_episode, manual or set()))
 
     def evidence_for_episode(self, number: int) -> list[Evidence]:
         return [e for e in self.sorted_evidence() if e.release_episode == number]

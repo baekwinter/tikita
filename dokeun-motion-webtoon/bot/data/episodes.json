@@ -24,7 +24,9 @@
       "video_url": "https://youtu.be/sXZuVdrvNk0",
       "thumbnail": "episodes/EP02_thumb.jpg",
       "release_datetime": null,
-      "clues": [],
+      "clues": [
+        "E-09"
+      ],
       "questions": []
     },
     {
@@ -36,7 +38,10 @@
       "video_url": "https://youtu.be/r8Rfx4An8b8",
       "thumbnail": "episodes/EP03_thumb.jpg",
       "release_datetime": null,
-      "clues": [],
+      "clues": [
+        "E-10",
+        "E-24"
+      ],
       "questions": []
     },
     {
@@ -49,7 +54,8 @@
       "thumbnail": "episodes/EP04_thumb.jpg",
       "release_datetime": null,
       "clues": [
-        "E-02"
+        "E-02",
+        "E-14"
       ],
       "questions": []
     },
@@ -63,7 +69,8 @@
       "thumbnail": "episodes/EP05_thumb.jpg",
       "release_datetime": "2026-09-26 12:00",
       "clues": [
-        "E-03"
+        "E-03",
+        "E-13"
       ],
       "questions": []
     },
@@ -77,7 +84,8 @@
       "thumbnail": "episodes/EP06_thumb.jpg",
       "release_datetime": "2026-09-26 15:00",
       "clues": [
-        "E-06"
+        "E-06",
+        "E-15"
       ],
       "questions": []
     },
@@ -91,7 +99,8 @@
       "thumbnail": "episodes/EP07_thumb.jpg",
       "release_datetime": "2026-09-26 18:00",
       "clues": [
-        "E-04"
+        "E-04",
+        "E-12"
       ],
       "questions": []
     },
@@ -105,7 +114,10 @@
       "thumbnail": "episodes/EP08_thumb.jpg",
       "release_datetime": "2026-09-26 21:00",
       "clues": [
-        "E-07"
+        "E-07",
+        "E-17",
+        "E-18",
+        "E-20"
       ],
       "questions": []
     },
@@ -118,7 +130,11 @@
       "video_url": "https://youtu.be/IWHLrFeZ9EQ",
       "thumbnail": "episodes/EP09_thumb.jpg",
       "release_datetime": "2026-09-27 12:00",
-      "clues": [],
+      "clues": [
+        "E-19",
+        "E-23",
+        "E-25"
+      ],
       "questions": []
     },
     {
@@ -131,7 +147,9 @@
       "thumbnail": "episodes/EP10_thumb.jpg",
       "release_datetime": "2026-09-27 15:00",
       "clues": [
-        "E-05"
+        "E-05",
+        "E-16",
+        "E-21"
       ],
       "questions": []
     },
@@ -144,7 +162,9 @@
       "video_url": "https://youtu.be/vnkwehwMutU",
       "thumbnail": "episodes/EP11_thumb.jpg",
       "release_datetime": "2026-09-27 18:00",
-      "clues": [],
+      "clues": [
+        "E-11"
+      ],
       "questions": []
     },
     {
@@ -157,7 +177,8 @@
       "thumbnail": "episodes/EP12_thumb.jpg",
       "release_datetime": "2026-09-27 21:00",
       "clues": [
-        "E-08"
+        "E-08",
+        "E-22"
       ],
       "questions": []
     }

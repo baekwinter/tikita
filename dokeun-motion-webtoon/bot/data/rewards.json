@@ -7,6 +7,7 @@
     "daily_question": 2,
     "watch_episode": 5,
     "evidence_found": 3,
+    "evidence_investigated": 2,
     "daily_theory": 5,
     "final_submit": 10,
     "final_correct_item": 5,
