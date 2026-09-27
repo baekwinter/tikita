@@ -132,3 +132,44 @@ def test_evidence_view_keeps_episode_and_evidence_selects(cfg, db):
     selects = [c for c in view.children if isinstance(c, discord.ui.Select)]
     # 회차 선택 + 해당 회차 증거 선택 (2개)
     assert len(selects) >= 2
+
+
+# ── 정정: 수사본부 공지의 새 버튼 → 최종 수사 보고서(ephemeral) → 정답 제출 ────
+def test_notice_view_includes_finalreport_button(cfg, db):
+    # post_notice 가 쓰는 액션 구성에 finalreport(새 버튼)가 포함된다
+    bot = DalbitBot(cfg)
+    view = ui.public_view(bot, ["start", "episodes", "progress", "evidence", "final", "finalreport"])
+    ids = [getattr(getattr(c, "item", None), "custom_id", None) for c in view.children]
+    # 기존 5개 버튼 유지 + 새 버튼
+    assert "dg:start" in ids and "dg:final" in ids
+    assert "dg:finalreport" in ids
+    # 기존 버튼 개수 보존(5) + 신규 1
+    dg_ids = [i for i in ids if i and i.startswith("dg:")]
+    assert len(dg_ids) == 6
+
+
+def test_finalreport_action_registered_and_recovers():
+    import re
+    assert "finalreport" in ui.ACTION_LABELS
+    btn = ui.PublicButton("finalreport")
+    assert btn.item.custom_id == "dg:finalreport"
+    assert re.fullmatch(r"dg:(?P<action>[a-z]+)(?::(?P<arg>\d+))?", "dg:finalreport")
+    # 기존 finalsubmit 과 custom_id 가 충돌하지 않는다
+    assert ui.PublicButton("finalsubmit").item.custom_id != btn.item.custom_id
+
+
+def test_final_report_screen_reuses_panel_embed_and_view():
+    # 3단계 중 2단계 화면은 기존 final_panel_embed/view 를 재사용한다
+    e = ui.final_panel_embed()
+    v = ui.final_panel_view()
+    assert e.title == "🌙 최종 수사 보고서"
+    ids = [getattr(getattr(c, "item", None), "custom_id", None) for c in v.children]
+    assert ids == ["dg:finalsubmit"]  # 2단계 화면의 버튼은 기존 정답 흐름으로 연결
+
+
+def test_five_original_buttons_unchanged(cfg, db):
+    bot = DalbitBot(cfg)
+    view = ui.public_view(bot, ["start", "episodes", "progress", "evidence", "final", "finalreport"])
+    ids = [getattr(getattr(c, "item", None), "custom_id", None) for c in view.children]
+    for original in ("dg:start", "dg:episodes", "dg:progress", "dg:evidence", "dg:final"):
+        assert original in ids

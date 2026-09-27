@@ -654,6 +654,15 @@ async def show_final(interaction: discord.Interaction) -> None:
     await reply(interaction, embed=embed, view=FinalView(bot, uid))
 
 
+async def show_final_report(interaction: discord.Interaction) -> None:
+    """🌙 최종 수사 보고서 화면을 '클릭한 사람에게만' 보이도록 표시한다.
+    채널에 새 메시지를 게시하지 않고 ephemeral 응답으로만 보여 준다.
+    이 화면의 '📝 정답 제출하기' 버튼(dg:finalsubmit)이 기존 정답 흐름으로 연결된다."""
+    bot: DalbitBot = interaction.client  # type: ignore[assignment]
+    bot.game.gate()
+    await reply(interaction, embed=final_panel_embed(), view=final_panel_view())
+
+
 # ---------------------------------------------------------------------------
 # 모달
 # ---------------------------------------------------------------------------
@@ -914,6 +923,7 @@ ACTION_LABELS = {
     "progress": ("내 진행도", discord.ButtonStyle.secondary),
     "evidence": ("증거 확인", discord.ButtonStyle.secondary),
     "final": ("최종 추리 안내", discord.ButtonStyle.danger),
+    "finalreport": ("📝 최종 정답 제출하기", discord.ButtonStyle.danger),
     "finalsubmit": ("📝 정답 제출하기", discord.ButtonStyle.danger),
     "watch": ("시청 완료", discord.ButtonStyle.success),
     "ask": ("YES/NO 질문", discord.ButtonStyle.primary),
@@ -946,6 +956,7 @@ class PublicButton(discord.ui.DynamicItem[discord.ui.Button], template=r"dg:(?P<
             "progress": lambda: show_progress(interaction),
             "evidence": lambda: show_evidence(interaction),
             "final": lambda: show_final(interaction),
+            "finalreport": lambda: show_final_report(interaction),
             "finalsubmit": lambda: show_final(interaction),
             "watch": lambda: _watch(interaction, self.arg or 0),
         }

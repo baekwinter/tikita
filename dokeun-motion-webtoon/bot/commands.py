@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import io
 import logging
+import re
 from typing import TYPE_CHECKING
 
 import discord
@@ -206,6 +207,49 @@ def register_commands(bot: "DalbitBot") -> None:
         # 재시작으로 중복 게시되지 않는다. 운영진이 이 명령을 부를 때만 새 패널이 올라간다.
         await interaction.channel.send(embed=ui.final_panel_embed(), view=ui.final_panel_view())
         await ui.reply(interaction, "🌙 최종 수사 보고서 패널을 이 채널에 게시했습니다.")
+
+    @admin.command(name="버튼추가", description="이미 게시된 수사본부/개막 공지에 '📝 최종 정답 제출하기' 버튼을 추가")
+    @app_commands.describe(공지="버튼을 추가할 기존 공지", 메시지링크="자동으로 찾지 못할 때 쓸 메시지 링크(선택)")
+    @app_commands.choices(공지=[
+        app_commands.Choice(name="수사본부 OPEN 공지 (hq-open-3)", value="notice:hq-open-3"),
+        app_commands.Choice(name="개막 공지", value="opening:main"),
+    ])
+    async def addbutton_cmd(interaction: discord.Interaction, 공지: app_commands.Choice[str],
+                            메시지링크: str | None = None) -> None:
+        if not await admin_only(interaction):
+            return
+        await interaction.response.defer(ephemeral=True, thinking=True)
+        kind, item_id = 공지.value.split(":", 1)
+        channel_id = message_id = None
+        # 1) DB 게시 이력에서 기존 메시지 위치를 조회
+        row = bot.db.get_release(kind, item_id)
+        if row and row["channel_id"] and row["message_id"]:
+            channel_id, message_id = int(row["channel_id"]), int(row["message_id"])
+        # 2) 실패 시 운영진이 준 메시지 링크에서 추출
+        elif 메시지링크:
+            m = re.search(r"/channels/\d+/(\d+)/(\d+)", 메시지링크)
+            if m:
+                channel_id, message_id = int(m.group(1)), int(m.group(2))
+        if not (channel_id and message_id):
+            await interaction.followup.send(
+                "기존 공지 메시지를 자동으로 찾지 못했습니다. 해당 공지 메시지의 '링크 복사'로 얻은 URL을 "
+                "`메시지링크:` 에 넣어 다시 실행해 주세요. (임의로 새 공지를 게시하지 않았습니다.)",
+                ephemeral=True)
+            return
+        try:
+            channel = bot.get_channel(channel_id) or await bot.fetch_channel(channel_id)
+            msg = await channel.fetch_message(message_id)
+        except discord.HTTPException as exc:
+            await interaction.followup.send(f"메시지를 불러오지 못했습니다: {exc}", ephemeral=True)
+            return
+        # 기존 5개 버튼 + 새 finalreport 버튼으로 View 를 다시 구성해 메시지를 편집한다(기존 내용·이미지 유지).
+        actions = (["episodes", "watch", "ask", "evidence", "progress"] if kind == "episode"
+                   else ["start", "episodes", "progress", "evidence", "final", "finalreport"])
+        view = ui.public_view(bot, actions)
+        await msg.edit(view=view)
+        await interaction.followup.send(
+            "✅ 기존 공지에 '📝 최종 정답 제출하기' 버튼을 추가했습니다. 기존 버튼과 내용·이미지는 그대로 유지됩니다.",
+            ephemeral=True)
 
     @admin.command(name="예약", description="공개 일정 확인 및 변경 (한국 시간)")
     @app_commands.describe(회차="변경할 회차 번호", 일시="'2026-09-24 12:00' 형식. '삭제' 입력 시 변경 취소")
