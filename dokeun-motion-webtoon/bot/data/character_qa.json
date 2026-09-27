@@ -1,0 +1,1338 @@
+{
+  "schema_version": "1.0",
+  "classification": "PUBLIC_RUNTIME_PROJECTION",
+  "source_note": "운영진용 v4 자료에서 승인된 공개 답변만 추출. 내부 진실·신규 장면·정답표는 포함하지 않음.",
+  "feature_flags": {
+    "enable_seri_haneul_romantic_crush": true,
+    "enable_seri_haneul_childhood": true
+  },
+  "questions": [
+    {
+      "id": "V4Q001",
+      "question": "반휘혈은 온하늘을 좋아하나요?",
+      "aliases": [
+        "반휘혈이 온하늘을 좋아하나요?",
+        "반휘혈은 아직도 하늘을 좋아하나요?",
+        "휘혈이 하늘 좋아해?"
+      ],
+      "minimum_stage": "INTRO",
+      "answer_kind": "YES",
+      "approved_public_answer": "네. 휘혈에게 하늘을 향한 마음이 있어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q002",
+      "question": "휘혈이 하늘을 짝사랑했어?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "INTRO",
+      "answer_kind": "INFO",
+      "approved_public_answer": "휘혈에게 호감은 있어요. 상대의 실제 마음과 휘혈이 믿는 것은 구분해야 해요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q003",
+      "question": "휘혈은 하늘을 싫어해?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "INTRO",
+      "answer_kind": "NO",
+      "approved_public_answer": "아니요. 하늘을 싫어하는 감정으로 설정되어 있지 않아요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q004",
+      "question": "휘혈과 하늘은 사귀어?",
+      "aliases": [
+        "둘은 사귀고 있나요?",
+        "반휘혈과 온하늘은 사귀나요?",
+        "두 사람은 사귀고 있나요?",
+        "두 사람은 실제로 사귀고 있나요?",
+        "둘이 사귀는 사이야?",
+        "두 사람은 사귀는 사이인가요?",
+        "두 사람은 서로 좋아하지만 사귀지는 않는 거야?",
+        "둘은 연인이야?"
+      ],
+      "minimum_stage": "INTRO",
+      "answer_kind": "INFO",
+      "approved_public_answer": "서로 호감이 있다는 것과 공식 교제 중이라는 것은 달라요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q005",
+      "question": "휘혈은 좋아하면서 왜 표현을 못 해?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "INTRO",
+      "answer_kind": "INFO",
+      "approved_public_answer": "마음을 꺼낸 뒤 상대가 어떻게 받아들일지 걱정하며 망설이는 사람이에요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q006",
+      "question": "휘혈은 하늘한테 부담 주기 싫어해?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "INTRO",
+      "answer_kind": "YES",
+      "approved_public_answer": "네. 심화 서사에서는 상대에게 대답을 강요하지 않으려는 마음이 있어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q007",
+      "question": "휘혈은 하늘도 자길 좋아하는 걸 알아?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "INTRO",
+      "answer_kind": "INFO",
+      "approved_public_answer": "그렇게 확신하지 못했어요. 실제 감정과 당사자의 믿음은 달라요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q008",
+      "question": "휘혈은 거절당했다고 생각해?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "INTRO",
+      "answer_kind": "YES",
+      "approved_public_answer": "네. 답이 없다고 느낀 일을 거절로 받아들였어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q009",
+      "question": "휘혈은 하늘이 자기를 싫어한다고 믿었어?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "INTRO",
+      "answer_kind": "INFO",
+      "approved_public_answer": "하늘이 자신을 거절했다고 오해한 적이 있어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q010",
+      "question": "휘혈은 2025년 운동장 약속을 알았어?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "FINALE",
+      "answer_kind": "NO",
+      "approved_public_answer": "아니요. 당시 그는 그 약속 자체를 알지 못했어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q011",
+      "question": "휘혈은 하늘 답장을 받았어?",
+      "aliases": [
+        "반휘혈은 답장을 받은 적이 있나요?"
+      ],
+      "minimum_stage": "FINALE",
+      "answer_kind": "NO",
+      "approved_public_answer": "아니요. 그 답장은 휘혈에게 전달되지 않았어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q012",
+      "question": "휘혈은 궁호에게 뭘 부탁했어?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "ACT2",
+      "answer_kind": "INFO",
+      "approved_public_answer": "고백 음성의 잡음 제거 작업을 부탁했어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q013",
+      "question": "휘혈이 음원 편집을 부탁했으니 방송 허락도 한 거야?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "ACT2",
+      "answer_kind": "NO",
+      "approved_public_answer": "아니요. 편집 요청과 공개 동의는 달라요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q014",
+      "question": "휘혈은 진술에서 왜 부인할까?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "ACT1",
+      "answer_kind": "INFO",
+      "approved_public_answer": "사적인 마음과 관련된 일을 공개적으로 인정하는 것을 피하고 있어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q015",
+      "question": "고백을 녹음한 사람은 휘혈이야?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "FINAL_IDENTITY",
+      "answer_kind": "SEALED",
+      "approved_public_answer": "고백 발신자의 실명은 /정답에 제출해 주세요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q016",
+      "question": "휘혈이 방송을 조작했어?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "FINAL_IDENTITY",
+      "answer_kind": "SEALED",
+      "approved_public_answer": "녹음자와 예약 목록을 바꾼 사람은 같은 개념이 아니에요. 실행자의 실명은 /정답에 제출해 주세요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q017",
+      "question": "방송 사고를 휘혈이 좋아했어?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "ACT1",
+      "answer_kind": "INFO",
+      "approved_public_answer": "개인 음성이 허락 없이 송출된 일에 당황했어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q018",
+      "question": "휘혈이 1년 동안 말 안 한 건 하늘 탓이야?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "INTRO",
+      "answer_kind": "INFO",
+      "approved_public_answer": "서로 다른 정보를 갖고 각자 침묵을 해석한 일이에요. 한 사람만의 악의로 설명되지 않아요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q019",
+      "question": "휘혈은 마지막에 어떻게 달라졌어?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "FINALE",
+      "answer_kind": "INFO",
+      "approved_public_answer": "상대의 마음을 추측하기보다 직접 묻고 대답을 기다리기로 해요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q020",
+      "question": "휘혈과 하늘은 정식 커플 확정이야?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "FINALE",
+      "answer_kind": "INFO",
+      "approved_public_answer": "두 사람이 직접 마음을 확인하고 함께 달을 보러 나가는 결말이에요. 추가 교제 설정은 확정되지 않았어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q021",
+      "question": "온하늘은 반휘혈을 좋아하나요?",
+      "aliases": [
+        "하늘 휘혈 좋아함?",
+        "하늘이가 휘혈이 좋아해?",
+        "온하늘 반휘혈 좋아해요?",
+        "하늘 마음이 휘혈한테 있는 거야?",
+        "하늘이는 휘혈한테 마음 있어?",
+        "하늘이는 휘혈이한테 마음 있어?",
+        "온하늘은 반휘혈에게 마음이 있나요?"
+      ],
+      "minimum_stage": "INTRO",
+      "answer_kind": "YES",
+      "approved_public_answer": "네. 하늘도 휘혈에게 마음이 있어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q022",
+      "question": "하늘이 지금도 휘혈을 좋아해?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "INTRO",
+      "answer_kind": "YES",
+      "approved_public_answer": "네. 결말에서 서로의 마음을 직접 확인해요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q023",
+      "question": "하늘은 휘혈을 친구로만 봤어?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "INTRO",
+      "answer_kind": "NO",
+      "approved_public_answer": "아니요. 휘혈에게 연애 감정이 있어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q024",
+      "question": "하늘은 휘혈과 원래 사귀었어?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "INTRO",
+      "answer_kind": "NO",
+      "approved_public_answer": "공식적으로 사귀었다는 설정은 없어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q025",
+      "question": "하늘은 휘혈이 자길 거절했다고 생각해?",
+      "aliases": [
+        "온하늘은 휘혈이 자신을 싫어한다고 생각했나요?"
+      ],
+      "minimum_stage": "INTRO",
+      "answer_kind": "YES",
+      "approved_public_answer": "네. 당시 상대의 부재를 거절로 받아들였어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q026",
+      "question": "하늘은 왜 개인적인 감정을 숨겨?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "INTRO",
+      "answer_kind": "INFO",
+      "approved_public_answer": "방송에서 말하는 것과 자기 사적인 마음을 드러내는 것은 다르기 때문이에요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q027",
+      "question": "하늘은 말을 잘하는데 왜 직접 못 물어봐?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "INTRO",
+      "answer_kind": "INFO",
+      "approved_public_answer": "공적인 안내에는 익숙해도 중요한 사적인 대답 앞에서는 조심스러운 사람이에요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q028",
+      "question": "하늘은 답장을 실제로 녹음했어?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "FINAL_IDENTITY",
+      "answer_kind": "SEALED",
+      "approved_public_answer": "과거 답장 녹음자 신원은 /정답에 제출해 주세요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q029",
+      "question": "하늘은 답장 전송 실패를 알았어?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "FINALE",
+      "answer_kind": "NO",
+      "approved_public_answer": "아니요. 당시에는 전송됐다고 믿었어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q030",
+      "question": "하늘은 왜 운동장에서 기다렸어?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "FINALE",
+      "answer_kind": "INFO",
+      "approved_public_answer": "녹음한 답장이 전달됐다고 믿고 약속 장소에 갔어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q031",
+      "question": "하늘은 휘혈이 답장을 들었다고 생각했어?",
+      "aliases": [
+        "온하늘은 답장을 보냈다고 생각했나요?"
+      ],
+      "minimum_stage": "FINALE",
+      "answer_kind": "YES",
+      "approved_public_answer": "네. 자신이 답장을 전했다고 믿었어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q032",
+      "question": "하늘이 처음 들었다는 말은 무슨 뜻이야?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "ACT1",
+      "answer_kind": "INFO",
+      "approved_public_answer": "방송에서 이어진 음성을 처음 들었다는 뜻이에요. 당시 개인 감정까지 설명한 말은 아니에요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q033",
+      "question": "하늘은 자신의 옛 목소리를 몰랐던 거야?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "FINALE",
+      "answer_kind": "NO",
+      "approved_public_answer": "아니요. 자신이 녹음했던 일과 이번에 방송된 파일의 출처는 다른 문제예요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q034",
+      "question": "하늘은 자기 목소리 방송을 허락했어?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "ACT1",
+      "answer_kind": "NO",
+      "approved_public_answer": "아니요. 개인 녹음의 공개에 동의한 것은 아니에요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q035",
+      "question": "하늘이 방송을 멈춘 건 범행 은폐야?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "ACT1",
+      "answer_kind": "INFO",
+      "approved_public_answer": "무단으로 공개된 자기 목소리를 중단해 달라는 요청이 곧 범행 증거는 아니에요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q036",
+      "question": "하늘은 차갑고 무감정한 사람이야?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "INTRO",
+      "answer_kind": "NO",
+      "approved_public_answer": "아니요. 감정이 클수록 말을 더 신중하고 또렷하게 고르는 인물로 설계했어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q037",
+      "question": "하늘은 세리에게 편해해?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "INTRO",
+      "minimum_episode": 10,
+      "answer_kind": "INFO",
+      "approved_public_answer": "네. 태어났을 때부터 함께한 소꿉친구라 서로 편안해해요.",
+      "feature_flag": "enable_seri_haneul_childhood"
+    },
+    {
+      "id": "V4Q038",
+      "question": "하늘은 세리를 연애적으로 좋아해?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "INTRO",
+      "answer_kind": "INFO",
+      "approved_public_answer": "하늘이 세리에게 연애 감정을 갖고 있다는 설정은 확정되지 않았어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q039",
+      "question": "하늘은 마지막에 직접 답했어?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "FINALE",
+      "answer_kind": "YES",
+      "approved_public_answer": "네. 자기 말로 직접 마음을 전해요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q040",
+      "question": "하늘은 세리를 이미 용서했나요?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "FINALE",
+      "answer_kind": "INFO",
+      "approved_public_answer": "사과는 있지만 즉각적인 용서 여부는 확정되지 않았어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q041",
+      "question": "차세리는 온하늘을 좋아하나요?",
+      "aliases": [
+        "차세리는 하늘을 좋아하나요?",
+        "세리는 하늘을 좋아해?",
+        "세리가 하늘이 아껴?",
+        "차세리는 온하늘을 아끼나요?",
+        "차세리가 온하늘을 소중히 여기나요?",
+        "세리는 하늘을 아끼나요?"
+      ],
+      "minimum_stage": "INTRO",
+      "answer_kind": "YES",
+      "approved_public_answer": "네. 세리에게 하늘은 누구보다 소중한 사람이에요. 세리는 하늘을 오래도록 아껴 왔어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q042",
+      "question": "세리는 하늘을 친구로만 생각해?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "INTRO",
+      "minimum_episode": 12,
+      "answer_kind": "NO",
+      "approved_public_answer": "아니요. 친구로서의 마음을 넘어선 감정도 있어요.",
+      "feature_flag": "enable_seri_haneul_romantic_crush"
+    },
+    {
+      "id": "V4Q043",
+      "question": "세리는 휘혈을 좋아해?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "INTRO",
+      "answer_kind": "INFO",
+      "approved_public_answer": "세리가 휘혈에게 연애 감정을 갖고 있다는 설정은 없어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q044",
+      "question": "세리와 하늘은 소꿉친구야?",
+      "aliases": [
+        "세리와 하늘은 소꿉친구인가요?",
+        "차세리와 온하늘은 소꿉친구인가요?",
+        "세리랑 하늘은 어릴 때부터 친구야?"
+      ],
+      "minimum_stage": "INTRO",
+      "minimum_episode": 10,
+      "answer_kind": "YES",
+      "approved_public_answer": "네. 두 사람은 태어났을 때부터 함께 자란 소꿉친구예요.",
+      "feature_flag": "enable_seri_haneul_childhood"
+    },
+    {
+      "id": "V4Q045",
+      "question": "세리는 하늘이 휘혈을 좋아하는 걸 알아?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "INTRO",
+      "answer_kind": "INFO",
+      "approved_public_answer": "두 사람의 마음을 유심히 지켜보지만, 그 관계의 선택권까지 가진 것은 아니에요.",
+      "feature_flag": "enable_seri_haneul_romantic_crush"
+    },
+    {
+      "id": "V4Q046",
+      "question": "세리는 마음을 고백하는 게 두려워?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "INTRO",
+      "answer_kind": "YES",
+      "approved_public_answer": "네. 남의 사연을 쓰는 데 익숙하지만 자기 마음은 쉽게 말하지 못해요.",
+      "feature_flag": "enable_seri_haneul_romantic_crush"
+    },
+    {
+      "id": "V4Q047",
+      "question": "세리는 왜 남의 문제에 끼어들어?",
+      "aliases": [
+        "차세리는 왜 두 사람의 오해를 해결하고 싶었나요?",
+        "세리는 왜 두 사람의 오해를 풀고 싶었어?",
+        "세리는 왜 둘을 도와준 거야?",
+        "차세리는 왜 두 사람을 도왔나요?",
+        "세리는 왜 두 사람 일에 나섰어?"
+      ],
+      "minimum_stage": "INTRO",
+      "answer_kind": "INFO",
+      "approved_public_answer": "두 사람의 오래된 오해를 끝내고 싶어 했기 때문이에요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q048",
+      "question": "세리는 하늘이 행복했으면 좋겠어?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "INTRO",
+      "answer_kind": "YES",
+      "approved_public_answer": "네. 하늘과 휘혈이 오해에서 벗어나기를 바라는 마음이 있어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q049",
+      "question": "세리가 질투 때문에 하늘을 망신주려 했어?",
+      "aliases": [
+        "차세리는 휘혈을 질투했나요?",
+        "차세리는 휘혈을 질투하나요?",
+        "세리는 휘혈을 질투해서 방송을 조작했어?",
+        "세리가 질투해서 방송을 조작했나요?"
+      ],
+      "minimum_stage": "INTRO",
+      "answer_kind": "NO",
+      "approved_public_answer": "그런 동기로 설정되지 않았어요. 그녀의 선택은 따로 검토해야 해요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q050",
+      "question": "세리는 휘혈과 하늘이 이어지는 게 싫어?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "INTRO",
+      "answer_kind": "INFO",
+      "approved_public_answer": "두 사람을 갈라놓으려 한다는 설정은 없어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q051",
+      "question": "세리는 2025년 당시 답장 실패를 알고 있었어?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "ACT3",
+      "answer_kind": "INFO",
+      "approved_public_answer": "2025년 그 시점에 알았다는 근거는 없어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q052",
+      "question": "세리가 발견한 파일이 무엇과 연결돼?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "ACT4",
+      "answer_kind": "INFO",
+      "approved_public_answer": "서로 다른 시기의 녹음이 한 방송에 이어진 경위를 조사해 보세요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q053",
+      "question": "세리가 예약 목록을 바꾼 범인이야?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "FINAL_IDENTITY",
+      "answer_kind": "SEALED",
+      "approved_public_answer": "조작 실행자 실명은 /정답에 제출해 주세요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q054",
+      "question": "세리가 왜 그랬어?",
+      "aliases": [
+        "차세리는 왜 방송을 조작했나요?"
+      ],
+      "minimum_stage": "FINALE",
+      "answer_kind": "INFO",
+      "approved_public_answer": "1년간 풀리지 않은 오해를 끝내려 했지만 사적인 음성을 공개할 권리는 없었어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q055",
+      "question": "좋은 마음으로 한 일이니까 세리는 잘못이 없어?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "INTRO",
+      "answer_kind": "INFO",
+      "approved_public_answer": "좋은 의도와 상대의 사적인 음성을 동의 없이 공개한 책임은 달라요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q056",
+      "question": "세리가 궁호에게 같이 하자고 부탁했어?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "ACT2",
+      "answer_kind": "INFO",
+      "approved_public_answer": "두 사람이 송출 조작을 공모했다는 설정은 없어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q057",
+      "question": "세리는 미안해했어?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "FINALE",
+      "answer_kind": "YES",
+      "approved_public_answer": "네. 자신이 정할 일이 아니었다고 인정하고 사과해요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q058",
+      "question": "세리는 결국 하늘에게 고백해?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "FINALE",
+      "answer_kind": "INFO",
+      "approved_public_answer": "세리 자신의 고백 여부는 본편에서 확정되지 않았어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q059",
+      "question": "세리는 혼자 남아 벌받아야 해?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "FINALE",
+      "answer_kind": "INFO",
+      "approved_public_answer": "사과와 책임은 분명하지만, 이후 인간관계를 단정하는 결말은 확정되지 않았어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q060",
+      "question": "세리의 성적 지향이 정해져 있어?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "INTRO",
+      "answer_kind": "INFO",
+      "approved_public_answer": "특정 사람을 향한 감정과 인물의 성적 지향 명명은 별개예요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q061",
+      "question": "남궁호는 온하늘을 좋아해?",
+      "aliases": [
+        "남궁호도 하늘을 좋아했어?",
+        "궁호가 하늘 짝사랑했어?",
+        "남궁호는 온하늘을 짝사랑했나요?",
+        "궁호는 하늘을 좋아했나요?"
+      ],
+      "minimum_stage": "INTRO",
+      "minimum_episode": 9,
+      "answer_kind": "YES",
+      "approved_public_answer": "네. 궁호는 하늘을 오래 좋아해 왔어요. 다만 이 마음은 방송 사고와는 별개이고, 궁호가 고백을 송출한 사람이라는 뜻은 아니에요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q062",
+      "question": "궁호가 세리를 짝사랑해?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "INTRO",
+      "answer_kind": "NO",
+      "approved_public_answer": "그런 연애 감정은 현재 설정에 없어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q063",
+      "question": "궁호는 휘혈과 연애 라이벌이야?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "INTRO",
+      "minimum_episode": 9,
+      "answer_kind": "INFO",
+      "approved_public_answer": "궁호에게도 하늘을 향한 마음이 있었지만, 두 사람을 노골적인 연애 경쟁 구도로 그리지는 않아요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q064",
+      "question": "궁호는 감정이 없는 사람이야?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "INTRO",
+      "answer_kind": "NO",
+      "approved_public_answer": "아니요. 감정과 확인 가능한 기록을 섞지 않으려는 사람이에요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q065",
+      "question": "궁호는 왜 기록을 그렇게 중요하게 여겨?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "INTRO",
+      "answer_kind": "INFO",
+      "approved_public_answer": "한 사람에게 없는 책임을 씌우지 않으려 행동과 시간을 정확히 구분해요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q066",
+      "question": "궁호는 답장 파일을 발견하고 왜 바로 전달 안 했어?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "FINALE",
+      "answer_kind": "INFO",
+      "approved_public_answer": "남의 사적인 녹음을 임의로 전달해도 되는지 확신할 수 없었기 때문이에요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q067",
+      "question": "궁호는 2025년 답장 전송 장애를 눈앞에서 봤어?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "ACT3",
+      "answer_kind": "INFO",
+      "approved_public_answer": "당시 장애를 직접 목격했는지는 확정되지 않았어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q068",
+      "question": "궁호가 방송을 조작한 사람이지?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "FINAL_IDENTITY",
+      "answer_kind": "SEALED",
+      "approved_public_answer": "기술 편집과 예약 목록 조작은 다른 행동이에요. 실행자 실명은 /정답으로 제출해 주세요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q069",
+      "question": "궁호가 고백 파일 편집했어?",
+      "aliases": [
+        "남궁호는 음성을 편집했나요?"
+      ],
+      "minimum_stage": "ACT2",
+      "answer_kind": "YES",
+      "approved_public_answer": "네. 소음 제거를 위한 편집 작업을 했어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q070",
+      "question": "궁호가 20시 55분에 뭘 했어?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "ACT2",
+      "answer_kind": "INFO",
+      "approved_public_answer": "일반 오프닝의 음량을 확인했어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q071",
+      "question": "음량 조절하면 예약 목록도 바뀌어?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "ACT2",
+      "answer_kind": "NO",
+      "approved_public_answer": "아니요. 서로 다른 기능이에요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q072",
+      "question": "궁호가 파일 편집했으니까 송출 허락받은 거야?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "ACT2",
+      "answer_kind": "NO",
+      "approved_public_answer": "아니요. 편집 업무 위탁은 방송 공개 동의가 아니에요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q073",
+      "question": "궁호는 실수 하나도 없었어?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "INTRO",
+      "answer_kind": "INFO",
+      "approved_public_answer": "그가 맡은 작업과 파일 보관의 책임은 구분해서 확인해야 해요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q074",
+      "question": "궁호는 파일을 공용 폴더에 둔 잘못을 인정해?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "ACT2",
+      "answer_kind": "YES",
+      "approved_public_answer": "네. 편집본을 공용 폴더에 둔 점은 그의 책임 범위예요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q075",
+      "question": "궁호와 세리가 같이 짰어?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "ACT4",
+      "answer_kind": "INFO",
+      "approved_public_answer": "공용 폴더를 통해 파일이 이어졌다는 사실만으로 공모가 성립하지 않아요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q076",
+      "question": "궁호가 하늘 답장을 삭제했어?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "ACT3",
+      "answer_kind": "INFO",
+      "approved_public_answer": "궁호가 과거 답장을 삭제하거나 전송 장애를 일으켰다는 근거는 없어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q077",
+      "question": "궁호는 옛 답장을 안 전한 걸 후회해?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "ACT3",
+      "answer_kind": "INFO",
+      "approved_public_answer": "그때의 미전달 선택을 어떻게 평가했는지는 완전히 확정되지 않았어요. 파일 관리에 대한 책임은 인정해요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q078",
+      "question": "궁호와 휘혈은 서로 믿어?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "INTRO",
+      "answer_kind": "INFO",
+      "approved_public_answer": "휘혈이 음성 편집 작업을 맡겼다는 범위에서 작업 신뢰가 있어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q079",
+      "question": "마지막으로 PC 만진 사람이 범인인가요?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "ACT2",
+      "answer_kind": "INFO",
+      "approved_public_answer": "마지막 접속만으로 예약 목록을 수정한 사람을 특정할 수 없어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q080",
+      "question": "궁호는 마지막에 뭘 인정해?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "FINALE",
+      "answer_kind": "INFO",
+      "approved_public_answer": "자신이 편집본을 공용 폴더에 둔 책임을 인정하지만 예약 목록은 바꾸지 않았다고 밝혀요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q081",
+      "question": "휘혈과 하늘 둘이 서로 좋아해?",
+      "aliases": [
+        "둘은 서로 좋아하나요?",
+        "둘이 쌍방이야?",
+        "두 사람은 서로 좋아하나요?",
+        "두 사람은 서로 좋아해?",
+        "둘이 서로 좋아해?",
+        "휘혈이랑 하늘이 쌍방이야?",
+        "휘혈과 하늘은 쌍방이야?",
+        "두 사람 서로 마음이 있나요?"
+      ],
+      "minimum_stage": "INTRO",
+      "answer_kind": "YES",
+      "approved_public_answer": "네. 두 사람 모두 서로에게 마음이 있어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q082",
+      "question": "둘 다 짝사랑이면 왜 사귀지 않았어?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "INTRO",
+      "answer_kind": "INFO",
+      "approved_public_answer": "서로 호감이 있는 것과 상대의 마음을 확신하는 것은 달랐어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q083",
+      "question": "좋아하는데도 둘 다 포기했어?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "INTRO",
+      "answer_kind": "INFO",
+      "approved_public_answer": "마음이 완전히 사라졌기보다 상대가 거절했다고 오해한 시간이 있어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q084",
+      "question": "하늘과 휘혈이 서로 싫어하게 된 거야?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "INTRO",
+      "answer_kind": "NO",
+      "approved_public_answer": "서로 미워해서 생긴 사건이라고 설정되지 않았어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q085",
+      "question": "세리와 하늘이 연인이야?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "INTRO",
+      "answer_kind": "INFO",
+      "approved_public_answer": "오래된 친밀함과 연애 관계는 구분해야 해요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q086",
+      "question": "휘혈과 세리도 사귀어?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "INTRO",
+      "answer_kind": "NO",
+      "approved_public_answer": "두 사람이 연인이라는 설정은 없어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q087",
+      "question": "궁호와 세리는 비밀 커플이야?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "INTRO",
+      "answer_kind": "NO",
+      "approved_public_answer": "그런 연애 관계는 설정되지 않았어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q088",
+      "question": "누가 누구를 좋아하는지 전부 알려줘",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "INTRO",
+      "answer_kind": "INFO",
+      "approved_public_answer": "확인된 감정은 휘혈과 하늘의 상호 호감이에요. 세리의 추가 감정은 승인된 심화 설정에 따라 달라져요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q089",
+      "question": "세리에게 하늘은 어떤 사람이야?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "INTRO",
+      "answer_kind": "INFO",
+      "approved_public_answer": "심화 서사에서 세리는 하늘을 오래 아끼고 말하지 못한 마음을 품고 있어요.",
+      "feature_flag": "enable_seri_haneul_romantic_crush"
+    },
+    {
+      "id": "V4Q090",
+      "question": "하늘이 세리를 좋아하니?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "INTRO",
+      "answer_kind": "INFO",
+      "approved_public_answer": "친구로서의 친밀함과 연애 감정은 다른 질문이에요. 하늘의 세리 대상 연애 감정은 확정되지 않았어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q091",
+      "question": "두 사람은 왜 같은 약속을 기억 못 해?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "FINALE",
+      "answer_kind": "INFO",
+      "approved_public_answer": "하늘은 약속을 보냈다고 믿었고 휘혈은 전달받지 못했기 때문이에요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q092",
+      "question": "휘혈이 바람맞힌 거야?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "FINALE",
+      "answer_kind": "INFO",
+      "approved_public_answer": "휘혈은 운동장 약속을 몰랐어요. 의도적으로 바람맞혔다고 볼 수 없어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q093",
+      "question": "하늘이 읽씹 당한 거야?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "FINALE",
+      "answer_kind": "INFO",
+      "approved_public_answer": "답장이 전달되지 않은 상황을 일부러 무시당한 것으로 단정하면 안 돼요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q094",
+      "question": "휘혈은 답장 소리를 몰랐어?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "FINALE",
+      "answer_kind": "INFO",
+      "approved_public_answer": "2025년에는 그 답장을 전달받지 못했어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q095",
+      "question": "방송에 두 소리가 연달아 나온 이유는 뭔가요?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "ACT1",
+      "answer_kind": "INFO",
+      "approved_public_answer": "두 개의 파일이 이어져 방송됐어요. 편성한 사람이 누구인지는 /정답으로 제출해 주세요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q096",
+      "question": "두 녹음은 같은 날 만든 거야?",
+      "aliases": [
+        "고백 파일과 과거 답장은 같은 파일인가요?"
+      ],
+      "minimum_stage": "ACT3",
+      "answer_kind": "NO",
+      "approved_public_answer": "아니요. 두 음성은 서로 다른 시기에 녹음된 파일이에요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q097",
+      "question": "당사자 둘 다 방송 공개를 허락했어?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "ACT1",
+      "answer_kind": "INFO",
+      "approved_public_answer": "개인적인 녹음의 방송 공개에 동의한 것은 아니에요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q098",
+      "question": "좋아하는 사람 위해서면 뭘 해도 돼?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "INTRO",
+      "answer_kind": "INFO",
+      "approved_public_answer": "누군가의 행복을 바라더라도 그의 선택권을 대신 사용할 수는 없어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q099",
+      "question": "말 안 한 게 다들 잘못이야?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "INTRO",
+      "answer_kind": "INFO",
+      "approved_public_answer": "말하지 못한 이유는 서로 달라요. 감정의 미숙함과 무단 공개라는 행동 책임도 구분해야 해요.",
+      "feature_flag": null
+    },
+    {
+      "id": "V4Q100",
+      "question": "이 사건은 사실 해피엔딩이야?",
+      "aliases": [
+        null
+      ],
+      "minimum_stage": "FINALE",
+      "answer_kind": "INFO",
+      "approved_public_answer": "두 사람은 직접 마음을 확인하지만 사적 음성이 공개된 피해와 사과의 문제까지 자동으로 사라지는 건 아니에요.",
+      "feature_flag": null
+    },
+    {
+      "id": "CQ-REJECT-ACTUAL",
+      "question": "온하늘은 반휘혈을 실제로 거절했나요?",
+      "aliases": [
+        "온하늘은 반휘혈을 거절했나요?"
+      ],
+      "minimum_stage": "INTRO",
+      "answer_kind": "NO",
+      "approved_public_answer": "아니요. 서로 마음은 있었지만 상대가 자신을 거절했다고 오해했어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "CQ-NAM-REC",
+      "question": "남궁호는 고백을 녹음했나요?",
+      "aliases": [
+        "남궁호가 고백을 녹음했어?"
+      ],
+      "minimum_stage": "FINAL_IDENTITY",
+      "answer_kind": "SEALED",
+      "approved_public_answer": "고백 발신자의 실명은 /정답에 제출해 주세요.",
+      "feature_flag": null
+    },
+    {
+      "id": "CQ-SAME-PERSON",
+      "question": "고백 발신자와 송출 범인은 같은 사람인가요?",
+      "aliases": [],
+      "minimum_stage": "FINALE",
+      "answer_kind": "NO",
+      "approved_public_answer": "아니요. 고백을 녹음한 사람과 예약 목록을 수정한 사람은 달라요.",
+      "feature_flag": null
+    },
+    {
+      "id": "CQ-DELIVERY-CAUSE",
+      "question": "2025년 답장이 전달되지 않은 이유는 무엇인가요?",
+      "aliases": [],
+      "minimum_stage": "ACT3",
+      "answer_kind": "INFO",
+      "approved_public_answer": "답장이 정상 전송되지 않은 사실은 확인됐지만, 그보다 구체적인 기술 원인은 확정되지 않았어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "CQ-MISUNDERSTAND-CAUSE",
+      "question": "두 사람이 서로 거절했다고 오해한 이유는 무엇인가요?",
+      "aliases": [],
+      "minimum_stage": "FINALE",
+      "answer_kind": "INFO",
+      "approved_public_answer": "하늘은 답장을 전했다고 믿었고 휘혈은 받지 못했어요. 같은 침묵을 서로의 거절로 다르게 해석했습니다.",
+      "feature_flag": null
+    },
+    {
+      "id": "CQ-NAM-REPLY-EXISTS",
+      "question": "남궁호는 답장 파일이 있다는 걸 알았나요?",
+      "aliases": [
+        "남궁호는 과거 답장 파일의 존재를 알고 있었나요?",
+        "궁호는 답장 파일이 있다는 걸 알았어?"
+      ],
+      "minimum_stage": "ACT3",
+      "answer_kind": "YES",
+      "approved_public_answer": "네. 궁호는 나중에 백업에서 과거 답장 파일의 존재를 알게 됐어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "CQ-NAM-DELIVERY-KNOW",
+      "question": "남궁호는 답장이 전달되지 않은 걸 알았나요?",
+      "aliases": [
+        "궁호는 답장이 전달되지 않은 사실을 알았어?",
+        "남궁호는 답장 전송이 실패한 걸 알고 있었나요?"
+      ],
+      "minimum_stage": "ACT3",
+      "answer_kind": "YES",
+      "approved_public_answer": "네. 궁호는 그 답장이 제대로 전달되지 않았다는 것을 알고 있었어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "CQ-NAM-KNOW-FEELINGS",
+      "question": "남궁호는 두 사람의 감정을 알고 있었나요?",
+      "aliases": [
+        "궁호는 두 사람의 마음을 알고 있었어?",
+        "남궁호는 두 사람이 서로 좋아하는 걸 알았나요?",
+        "궁호는 하늘이 휘혈을 좋아한다는 걸 알았어?"
+      ],
+      "minimum_stage": "ACT3",
+      "answer_kind": "INFO",
+      "approved_public_answer": "궁호는 과거 답장 파일의 존재는 알고 있었어요. 다만 두 사람의 마음을 모두 알고 있었다고 단정할 근거는 없어요. 그는 감정보다 확인 가능한 기록으로 말하는 사람이에요.",
+      "feature_flag": null
+    },
+    {
+      "id": "CQ-NAM-REPLY-MEANING",
+      "question": "남궁호는 과거 답장의 의미를 이해하고 있었나요?",
+      "aliases": [
+        "궁호는 그 답장이 무슨 뜻인지 알았어?",
+        "남궁호는 답장의 의미를 이해했나요?"
+      ],
+      "minimum_stage": "ACT3",
+      "answer_kind": "INFO",
+      "approved_public_answer": "궁호는 답장 파일의 존재와 그것이 전달되지 못했다는 사실은 알았어요. 하지만 그 답장의 의미까지 온전히 이해하고 있었는지는 확정된 자료로 말할 수 없어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "CQ-SERI-CHILDHOOD-WHEN",
+      "question": "세리와 하늘은 언제부터 알고 지냈어?",
+      "aliases": [
+        "차세리와 온하늘은 언제부터 알고 지냈나요?",
+        "두 사람은 언제부터 알던 사이야?",
+        "세리랑 하늘은 언제부터 친구야?"
+      ],
+      "minimum_stage": "INTRO",
+      "minimum_episode": 10,
+      "answer_kind": "INFO",
+      "approved_public_answer": "태어났을 때부터 함께 자란 소꿉친구예요.",
+      "feature_flag": "enable_seri_haneul_childhood"
+    },
+    {
+      "id": "CQ-SERI-BOTH-LOVE",
+      "question": "세리는 하늘을 친구로도 연인으로도 좋아해?",
+      "aliases": [
+        "세리가 하늘을 좋아하는 건 우정이야?",
+        "세리는 하늘을 우정으로만 좋아해?",
+        "차세리의 감정은 우정인가요 연애인가요?"
+      ],
+      "minimum_stage": "INTRO",
+      "minimum_episode": 12,
+      "answer_kind": "YES",
+      "approved_public_answer": "우정뿐 아니라 연애 감정도 함께 가지고 있어요. 오래된 소꿉친구로서의 애정과, 자각한 연애 감정이 같이 있어요.",
+      "feature_flag": "enable_seri_haneul_romantic_crush"
+    },
+    {
+      "id": "CQ-SERI-REALIZE-WHEN",
+      "question": "세리는 언제부터 하늘을 좋아했어?",
+      "aliases": [
+        "세리는 언제부터 자신의 연애 감정을 알았나요?",
+        "차세리는 언제부터 하늘에게 연애 감정을 느꼈어?",
+        "세리가 하늘을 연애로 좋아한 건 언제부터야?"
+      ],
+      "minimum_stage": "INTRO",
+      "minimum_episode": 12,
+      "answer_kind": "INFO",
+      "approved_public_answer": "소꿉친구로서의 애정은 태어날 때부터였지만, 연인으로서의 마음을 자각한 건 2년쯤 전이에요.",
+      "feature_flag": "enable_seri_haneul_romantic_crush"
+    },
+    {
+      "id": "CQ-HANEUL-RETURN-SERI",
+      "question": "온하늘도 차세리를 연애 감정으로 좋아하나요?",
+      "aliases": [
+        "하늘도 세리를 연애로 좋아해?",
+        "온하늘도 세리에게 연애 감정이 있나요?",
+        "하늘이도 세리를 좋아해?"
+      ],
+      "minimum_stage": "INTRO",
+      "minimum_episode": 12,
+      "answer_kind": "INFO",
+      "approved_public_answer": "온하늘이 세리의 마음에 화답하는지는 현재 확정된 설정만으로는 단정할 수 없어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "CQ-SERI-MOTIVE-NOT-LOVE",
+      "question": "차세리는 하늘을 좋아해서 방송을 조작했어?",
+      "aliases": [
+        "세리가 하늘을 좋아해서 방송을 조작했나요?",
+        "차세리는 질투 때문에 방송을 조작했나요?",
+        "세리는 하늘을 좋아해서 사건을 벌인 거야?"
+      ],
+      "minimum_stage": "INTRO",
+      "answer_kind": "INFO",
+      "approved_public_answer": "세리가 하늘을 아끼는 마음은 있었지만, 사건의 동기는 질투나 연애 감정이 아니라 두 사람의 오래된 오해를 풀려던 것이었어요.",
+      "feature_flag": null
+    },
+    {
+      "id": "CQ-SERI-ROMANTIC",
+      "question": "세리는 하늘을 연애 감정으로 좋아하나요?",
+      "aliases": [
+        "차세리는 온하늘을 연애 감정으로 좋아하나요?",
+        "세리는 하늘을 짝사랑하나요?",
+        "차세리는 온하늘을 짝사랑했나요?",
+        "세리는 하늘을 이성으로 좋아해?",
+        "세리는 하늘한테 연애 감정이 있어?"
+      ],
+      "minimum_stage": "INTRO",
+      "minimum_episode": 12,
+      "answer_kind": "YES",
+      "approved_public_answer": "네. 세리에게는 소꿉친구로서의 애정과 함께, 오래 말하지 못한 연애 감정도 있어요.",
+      "feature_flag": "enable_seri_haneul_romantic_crush"
+    }
+  ]
+}

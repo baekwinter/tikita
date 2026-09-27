@@ -28,6 +28,9 @@ class Verdict(str, Enum):
     NEGATIVE_FORM = "NEGATIVE_FORM"
     UNCONFIRMED = "UNCONFIRMED"
     NO_RECORD = "NO_RECORD"
+    INFO = "INFO"
+    SEALED = "SEALED"
+    CLARIFY = "CLARIFY"  # 질문 대상/의미가 불분명 → 구체적으로 되물음
 
 
 VERDICT_LABEL = {
@@ -39,6 +42,9 @@ VERDICT_LABEL = {
     Verdict.NEGATIVE_FORM: "질문을 조금 더 구체적으로 해주세요.",
     Verdict.UNCONFIRMED: "질문을 조금 더 구체적으로 해주세요.",
     Verdict.NO_RECORD: "방송부 기록에는 없는 내용이에요.",
+    Verdict.INFO: "확인된 정보",
+    Verdict.SEALED: "최종 추리 항목",
+    Verdict.CLARIFY: "질문을 조금 더 구체적으로 해주세요.",
 }
 
 VERDICT_HINT = {
@@ -47,6 +53,7 @@ VERDICT_HINT = {
     Verdict.UNCONFIRMED: "방송부가 아직 확인하지 못한 방향의 질문이에요. 다른 방향으로 질문해 보세요.",
     Verdict.UNRELEASED: "다음 회차가 공개된 뒤에 다시 물어봐 주세요.",
     Verdict.NO_RECORD: "사건 해결에 필요한 질문이 아닐 수 있어요. 녹음·고백 상대·송출에 관한 질문을 해 보세요.",
+    Verdict.SEALED: "실명 정답은 여기서 맞고 틀림을 확인하지 않습니다.",
 }
 
 # 부정 표현. '허락 없이' 같은 무단 개념은 개념 추출 단계에서 먼저 소거되므로 여기서 걸리지 않는다.
@@ -130,7 +137,8 @@ class AskResult:
     @property
     def counts_toward_limit(self) -> bool:
         """해석하지 못한 질문은 질문 횟수에서 차감하지 않는다."""
-        return self.verdict in {Verdict.YES, Verdict.NO, Verdict.IRRELEVANT, Verdict.UNRELEASED}
+        return self.verdict in {Verdict.YES, Verdict.NO, Verdict.IRRELEVANT, Verdict.INFO,
+                                Verdict.SEALED, Verdict.UNRELEASED}
 
 
 class QuestionBank:

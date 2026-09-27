@@ -49,6 +49,8 @@
     "daily_limit": 30,
     "duplicate_window_minutes": 30,
     "answer_unconfirmed": false,
+    "enable_seri_haneul_romantic_crush": true,
+    "enable_seri_haneul_childhood": true,
     "public_answers": false
   },
   "theory": {

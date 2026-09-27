@@ -12,6 +12,7 @@ from datetime import datetime, timedelta
 from typing import Any, Callable
 
 from .config import BOT_NAME, GAME_TITLE, Config, DATA_DIR, load_json
+from .character_questions import CharacterQuestionBank, normalize_character_question
 from .database import Database, utcnow
 from .evidence import Catalog
 from .questions import AskResult, Question, QuestionBank, Verdict
@@ -84,6 +85,7 @@ class GameService:
         self.db = db
         self.catalog = catalog
         self.bank = bank
+        self.character_bank = CharacterQuestionBank.load()
         self.rewards = rewards
         self.final_key = final_key or FinalKey.load()
         self.ai_pick = ai_pick
@@ -195,7 +197,8 @@ class GameService:
             wait = cooldown - int((now - last).total_seconds())
             raise GameError("cooldown", f"방송부가 기록을 정리하는 중입니다. {wait}초 뒤에 다시 질문해 주세요.", wait=wait)
 
-        normalized = self.bank.parse(text).normalized
+        character_item = self.character_bank.match(text)
+        normalized = normalize_character_question(text) if character_item else self.bank.parse(text).normalized
         window = timedelta(minutes=int(qs.get("duplicate_window_minutes", 30)))
         duplicate = self.db.recent_same_question(user_id, normalized, now - window) is not None
 
@@ -205,8 +208,38 @@ class GameService:
 
         cur = self.current_episode
         unconfirmed = bool(qs.get("answer_unconfirmed", False))
-        if self.ai_pick is not None:
-            result: AskResult = await asyncio.to_thread(self.bank.ask, text, cur, unconfirmed, self.ai_pick)
+        if character_item:
+            flags = set()
+            for flag in ("enable_seri_haneul_romantic_crush", "enable_seri_haneul_childhood"):
+                if bool(qs.get(flag, False)):
+                    flags.add(flag)
+            character_answer = self.character_bank.answer(
+                text,
+                set(self.released_evidence_ids()),
+                self.db.is_posted("ending"),
+                flags,
+                current_episode=cur,
+            )
+            assert character_answer is not None
+            verdict = {
+                "YES": Verdict.YES,
+                "NO": Verdict.NO,
+                "INFO": Verdict.INFO,
+                "UNKNOWN": Verdict.UNCONFIRMED,
+                "SEALED": Verdict.SEALED,
+                "UNRELEASED": Verdict.UNRELEASED,
+                "CLARIFY": Verdict.CLARIFY,
+            }[character_answer.kind]
+            result = AskResult(
+                verdict,
+                question_id=character_answer.question_id,
+                canonical=character_answer.canonical,
+                response_text=character_answer.response_text,
+                normalized=normalized,
+                via="character-v4",
+            )
+        elif self.ai_pick is not None:
+            result = await asyncio.to_thread(self.bank.ask, text, cur, unconfirmed, self.ai_pick)
         else:
             result = self.bank.ask(text, cur, unconfirmed)
 
@@ -225,8 +258,12 @@ class GameService:
             ev = self.catalog.evidence[result.related_evidence]
             related = {"id": ev.evidence_id, "title": ev.title}
 
-        answered = result.verdict in {Verdict.YES, Verdict.NO, Verdict.IRRELEVANT}
+        answered = result.verdict in {Verdict.YES, Verdict.NO, Verdict.IRRELEVANT, Verdict.INFO,
+                                      Verdict.SEALED, Verdict.UNCONFIRMED}
         hint = result.hint
+        # CLARIFY: 질문 대상/의미가 불분명. 항목의 구체적 안내를 그대로 전달한다.
+        if result.verdict == Verdict.CLARIFY and result.response_text:
+            hint = result.response_text
         suggestions = result.extra.get("suggestions") or []
         if suggestions:
             hint += "\n이런 질문은 답할 수 있어요: " + " / ".join(suggestions)
@@ -268,7 +305,18 @@ class GameService:
             "SELECT DISTINCT question_id FROM question_log WHERE user_id=? AND question_id IS NOT NULL "
             "AND result IN ('YES', 'NO', 'IRRELEVANT')", (user_id,))
         asked = {r["question_id"] for r in rows}
+        # v4 공개 질문은 기존 관계도 식별자를 재사용해 과거 질문 이력과 함께 보인다.
+        v4_relation_bridge = {
+            "V4Q001": "Q-LOVE",
+            "V4Q021": "Q-HANEUL-LOVE",
+            "V4Q081": "Q-MUTUAL",
+            "V4Q041": "Q-SERI-LOVE-HANEUL",
+            "V4Q069": "Q-NAM-EDIT",
+        }
+        asked |= {legacy for modern, legacy in v4_relation_bridge.items() if modern in asked}
         relations = [r for r in data["relations"] if r["question_id"] in self.bank.questions]
+        if not self.cfg.section("questions").get("enable_seri_haneul_romantic_crush", False):
+            relations = [r for r in relations if r["question_id"] != "Q-SERI-LOVE-HANEUL"]
         found = [r for r in relations if r["question_id"] in asked]
         return {
             "characters": data["characters"],
@@ -278,6 +326,21 @@ class GameService:
             "hidden_by_character": {c: sum(1 for r in relations if r["from"] == c and r not in found)
                                     for c in data["characters"]},
         }
+
+    def character_public(self, name: str) -> dict[str, Any] | None:
+        data = load_json(DATA_DIR / "public_characters.json")
+        profile = data["characters"].get(name)
+        return {"name": name, **profile} if profile else None
+
+    def relationship_public(self, first: str, second: str) -> dict[str, Any] | None:
+        if first == second:
+            return None
+        data = load_json(DATA_DIR / "public_characters.json")
+        wanted = {first, second}
+        for row in data["relationships"]:
+            if set(row["people"]) == wanted:
+                return row
+        return None
 
     # ---- 증거 -------------------------------------------------------------
     def evidence_board(self, user_id: int | None = None) -> list[dict[str, Any]]:

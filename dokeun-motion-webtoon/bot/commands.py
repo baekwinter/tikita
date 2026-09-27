@@ -65,6 +65,31 @@ def register_commands(bot: "DalbitBot") -> None:
         if await ui.guard(interaction):
             await ui.run_safely(interaction, lambda: ui.ask_question(interaction, 내용))
 
+    character_choices = [app_commands.Choice(name=name, value=name) for name in ("반휘혈", "온하늘", "차세리", "남궁호")]
+
+    @tree.command(name="인물", description="등장인물의 공개 프로필을 확인합니다", guild=guild)
+    @app_commands.choices(이름=character_choices)
+    async def character_cmd(interaction: discord.Interaction, 이름: app_commands.Choice[str]) -> None:
+        if await ui.guard(interaction):
+            await ui.reply(interaction, embed=ui.character_embed(bot.game, 이름.value))
+
+    @tree.command(name="관계", description="두 인물 사이의 공개 관계를 확인합니다", guild=guild)
+    @app_commands.choices(인물1=character_choices, 인물2=character_choices)
+    async def relation_cmd(interaction: discord.Interaction, 인물1: app_commands.Choice[str],
+                           인물2: app_commands.Choice[str]) -> None:
+        if await ui.guard(interaction):
+            await ui.reply(interaction, embed=ui.public_relation_embed(bot.game, 인물1.value, 인물2.value))
+
+    @tree.command(name="영상", description="현재까지 공개된 영상 목록을 확인합니다", guild=guild)
+    async def videos_cmd(interaction: discord.Interaction) -> None:
+        if await ui.guard(interaction):
+            await ui.run_safely(interaction, lambda: ui.show_episodes(interaction))
+
+    @tree.command(name="회차", description="현재 공개된 이야기와 회차를 확인합니다", guild=guild)
+    async def episode_cmd(interaction: discord.Interaction) -> None:
+        if await ui.guard(interaction):
+            await ui.run_safely(interaction, lambda: ui.reply(interaction, embed=ui.case_embed(bot.game)))
+
     @tree.command(name="증거", description="공개된 증거 목록을 확인합니다", guild=guild)
     async def evidence_cmd(interaction: discord.Interaction) -> None:
         if await ui.guard(interaction):

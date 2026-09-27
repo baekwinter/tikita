@@ -75,11 +75,15 @@ def points_toast(gained: int, currency: str = "달빛 수사 포인트") -> str:
     return f"\n\n> ✨ **+{gained} {currency}**" if gained else ""
 
 
-VERDICT_BADGE = {"YES": "🟢 YES", "NO": "🔴 NO", "IRRELEVANT": "⚪ 관계없음", "NO_RECORD": "📭 기록 없음"}
+VERDICT_BADGE = {"YES": "🟢 YES", "NO": "🔴 NO", "IRRELEVANT": "⚪ 관계없음", "NO_RECORD": "📭 기록 없음",
+                 "INFO": "🔵 확인된 정보", "SEALED": "📝 최종 추리 항목", "UNCONFIRMED": "⚪ 확인 불가",
+                 "CLARIFY": "❓ 누구에 대한 질문인가요?"}
 SHORT_BADGE = {"YES": "`YES`", "NO": "`NO`", "IRRELEVANT": "`관계없음`", "UNRELEASED": "`미공개`",
-               "UNCLEAR": "`다시 질문`", "NEGATIVE_FORM": "`긍정형으로`", "UNCONFIRMED": "`미확인`", "NO_RECORD": "`기록 없음`"}
+               "UNCLEAR": "`다시 질문`", "NEGATIVE_FORM": "`긍정형으로`", "UNCONFIRMED": "`미확인`", "NO_RECORD": "`기록 없음`",
+               "INFO": "`정보`", "SEALED": "`정답 제출`", "CLARIFY": "`대상 확인`"}
 
 SCENE_FILE = PROJECT_DIR / "assets" / "scene.png"  # web/public/scene-default.svg 를 PNG 로 변환한 방송실 배너
+RELATIONSHIP_MAP_FILE = PROJECT_DIR / "assets" / "relationship_map_public.png"
 
 
 def scene_attachment(ep: Episode | None) -> discord.File | None:
@@ -254,6 +258,25 @@ def relationship_embed(game: GameService, user_id: int) -> discord.Embed:
     return e
 
 
+def character_embed(game: GameService, name: str) -> discord.Embed:
+    item = game.character_public(name)
+    if not item:
+        return discord.Embed(title="인물 정보 없음", colour=COLOR_NIGHT)
+    e = discord.Embed(title=f"{name} · {item['role']}", description=item["summary"], colour=COLOR_MAIN)
+    e.add_field(name="대표 색", value=item["color"], inline=True)
+    e.set_footer(text="공개용 프로필 · 미공개 진실은 포함하지 않습니다")
+    return e
+
+
+def public_relation_embed(game: GameService, first: str, second: str) -> discord.Embed:
+    item = game.relationship_public(first, second)
+    if not item:
+        return discord.Embed(title="관계 정보", description="서로 다른 두 인물을 선택해 주세요.", colour=COLOR_NIGHT)
+    e = discord.Embed(title=f"{first} ↔ {second}", description=item["public"], colour=COLOR_PINK)
+    e.set_footer(text="공개용 관계 설명 · 수사로 더 많은 관계를 확인할 수 있습니다")
+    return e
+
+
 def interrogation_embed(game: GameService, user_id: int) -> discord.Embed:
     q = game.question_quota(user_id)
     lines = interrogation_lines(game, user_id, 15)
@@ -334,6 +357,8 @@ def help_embed() -> discord.Embed:
         "**/시작** 수사 수첩 열기 (참가 등록)\n"
         "**/사건** 현재 사건 설명과 공개 회차\n"
         "**/질문** YES/NO 질문 — 예) `/질문 반휘혈이 고백을 녹음했나요?`\n"
+        "**/인물** 공개 인물 소개 · **/관계** 두 인물의 공개 관계\n"
+        "**/영상** 공개 영상 목록 · **/회차** 현재 공개 회차 확인\n"
         "**/증거** 공개된 증거 목록 · **/조사** 증거 상세 보기\n"
         "**/추리** 지금까지의 가설 기록 · **/정답** 최종 추리 제출\n"
         "**/진행도** 내 수사 기록 · **/관계도** 심문으로 밝혀낸 인물 관계도\n\n"
@@ -403,7 +428,8 @@ def final_result_embed(res: dict[str, Any]) -> discord.Embed:
 # 공통 처리
 # ---------------------------------------------------------------------------
 async def reply(interaction: discord.Interaction, content: str | None = None, *,
-                embed: discord.Embed | None = None, view: discord.ui.View | None = None) -> None:
+                embed: discord.Embed | None = None, view: discord.ui.View | None = None,
+                file: discord.File | None = None) -> None:
     kwargs: dict[str, Any] = {"ephemeral": True}
     if content:
         kwargs["content"] = content
@@ -411,6 +437,8 @@ async def reply(interaction: discord.Interaction, content: str | None = None, *,
         kwargs["embed"] = embed
     if view:
         kwargs["view"] = view
+    if file:
+        kwargs["file"] = file
     if interaction.response.is_done():
         await interaction.followup.send(**kwargs)
     else:
@@ -476,7 +504,13 @@ async def open_dashboard(interaction: discord.Interaction) -> None:
 async def show_relationships(interaction: discord.Interaction) -> None:
     bot: DalbitBot = interaction.client  # type: ignore[assignment]
     bot.game.gate()
-    await reply(interaction, embed=relationship_embed(bot.game, interaction.user.id))
+    embed = relationship_embed(bot.game, interaction.user.id)
+    if RELATIONSHIP_MAP_FILE.is_file():
+        embed.set_image(url="attachment://relationship_map_public.png")
+        await reply(interaction, embed=embed,
+                    file=discord.File(RELATIONSHIP_MAP_FILE, filename="relationship_map_public.png"))
+        return
+    await reply(interaction, embed=embed)
 
 
 async def show_interrogation(interaction: discord.Interaction) -> None:

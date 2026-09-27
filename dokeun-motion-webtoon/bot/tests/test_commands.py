@@ -88,7 +88,8 @@ def test_relationship_map_opens_only_what_player_asked(game, db):
     from bot import ui
     from .conftest import open_event
 
-    open_event(db, 4)
+    # 정본 v4: 세리→하늘 연애 감정은 12화 공개 이후에만 답하며, 그때 관계도에 함께 열린다.
+    open_event(db, 12)
     game.register(7, "조사원")
     m = game.relationship_map(7)
     assert m["found_count"] == 0 and m["total"] >= 10
@@ -96,6 +97,7 @@ def test_relationship_map_opens_only_what_player_asked(game, db):
     game.clock.now += timedelta(seconds=30)
     asyncio.run(game.ask(7, "차세리는 온하늘을 아끼나요?", "discord", "조사원"))
     m = game.relationship_map(7)
+    # EP.12 공개 후 세리→하늘 감정이 확정 공개되므로 함께 기록한다.
     assert {r["question_id"] for r in m["found"]} == {"Q-LOVE", "Q-SERI-LOVE-HANEUL"}
     assert game.relationship_map(8)["found_count"] == 0  # 다른 참가자에게는 열리지 않음
     e = ui.relationship_embed(game, 7)

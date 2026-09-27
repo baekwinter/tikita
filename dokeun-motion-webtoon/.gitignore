@@ -20,3 +20,9 @@ web/node_modules/
 web/.next/
 web/next-env.d.ts
 web/tsconfig.tsbuildinfo
+
+# Kiro IDE 로컬 설정 (배포 대상 아님)
+.kiro/
+
+# 임시 감사/개발 전용 스크립트 (배포·커밋 대상 아님)
+bot/_audit_qa.py

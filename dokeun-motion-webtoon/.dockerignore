@@ -12,3 +12,6 @@ source/
 story/
 characters/
 output/
+bot/_audit_qa.py
+.kiro/
+_kiro_backups/

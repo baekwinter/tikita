@@ -1,0 +1,19 @@
+# Kiro IDE 로컬 백업/설정 (배포 대상 아님)
+_kiro_backups/
+.kiro/
+
+# 비밀 값
+.env
+*.env
+!.env.example
+
+# 런타임 데이터 (참가자 진행 DB, 로그) — 운영 볼륨에만 존재해야 함
+*.db
+*.db-wal
+*.db-shm
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
