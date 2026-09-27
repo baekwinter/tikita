@@ -18,7 +18,7 @@ from discord import app_commands
 
 from . import ui
 from .config import parse_local
-from .database import utcnow
+from .database import from_iso, utcnow
 from .game import VIDEO_OVERRIDES_KEY
 from .rewards import export_csv
 from .scheduler import ALREADY, FAILED, HELD, POSTED, episode_schedule, kst, schedule_problems
@@ -359,9 +359,11 @@ def register_commands(bot: "DalbitBot") -> None:
                 "참가자 결과 CSV 입니다.", file=discord.File(io.BytesIO(data), filename="dalbit_results.csv"), ephemeral=True)
             return
         rows = bot.db.leaderboard(15)
-        lines = [f"{i}. <@{r['user_id']}> · {r['points']}점" for i, r in enumerate(rows, 1)]
+        solved_ids = {s["user_id"] for s in bot.db.solvers()}
+        lines = [f"{i}. <@{r['user_id']}> · {r['points']}점" + (" · 🌕 사건 해결" if r["user_id"] in solved_ids else "")
+                 for i, r in enumerate(rows, 1)]
         e = discord.Embed(title="달빛 수사 포인트 순위", description="\n".join(lines) or "참가자가 없습니다.", colour=ui.COLOR_MAIN)
-        e.set_footer(text=f"참가자 {len(bot.db.all_players())}명")
+        e.set_footer(text=f"참가자 {len(bot.db.all_players())}명 · 🌕 사건 해결 {len(solved_ids)}명")
         await ui.reply(interaction, embed=e)
 
     @admin.command(name="영상", description="회차 영상 링크(유튜브 일부공개 등) 등록 · 재배포 없이 바로 반영")
@@ -458,6 +460,16 @@ def status_embed(bot: "DalbitBot") -> discord.Embed:
     e.add_field(name="공개 회차", value=f"EP.{db.current_episode():02d} / {bot.catalog.episode_count}", inline=True)
     e.add_field(name="참가자", value=f"{len(db.all_players())}명", inline=True)
     e.add_field(name="테스트 모드", value="ON" if cfg.test_mode else "OFF", inline=True)
+    # 사건을 해결한(정답을 맞힌) 참가자 — 운영진이 한눈에 보도록 상단에 표시
+    solvers = db.solvers()
+    if solvers:
+        lines = []
+        for i, s in enumerate(solvers, 1):
+            when = kst(from_iso(s["solved_at"]), cfg) if s["solved_at"] else "-"
+            lines.append(f"{i}. <@{s['user_id']}> · 🌕 {when}")
+        e.add_field(name=f"🌕 사건 해결 · {len(solvers)}명", value="\n".join(lines)[:1024], inline=False)
+    else:
+        e.add_field(name="🌕 사건 해결", value="아직 정답을 맞힌 참가자가 없습니다.", inline=False)
     alerts = db.alerts()
     if alerts:
         e.add_field(name="운영 알림", value="\n".join(f"• {a['message']}" for a in alerts[-8:])[:1000], inline=False)

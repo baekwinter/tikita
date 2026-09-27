@@ -394,3 +394,11 @@ class Database:
 
     def all_players(self) -> list[sqlite3.Row]:
         return self.query("SELECT * FROM players ORDER BY joined_at")
+
+    def solvers(self) -> list[sqlite3.Row]:
+        """사건을 해결한(정답 solved=1) 참가자. 최초 해결 시각 순. user_id, display_name, solved_at, best."""
+        return self.query(
+            "SELECT s.user_id, p.display_name, MIN(s.submitted_at) AS solved_at, MAX(s.correct_count) AS best "
+            "FROM submissions s LEFT JOIN players p ON p.user_id = s.user_id "
+            "WHERE s.solved = 1 GROUP BY s.user_id ORDER BY solved_at ASC"
+        )
