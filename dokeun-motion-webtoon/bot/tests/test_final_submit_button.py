@@ -173,3 +173,44 @@ def test_five_original_buttons_unchanged(cfg, db):
     ids = [getattr(getattr(c, "item", None), "custom_id", None) for c in view.children]
     for original in ("dg:start", "dg:episodes", "dg:progress", "dg:evidence", "dg:final"):
         assert original in ids
+
+
+# ── 대시보드(수사 수첩) 버튼 영구화 ─────────────────────────────────────────
+def test_dashboard_view_is_persistent(cfg, db):
+    bot = DalbitBot(cfg)
+    view = ui.dashboard_view(bot)
+    # 영구 View (재시작·재배포 후에도 동작)
+    assert view.timeout is None
+
+
+def test_dashboard_buttons_are_persistent_dg_ids(cfg, db):
+    import re
+    bot = DalbitBot(cfg)
+    view = ui.dashboard_view(bot)
+    ids = []
+    for c in view.children:
+        it = getattr(c, "item", c)
+        cid = getattr(it, "custom_id", None)
+        if cid:
+            ids.append(cid)
+    # 기존 대시보드 8개 액션 + 최종(9) 모두 dg: 영구 버튼
+    for action in ("episodes", "case", "ask", "evidence", "theory", "history", "note", "relations", "final"):
+        assert f"dg:{action}" in ids, action
+    # 전부 PublicButton 템플릿과 매칭 → 재시작 복구 가능
+    for cid in ids:
+        if cid.startswith("dg:"):
+            assert re.fullmatch(r"dg:(?P<action>[a-z]+)(?::(?P<arg>\d+))?", cid)
+
+
+def test_dashboard_actions_all_registered_in_labels():
+    for action in ("case", "theory", "history", "note", "relations"):
+        assert action in ui.ACTION_LABELS
+    assert ui.ACTION_LABELS["case"][0] == "사건 조사"
+    assert ui.ACTION_LABELS["relations"][0] == "인물 관계도"
+
+
+def test_publicbutton_recovers_dashboard_actions():
+    # 재시작 후 custom_id 로부터 버튼을 복구할 수 있어야 한다
+    for action in ("case", "theory", "history", "note", "relations"):
+        btn = ui.PublicButton(action)
+        assert btn.item.custom_id == f"dg:{action}"

@@ -555,7 +555,7 @@ async def open_dashboard(interaction: discord.Interaction) -> None:
     ep = bot.catalog.episodes.get(bot.game.current_episode)
     file = scene_attachment(ep)
     embeds = ([banner_embed(bot.game)] if file else []) + [dashboard_embed(bot.game, interaction.user.id)]
-    kwargs: dict[str, Any] = {"embeds": embeds, "view": DashboardView(bot, interaction.user.id), "ephemeral": True}
+    kwargs: dict[str, Any] = {"embeds": embeds, "view": dashboard_view(bot), "ephemeral": True}
     if reg["new"]:
         kwargs["content"] = f"🎙️ 특별 조사원 등록이 완료되었습니다. 환영합니다!{points_toast(reg['gained'])}"
     if file:
@@ -740,48 +740,24 @@ class OwnerView(discord.ui.View):
         return interaction.user.id == self.owner_id
 
 
-class DashboardView(OwnerView):
-    def __init__(self, bot: "DalbitBot", owner_id: int):
-        super().__init__(bot, owner_id)
-        url = web_url(bot)
-        if url:
-            self.add_item(discord.ui.Button(label="웹 조사실 열기", url=url, row=3))
-
-    @discord.ui.button(label="영상 시청", style=discord.ButtonStyle.secondary, row=0)
-    async def videos(self, interaction: discord.Interaction, _: discord.ui.Button) -> None:
-        await run_safely(interaction, lambda: show_episodes(interaction))
-
-    @discord.ui.button(label="사건 조사", style=discord.ButtonStyle.secondary, row=0)
-    async def case(self, interaction: discord.Interaction, _: discord.ui.Button) -> None:
-        await run_safely(interaction, lambda: reply(interaction, embed=case_embed(self.bot.game)))
-
-    @discord.ui.button(label="YES/NO 질문", style=discord.ButtonStyle.primary, row=0)
-    async def question(self, interaction: discord.Interaction, _: discord.ui.Button) -> None:
-        await interaction.response.send_modal(QuestionModal())
-
-    @discord.ui.button(label="증거 목록", style=discord.ButtonStyle.secondary, row=1)
-    async def evidence(self, interaction: discord.Interaction, _: discord.ui.Button) -> None:
-        await run_safely(interaction, lambda: show_evidence(interaction))
-
-    @discord.ui.button(label="추리 제출", style=discord.ButtonStyle.secondary, row=1)
-    async def theory(self, interaction: discord.Interaction, _: discord.ui.Button) -> None:
-        await interaction.response.send_modal(TheoryModal())
-
-    @discord.ui.button(label="심문 기록", style=discord.ButtonStyle.secondary, row=1)
-    async def history(self, interaction: discord.Interaction, _: discord.ui.Button) -> None:
-        await run_safely(interaction, lambda: show_interrogation(interaction))
-
-    @discord.ui.button(label="수사 노트", style=discord.ButtonStyle.secondary, row=1)
-    async def note(self, interaction: discord.Interaction, _: discord.ui.Button) -> None:
-        await interaction.response.send_modal(NoteModal(self.bot.game.get_note(interaction.user.id)["body"]))
-
-    @discord.ui.button(label="인물 관계도", style=discord.ButtonStyle.secondary, row=1)
-    async def relations(self, interaction: discord.Interaction, _: discord.ui.Button) -> None:
-        await run_safely(interaction, lambda: show_relationships(interaction))
-
-    @discord.ui.button(label="질문 끝내기 · 최종 추리 제출", style=discord.ButtonStyle.danger, row=2)
-    async def final(self, interaction: discord.Interaction, _: discord.ui.Button) -> None:
-        await run_safely(interaction, lambda: show_final(interaction))
+def dashboard_view(bot: "DalbitBot") -> discord.ui.View:
+    """수사 수첩(대시보드) 버튼. 모두 영구 버튼(dg:*)이라 봇 재시작·재배포 후에도 동작한다.
+    개인 화면(ephemeral)이라 버튼을 볼 수 있는 사람은 본인뿐이므로 소유자 검사는 필요 없다."""
+    view = discord.ui.View(timeout=None)
+    layout = [
+        [("episodes", None), ("case", None), ("ask", None)],
+        [("evidence", None), ("theory", None), ("history", None), ("note", None), ("relations", None)],
+        [("final", None)],
+    ]
+    for row, actions in enumerate(layout):
+        for action, arg in actions:
+            item = PublicButton(action, arg)
+            item.item.row = row
+            view.add_item(item)
+    url = web_url(bot)
+    if url:
+        view.add_item(discord.ui.Button(label="웹 조사실 열기", url=url, row=3))
+    return view
 
 
 class ResultView(OwnerView):
@@ -927,6 +903,12 @@ ACTION_LABELS = {
     "finalsubmit": ("📝 정답 제출하기", discord.ButtonStyle.danger),
     "watch": ("시청 완료", discord.ButtonStyle.success),
     "ask": ("YES/NO 질문", discord.ButtonStyle.primary),
+    # 대시보드(수사 수첩) 전용 액션 — 영구 버튼이라 재시작·재배포 후에도 동작
+    "case": ("사건 조사", discord.ButtonStyle.secondary),
+    "theory": ("추리 제출", discord.ButtonStyle.secondary),
+    "history": ("심문 기록", discord.ButtonStyle.secondary),
+    "note": ("수사 노트", discord.ButtonStyle.secondary),
+    "relations": ("인물 관계도", discord.ButtonStyle.secondary),
 }
 
 
@@ -947,8 +929,22 @@ class PublicButton(discord.ui.DynamicItem[discord.ui.Button], template=r"dg:(?P<
         if not await guard(interaction):
             return
         action = self.action
+        # 모달을 여는 액션은 defer 없이 곧바로 send_modal 해야 한다.
         if action == "ask":
             await interaction.response.send_modal(QuestionModal())
+            return
+        if action == "theory":
+            try:
+                interaction.client.game.gate()  # type: ignore[attr-defined]
+            except GameError as err:
+                await reply(interaction, err.message)
+                return
+            await interaction.response.send_modal(TheoryModal())
+            return
+        if action == "note":
+            bot: DalbitBot = interaction.client  # type: ignore[assignment]
+            current = bot.game.get_note(interaction.user.id)
+            await interaction.response.send_modal(NoteModal(current["body"] if current else ""))
             return
         handlers = {
             "start": lambda: open_dashboard(interaction),
@@ -959,6 +955,9 @@ class PublicButton(discord.ui.DynamicItem[discord.ui.Button], template=r"dg:(?P<
             "finalreport": lambda: show_final_report(interaction),
             "finalsubmit": lambda: show_final(interaction),
             "watch": lambda: _watch(interaction, self.arg or 0),
+            "case": lambda: reply(interaction, embed=case_embed(interaction.client.game)),  # type: ignore[attr-defined]
+            "history": lambda: show_interrogation(interaction),
+            "relations": lambda: show_relationships(interaction),
         }
         handler = handlers.get(action)
         if handler:
