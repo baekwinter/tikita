@@ -313,25 +313,56 @@ def answer_embed(res: dict[str, Any]) -> discord.Embed:
 
 
 def evidence_board_embed(game: GameService, user_id: int) -> discord.Embed:
-    board = game.evidence_board(user_id)
-    found = sum(1 for i in board if not i["locked"] and i["found"])
-    released = sum(1 for i in board if not i["locked"])
-    e = discord.Embed(title="🗂️ EVIDENCE · 증거 보관함", colour=COLOR_PINK,
-                      description=f"{bar(found, len(board))} 확보 {found} · 공개 {released} · 전체 {len(board)}")
-    for item in board[:25]:
-        if item["locked"]:
-            e.add_field(name=f"🔒 {item['id']} · 잠긴 증거", value=f"-# EP.{item['episode']:02d} 공개 후 열립니다.", inline=True)
+    ov = game.evidence_overview(user_id)
+    e = discord.Embed(
+        title="🗂️ EVIDENCE · 증거 보관함",
+        colour=COLOR_PINK,
+        description=(f"**총 {ov['total_episodes']}화 · 증거 {ov['total_evidence']}개**\n"
+                     f"{bar(ov['found_evidence'], ov['total_evidence'])} "
+                     f"확보 {ov['found_evidence']} · 공개 {ov['released_evidence']} · 전체 {ov['total_evidence']}"),
+    )
+    # 회차별 한 줄 요약 (미공개 회차는 개수만, 제목·내용은 숨김)
+    for ep in ov["episodes"]:
+        n = ep["episode"]
+        if not ep["released"]:
+            e.add_field(name=f"🔒 EP.{n:02d} · 미공개 회차",
+                        value=f"-# 증거 {ep['count']}개 · 회차 공개 후 열립니다.", inline=False)
         else:
-            icon = EVIDENCE_TYPE_ICON.get(item.get("type", ""), "🗂️")
-            if item["found"]:
-                mark = "✅ 수사 수첩에 기록됨"
-            elif item.get("investigable"):
-                mark = "🔍 조사 가능 — 단서가 더 있습니다"
-            else:
-                mark = "🔍 조사하기"
-            e.add_field(name=f"{'📁' if item['found'] else '🔓'} {item['id']} · {item['title']}"[:256],
-                        value=f"-# {icon} {item['category']} · EP.{item['episode']:02d}\n{mark}", inline=True)
-    e.set_footer(text="아래 메뉴에서 증거를 골라 조사하세요. 조사하면 추가 단서와 관련 증거가 열립니다.")
+            done = sum(1 for i in ep["items"] if not i["locked"] and i["found"])
+            openc = ep["open_count"]
+            hidden = ep["count"] - openc  # 같은 회차라도 확정 스포일러(spoiler_level 2)로 아직 잠긴 증거
+            tail = f" · 🔒 {hidden}개 대기" if hidden else ""
+            e.add_field(name=f"📂 EP.{n:02d} · 증거 {ep['count']}개",
+                        value=f"-# ✅ 확보 {done} / 공개 {openc}{tail}", inline=False)
+    e.set_footer(text="아래 회차 메뉴에서 회차를 고르면 그 회차 증거만 자세히 볼 수 있어요.")
+    return e
+
+
+def evidence_episode_embed(game: GameService, user_id: int, episode: int) -> discord.Embed:
+    """선택한 한 회차의 증거만 보여 준다(모바일 가독성). 미공개 회차는 내용 숨김."""
+    ov = game.evidence_overview(user_id)
+    ep = next((x for x in ov["episodes"] if x["episode"] == episode), None)
+    if ep is None:
+        return discord.Embed(title=f"EP.{episode:02d}", description="이 회차에는 증거가 없습니다.", colour=COLOR_NIGHT)
+    if not ep["released"]:
+        return discord.Embed(title=f"🔒 EP.{episode:02d} · 미공개 회차", colour=COLOR_NIGHT,
+                             description=f"이 회차는 아직 공개되지 않았습니다. 증거 {ep['count']}개는 회차 공개 후 열립니다.")
+    e = discord.Embed(title=f"📂 EP.{episode:02d} · 증거 {ep['count']}개", colour=COLOR_PINK,
+                      description=f"✅ 확보 {ep['found_count']} / 공개 {ep['open_count']}")
+    for item in ep["items"]:
+        if item["locked"]:
+            e.add_field(name="🔒 미공개 증거", value="-# 다음 회차 공개 후 열립니다.", inline=False)
+            continue
+        icon = EVIDENCE_TYPE_ICON.get(item.get("type", ""), "🗂️")
+        if item["found"] and item["investigated"]:
+            mark = "✅ 조사 완료 — 수사 수첩에 기록됨"
+        elif item["found"]:
+            mark = "📁 확보함 · 🔬 조사하면 단서가 더 열립니다"
+        else:
+            mark = "🔍 조사 가능 — 아직 확보하지 않았어요"
+        e.add_field(name=f"{item['id']} · {item['title']}"[:256],
+                    value=f"-# {icon} {item['category']}\n{mark}", inline=False)
+    e.set_footer(text="아래 메뉴에서 증거를 골라 조사하세요.")
     return e
 
 
@@ -789,21 +820,50 @@ class EpisodeWatchView(OwnerView):
 
 
 class EvidenceSelectView(OwnerView):
-    def __init__(self, bot: "DalbitBot", owner_id: int):
+    def __init__(self, bot: "DalbitBot", owner_id: int, episode: int | None = None):
         super().__init__(bot, owner_id)
-        released = [e for e in bot.game.evidence_board(owner_id) if not e["locked"]]
-        if released:
-            select = discord.ui.Select(
-                placeholder="조사할 증거를 고르세요",
-                options=[discord.SelectOption(label=f"{e['id']} {e['title']}"[:100], value=e["id"],
-                                              description=e["summary"][:100]) for e in released[:25]],
-            )
-            select.callback = self._picked  # type: ignore[assignment]
-            self.select = select
-            self.add_item(select)
+        self.episode = episode
+        ov = bot.game.evidence_overview(owner_id)
+        # 1) 회차 선택 메뉴 — 공개된(증거가 있는) 회차만, 확보 현황을 라벨에 표시
+        ep_options: list[discord.SelectOption] = []
+        for ep in ov["episodes"]:
+            if not ep["released"]:
+                continue
+            n = ep["episode"]
+            label = f"EP.{n:02d} · 증거 {ep['open_count']}개"
+            desc = f"확보 {ep['found_count']}/{ep['open_count']}"
+            ep_options.append(discord.SelectOption(label=label[:100], value=str(n),
+                                                   description=desc[:100], default=(n == episode)))
+        if ep_options:
+            ep_select = discord.ui.Select(placeholder="회차를 선택하세요", options=ep_options[:25], row=0)
+            ep_select.callback = self._pick_episode  # type: ignore[assignment]
+            self.ep_select = ep_select
+            self.add_item(ep_select)
+        # 2) 선택된 회차의 증거 조사 메뉴 (회차를 고른 뒤에만 표시)
+        if episode is not None:
+            ep = next((x for x in ov["episodes"] if x["episode"] == episode and x["released"]), None)
+            open_items = [i for i in (ep["items"] if ep else []) if not i["locked"]]
+            if open_items:
+                ev_select = discord.ui.Select(
+                    placeholder=f"EP.{episode:02d}의 조사할 증거를 고르세요",
+                    options=[discord.SelectOption(
+                        label=f"{i['id']} {i['title']}"[:100], value=i["id"],
+                        description=("✅ 조사 완료" if i["investigated"] else ("📁 확보함" if i["found"] else "🔍 미확보"))[:100],
+                    ) for i in open_items[:25]],
+                    row=1,
+                )
+                ev_select.callback = self._pick_evidence  # type: ignore[assignment]
+                self.ev_select = ev_select
+                self.add_item(ev_select)
 
-    async def _picked(self, interaction: discord.Interaction) -> None:
-        await run_safely(interaction, lambda: investigate(interaction, self.select.values[0]))
+    async def _pick_episode(self, interaction: discord.Interaction) -> None:
+        n = int(self.ep_select.values[0])
+        bot: DalbitBot = interaction.client  # type: ignore[assignment]
+        embed = evidence_episode_embed(bot.game, self.owner_id, n)
+        await interaction.response.edit_message(embed=embed, view=EvidenceSelectView(bot, self.owner_id, episode=n))
+
+    async def _pick_evidence(self, interaction: discord.Interaction) -> None:
+        await run_safely(interaction, lambda: investigate(interaction, self.ev_select.values[0]))
 
 
 class FinalView(OwnerView):

@@ -170,3 +170,58 @@ def test_final_answer_unchanged(game, db):
     correct = {"q1": "반휘혈", "q2": "온하늘", "q3": "온하늘", "q4": "차세리",
                "q5": "두 사람의 오해를 풀어 주려고 예약 목록을 수정해 허락 없이 송출했다."}
     assert game.submit_final(95, correct)["solved"] is True
+
+
+# ── PHASE 2.1 회차별 /증거 UI ───────────────────────────────────────────────
+def test_overview_groups_by_episode_with_counts(game, db):
+    open_event(db, 10)
+    ov = game.evidence_overview(70)
+    assert ov["total_episodes"] == 12
+    assert ov["total_evidence"] == 25
+    assert ov["current_episode"] == 10
+    # 회차별 묶음 + 개수
+    by = {e["episode"]: e for e in ov["episodes"]}
+    assert by[8]["count"] == 4 and by[9]["count"] == 3
+    # 증거가 없는 회차는 목록에 없다(현재 모든 회차에 증거가 있으므로 12개 모두 존재)
+    assert len(ov["episodes"]) == 12
+
+
+def test_overview_hides_unreleased_episode_content(game, db):
+    open_event(db, 10)
+    ov = game.evidence_overview(70)
+    by = {e["episode"]: e for e in ov["episodes"]}
+    # EP11·EP12 는 미공개 → released False, 항목에 제목/내용이 없어야 한다
+    for n in (11, 12):
+        ep = by[n]
+        assert ep["released"] is False
+        assert ep["open_count"] == 0
+        for item in ep["items"]:
+            assert item["locked"] is True
+            assert set(item.keys()) == {"id", "locked"}  # 제목·요약 누출 없음
+    import json
+    payload = json.dumps(ov, ensure_ascii=False)
+    assert "차세리가 오래 품어 온 마음" not in payload  # E-22 제목
+    assert "예약 수정 계정 로그" not in payload          # E-11 제목
+
+
+def test_overview_status_distinguishes_found_and_investigated(game, db):
+    open_event(db, 6)
+    # 확보만 한 증거 vs 조사까지 한 증거 구분
+    game.db.mark_evidence(70, "E-01")  # 확보만(보상 경로 안 탐)
+    game.investigate(70, "E-06")        # 확보+조사
+    ov = game.evidence_overview(70)
+    by_item = {i["id"]: i for e in ov["episodes"] for i in e["items"] if not i["locked"]}
+    assert by_item["E-01"]["found"] is True and by_item["E-01"]["investigated"] is False
+    assert by_item["E-06"]["found"] is True and by_item["E-06"]["investigated"] is True
+    # 미확보 공개 증거는 조사 가능 상태(자물쇠 아님)
+    assert by_item["E-02"]["found"] is False and by_item["E-02"]["locked"] is False
+
+
+def test_episode12_evidence_hidden_until_released_then_shown(game, db):
+    open_event(db, 10)
+    ov10 = {e["episode"]: e for e in game.evidence_overview(70)["episodes"]}
+    assert ov10[12]["released"] is False and ov10[12]["open_count"] == 0
+    open_event(db, 12)
+    ov12 = {e["episode"]: e for e in game.evidence_overview(70)["episodes"]}
+    # 12화 공개 후에는 E-08·E-22 모두 열린다(정본상 12화 시점 공개)
+    assert ov12[12]["released"] is True and ov12[12]["open_count"] == 2

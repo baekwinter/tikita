@@ -277,6 +277,12 @@ class Database:
     def found_evidence(self, user_id: int) -> set[str]:
         return {r["evidence_id"] for r in self.query("SELECT evidence_id FROM player_evidence WHERE user_id=?", (user_id,))}
 
+    def investigated_evidence(self, user_id: int) -> set[str]:
+        """심화 조사를 완료한 증거 ID 집합. evidence_investigated:<id> 보상 키로 판정한다."""
+        rows = self.query(
+            "SELECT reward_key FROM rewards WHERE user_id=? AND reward_key LIKE 'evidence_investigated:%'", (user_id,))
+        return {r["reward_key"].split(":", 1)[1] for r in rows}
+
     def mark_watched(self, user_id: int, episode: int) -> bool:
         with self.tx() as c:
             cur = c.execute(

@@ -347,16 +347,69 @@ class GameService:
         cur = self.current_episode
         manual = self.db.manually_released_evidence()
         found = self.db.found_evidence(user_id) if user_id else set()
+        investigated = self.db.investigated_evidence(user_id) if user_id else set()
         board = []
         for ev in self.catalog.sorted_evidence():
             if self.catalog._released(ev, cur, manual):
                 item = ev.public(found=ev.evidence_id in found)
-                # 목록에서는 조사 가능한(획득했고 심화 단서가 있는) 증거를 표시해 다음 행동을 유도한다.
+                # 목록에서는 조사 가능한(심화 단서가 있는) 증거와, 이미 조사를 마친 증거를 구분해 표시한다.
                 item["investigable"] = bool(ev.investigation_result or ev.inference)
+                item["investigated"] = ev.evidence_id in investigated
                 board.append(item)
             else:
                 board.append(ev.locked())
         return board
+
+    def evidence_overview(self, user_id: int | None = None) -> dict[str, Any]:
+        """회차별로 묶은 증거 현황. UI(회차 선택/페이지)에서 사용한다.
+        미공개 회차의 증거는 제목·내용 없이 개수만 노출한다(스포일러 차단)."""
+        cur = self.current_episode
+        manual = self.db.manually_released_evidence()
+        found = self.db.found_evidence(user_id) if user_id else set()
+        investigated = self.db.investigated_evidence(user_id) if user_id else set()
+        episodes: list[dict[str, Any]] = []
+        total_found = 0
+        total_released = 0
+        for n in sorted(self.catalog.episodes):
+            evs = self.catalog.evidence_for_episode(n)
+            if not evs:
+                continue
+            released = n <= cur
+            items: list[dict[str, Any]] = []
+            ep_found = 0
+            for ev in evs:
+                is_open = self.catalog._released(ev, cur, manual)
+                if is_open:
+                    total_released += 1
+                    f = ev.evidence_id in found
+                    if f:
+                        ep_found += 1
+                        total_found += 1
+                    items.append({
+                        "id": ev.evidence_id, "title": ev.title, "type": ev.evidence_type,
+                        "category": ev.category, "found": f,
+                        "investigated": ev.evidence_id in investigated,
+                        "investigable": bool(ev.investigation_result or ev.inference),
+                        "locked": False,
+                    })
+                else:
+                    items.append({"id": ev.evidence_id, "locked": True})
+            episodes.append({
+                "episode": n,
+                "released": released,
+                "count": len(evs),
+                "open_count": sum(1 for i in items if not i["locked"]),
+                "found_count": ep_found,
+                "items": items,
+            })
+        return {
+            "total_episodes": self.catalog.episode_count,
+            "total_evidence": len(self.catalog.evidence),
+            "released_evidence": total_released,
+            "found_evidence": total_found,
+            "current_episode": cur,
+            "episodes": episodes,
+        }
 
     def released_evidence_ids(self) -> list[str]:
         return [e.evidence_id for e in self.catalog.released_evidence(self.current_episode, self.db.manually_released_evidence())]
