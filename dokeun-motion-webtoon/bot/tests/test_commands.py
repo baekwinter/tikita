@@ -15,7 +15,7 @@ async def test_command_tree_builds(cfg):
     for c in cmds:
         c.to_dict(bot.tree)  # Discord 규칙 위반 시 여기서 예외
     admin = next(c for c in cmds if c.name == "운영")
-    assert {c.name for c in admin.commands} == {"상태", "공개", "예약", "시작", "중지", "재개", "테스트", "결과", "영상", "공지"}
+    assert {c.name for c in admin.commands} == {"상태", "공개", "패널", "예약", "시작", "중지", "재개", "테스트", "결과", "영상", "공지"}
     await bot.close()
 
 

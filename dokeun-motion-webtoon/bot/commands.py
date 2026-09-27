@@ -198,6 +198,15 @@ def register_commands(bot: "DalbitBot") -> None:
             note = ""
         await interaction.followup.send(f"결과: {describe(res)}{note}", ephemeral=True)
 
+    @admin.command(name="패널", description="현재 채널에 '최종 수사 보고서' 정답 제출 패널을 게시")
+    async def panel_cmd(interaction: discord.Interaction) -> None:
+        if not await admin_only(interaction):
+            return
+        # 버튼(dg:finalsubmit)은 영구 View 라 봇 재시작 후에도 동작한다. 자동 게시는 없으므로
+        # 재시작으로 중복 게시되지 않는다. 운영진이 이 명령을 부를 때만 새 패널이 올라간다.
+        await interaction.channel.send(embed=ui.final_panel_embed(), view=ui.final_panel_view())
+        await ui.reply(interaction, "🌙 최종 수사 보고서 패널을 이 채널에 게시했습니다.")
+
     @admin.command(name="예약", description="공개 일정 확인 및 변경 (한국 시간)")
     @app_commands.describe(회차="변경할 회차 번호", 일시="'2026-09-24 12:00' 형식. '삭제' 입력 시 변경 취소")
     async def schedule_cmd(interaction: discord.Interaction, 회차: int | None = None, 일시: str | None = None) -> None:

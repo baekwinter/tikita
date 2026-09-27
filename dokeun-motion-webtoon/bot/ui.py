@@ -334,7 +334,7 @@ def evidence_board_embed(game: GameService, user_id: int) -> discord.Embed:
             tail = f" · 🔒 {hidden}개 대기" if hidden else ""
             e.add_field(name=f"📂 EP.{n:02d} · 증거 {ep['count']}개",
                         value=f"-# ✅ 확보 {done} / 공개 {openc}{tail}", inline=False)
-    e.set_footer(text="아래 회차 메뉴에서 회차를 고르면 그 회차 증거만 자세히 볼 수 있어요.")
+    e.set_footer(text="회차 메뉴에서 회차를 고르면 그 회차 증거만 볼 수 있어요 · 맨 아래 📝 버튼으로 최종 정답 제출")
     return e
 
 
@@ -698,9 +698,11 @@ class NoteModal(discord.ui.Modal, title="수사 노트"):
 
 
 class FinalReasonModal(discord.ui.Modal, title="최종 추리 · Q5"):
-    reason = discord.ui.TextInput(label="Q5. 왜, 어떻게 그런 행동을 했나요?", style=discord.TextStyle.paragraph,
+    reason = discord.ui.TextInput(label="왜, 어떻게 그런 행동을 했나요?", style=discord.TextStyle.paragraph,
+                                  placeholder="송출한 사람의 동기와 방법을 한두 문장으로 설명해 주세요.",
                                   min_length=10, max_length=1000)
-    story = discord.ui.TextInput(label="사건의 흐름 (선택)", style=discord.TextStyle.paragraph, required=False,
+    story = discord.ui.TextInput(label="어떤 증거를 근거로 판단했나요? (선택)", style=discord.TextStyle.paragraph,
+                                 required=False, placeholder="예: E-04 예약 수정 기록, E-11 계정 로그 …",
                                  max_length=1500)
 
     def __init__(self, picks: dict[str, str]):
@@ -855,6 +857,13 @@ class EvidenceSelectView(OwnerView):
                 ev_select.callback = self._pick_evidence  # type: ignore[assignment]
                 self.ev_select = ev_select
                 self.add_item(ev_select)
+        # 증거 보관함 하단: 최종 정답 제출 버튼 (기존 정답 제출 흐름을 그대로 재사용)
+        submit_btn = discord.ui.Button(label="📝 최종 정답 제출하기", style=discord.ButtonStyle.danger, row=2)
+        submit_btn.callback = self._submit_final  # type: ignore[assignment]
+        self.add_item(submit_btn)
+
+    async def _submit_final(self, interaction: discord.Interaction) -> None:
+        await run_safely(interaction, lambda: show_final(interaction))
 
     async def _pick_episode(self, interaction: discord.Interaction) -> None:
         n = int(self.ep_select.values[0])
@@ -905,6 +914,7 @@ ACTION_LABELS = {
     "progress": ("내 진행도", discord.ButtonStyle.secondary),
     "evidence": ("증거 확인", discord.ButtonStyle.secondary),
     "final": ("최종 추리 안내", discord.ButtonStyle.danger),
+    "finalsubmit": ("📝 정답 제출하기", discord.ButtonStyle.danger),
     "watch": ("시청 완료", discord.ButtonStyle.success),
     "ask": ("YES/NO 질문", discord.ButtonStyle.primary),
 }
@@ -936,6 +946,7 @@ class PublicButton(discord.ui.DynamicItem[discord.ui.Button], template=r"dg:(?P<
             "progress": lambda: show_progress(interaction),
             "evidence": lambda: show_evidence(interaction),
             "final": lambda: show_final(interaction),
+            "finalsubmit": lambda: show_final(interaction),
             "watch": lambda: _watch(interaction, self.arg or 0),
         }
         handler = handlers.get(action)
@@ -961,4 +972,30 @@ def public_view(bot: "DalbitBot", actions: list[str], episode: int | None = None
     url = web_url(bot) if with_web else None
     if url:
         view.add_item(discord.ui.Button(label="웹 조사실", url=url, row=1))
+    return view
+
+
+# ---------------------------------------------------------------------------
+# 최종 수사 보고서(정답 제출) 고정 패널
+# ---------------------------------------------------------------------------
+def final_panel_embed() -> discord.Embed:
+    """운영진이 수사본부/정답 채널에 고정 게시하는 정답 제출 패널."""
+    e = discord.Embed(
+        title="🌙 최종 수사 보고서",
+        description=(
+            "지금까지 확보한 증거와 인물들의 진술을 바탕으로 고백 송출 사건의 전말을 제출해 주세요.\n\n"
+            "범인의 이름만으로는 사건을 해결할 수 없습니다.\n"
+            "최대 제출 기회는 **3회**입니다.\n\n"
+            "아래 **📝 정답 제출하기** 를 누르면 나에게만 보이는 제출 창이 열립니다."
+        ),
+        colour=COLOR_PINK,
+    )
+    e.set_footer(text=footer("ref:panel:final"))
+    return e
+
+
+def final_panel_view() -> discord.ui.View:
+    """정답 제출 버튼만 있는 영구 View (봇 재시작 후에도 dg:finalsubmit 로 복구)."""
+    view = discord.ui.View(timeout=None)
+    view.add_item(PublicButton("finalsubmit"))
     return view
