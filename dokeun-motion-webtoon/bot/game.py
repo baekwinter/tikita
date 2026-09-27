@@ -597,6 +597,24 @@ class GameService:
             "currency": self.rewards.currency,
         }
 
+    # ---- 랭킹(공개) -------------------------------------------------------
+    def ranking(self, top: int = 10, user_id: int | None = None) -> dict[str, Any]:
+        """공개 랭킹용 데이터. 순위·표시이름·포인트만 담고 스포일러(정답 여부 등)는 넣지 않는다.
+        user_id 를 주면 그 사람의 등수/포인트를 함께 반환한다(자기 위치 확인용)."""
+        rows = self.db.leaderboard()  # 포인트 내림차순 전체
+        entries = [{"rank": i, "user_id": r["user_id"],
+                    "display_name": r["display_name"] or "익명 조사원", "points": int(r["points"])}
+                   for i, r in enumerate(rows, start=1)]
+        me = None
+        if user_id is not None:
+            me = next((e for e in entries if e["user_id"] == user_id), None)
+        return {
+            "currency": self.rewards.currency,
+            "total_players": len(entries),
+            "top": entries[:top],
+            "me": me,
+        }
+
     # ---- 수사 노트 --------------------------------------------------------
     def get_note(self, user_id: int) -> dict[str, Any]:
         row = self.db.get_note(user_id)

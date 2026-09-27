@@ -426,7 +426,8 @@ def help_embed() -> discord.Embed:
         "**/영상** 공개 영상 목록 · **/회차** 현재 공개 회차 확인\n"
         "**/증거** 공개된 증거 목록 · **/조사** 증거 상세 보기\n"
         "**/추리** 지금까지의 가설 기록 · **/정답** 최종 추리 제출\n"
-        "**/진행도** 내 수사 기록 · **/관계도** 심문으로 밝혀낸 인물 관계도\n\n"
+        "**/진행도** 내 수사 기록 · **/관계도** 심문으로 밝혀낸 인물 관계도\n"
+        "**/순위** 달빛 수사 포인트 랭킹과 내 등수\n\n"
         "방송부의 응답은 YES · NO · 관계없음 · 아직 공개되지 않은 정보입니다 중 하나입니다.\n"
         "인물 이름과 행동을 넣어 긍정형으로 물을수록 정확하게 답할 수 있어요.\n"
         "모든 응답은 나에게만 보입니다."
@@ -487,6 +488,31 @@ def final_result_embed(res: dict[str, Any]) -> discord.Embed:
     e = discord.Embed(description="\n".join(lines) + points_toast(res.get("gained", 0)), colour=colour)
     e.set_footer(text="이 결과는 나에게만 보입니다.")
     return e
+
+
+MEDALS = {1: "🥇", 2: "🥈", 3: "🥉"}
+
+
+def ranking_embed(game: GameService, user_id: int | None = None, top: int = 10, public: bool = False) -> discord.Embed:
+    """달빛 수사 포인트 공개 랭킹. 순위·이름·포인트만 담아 스포일러가 없다.
+    public=True 는 채널 게시용(멘션 대신 이름 표시), False 는 개인 확인용(본인 등수 강조)."""
+    data = game.ranking(top=top, user_id=user_id)
+    lines = []
+    for e in data["top"]:
+        medal = MEDALS.get(e["rank"], f"`{e['rank']:>2}`")
+        name = e["display_name"]
+        mark = " ◀ 나" if (user_id is not None and e["user_id"] == user_id and not public) else ""
+        lines.append(f"{medal} **{name}** · {e['points']}점{mark}")
+    body = "\n".join(lines) if lines else "아직 참가자가 없습니다."
+    # 상위권 밖이면 내 등수를 따로 덧붙인다(개인 확인용).
+    me = data["me"]
+    if me and not public and me["rank"] > top:
+        body += f"\n\n-# …\n`{me['rank']:>2}` **{me['display_name']}** · {me['points']}점 ◀ 나"
+    embed = discord.Embed(
+        title=f"🌙 달빛 수사 포인트 랭킹 · TOP {min(top, data['total_players']) or top}",
+        description=body, colour=COLOR_PINK)
+    embed.set_footer(text=f"참가자 {data['total_players']}명 · {data['currency']}")
+    return embed
 
 
 # ---------------------------------------------------------------------------
@@ -652,6 +678,13 @@ async def show_final(interaction: discord.Interaction) -> None:
         await reply(interaction, "더 이상 최종 추리를 제출할 수 없습니다.", embed=embed)
         return
     await reply(interaction, embed=embed, view=FinalView(bot, uid))
+
+
+async def show_ranking(interaction: discord.Interaction) -> None:
+    """참가자 누구나 볼 수 있는 공개 랭킹(본인에게만 보이는 ephemeral). 본인 등수를 강조한다."""
+    bot: DalbitBot = interaction.client  # type: ignore[assignment]
+    bot.game.gate()
+    await reply(interaction, embed=ranking_embed(bot.game, interaction.user.id, top=10, public=False))
 
 
 async def show_final_report(interaction: discord.Interaction) -> None:

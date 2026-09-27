@@ -134,6 +134,11 @@ def register_commands(bot: "DalbitBot") -> None:
         if await ui.guard(interaction):
             await ui.run_safely(interaction, lambda: ui.show_progress(interaction))
 
+    @tree.command(name="순위", description="달빛 수사 포인트 랭킹과 내 등수를 확인합니다", guild=guild)
+    async def ranking_cmd(interaction: discord.Interaction) -> None:
+        if await ui.guard(interaction):
+            await ui.run_safely(interaction, lambda: ui.show_ranking(interaction))
+
     @tree.command(name="관계도", description="심문으로 밝혀낸 인물 관계도를 확인합니다", guild=guild)
     async def relations_cmd(interaction: discord.Interaction) -> None:
         if await ui.guard(interaction):
@@ -207,6 +212,17 @@ def register_commands(bot: "DalbitBot") -> None:
         # 재시작으로 중복 게시되지 않는다. 운영진이 이 명령을 부를 때만 새 패널이 올라간다.
         await interaction.channel.send(embed=ui.final_panel_embed(), view=ui.final_panel_view())
         await ui.reply(interaction, "🌙 최종 수사 보고서 패널을 이 채널에 게시했습니다.")
+
+    @admin.command(name="순위게시", description="이벤트 채널에 달빛 수사 포인트 공개 랭킹판을 게시")
+    @app_commands.describe(인원="표시할 상위 인원 (기본 15)")
+    async def ranking_post_cmd(interaction: discord.Interaction, 인원: app_commands.Range[int, 3, 25] = 15) -> None:
+        if not await admin_only(interaction):
+            return
+        await interaction.response.defer(ephemeral=True, thinking=True)
+        embed = ui.ranking_embed(bot.game, user_id=None, top=int(인원), public=True)
+        channel = bot.get_channel(bot.cfg.event_channel_id) or await bot.fetch_channel(bot.cfg.event_channel_id)
+        await channel.send(embed=embed)
+        await interaction.followup.send("🌙 달빛 수사 포인트 랭킹판을 이벤트 채널에 게시했습니다.", ephemeral=True)
 
     @admin.command(name="버튼추가", description="이미 게시된 수사본부/개막 공지에 '📝 최종 정답 제출하기' 버튼을 추가")
     @app_commands.describe(공지="버튼을 추가할 기존 공지", 메시지링크="자동으로 찾지 못할 때 쓸 메시지 링크(선택)")
