@@ -288,3 +288,27 @@ async def test_notice_can_mention_everyone(cfg):
     assert "content" not in sent[1] and "allowed_mentions" not in sent[1]  # 기본은 멘션 없음
     assert isinstance(sent[0]["embed"], discord.Embed)
     await bot.close()
+
+
+async def test_publish_announcement_now_and_again(tmp_path, catalog):
+    from bot.database import Database
+
+    from .conftest import make_config
+
+    cfg = make_config(tmp_path, event__announcements=[{"id": "hq-open-3", "title": "수사본부 OPEN", "body": "시작",
+                                                       "mention_everyone": True}])
+    db = Database(cfg.db_path)
+    db.set_kv("paused", True)  # 일시 중지 중이어도 운영진 수동 게시는 된다
+    pub = FakePublisher()
+    got = []
+
+    async def post_notice(text, title=None, ref=None, banner=False, mention_everyone=False):
+        got.append(mention_everyone)
+        return await pub._post(f"notice:{title}", ref)
+    pub.post_notice = post_notice
+    s = sched(cfg, db, catalog, pub)
+    assert await s.publish_announcement() == ("hq-open-3", POSTED)
+    assert await s.publish_announcement() == ("hq-open-3", ALREADY)
+    assert await s.publish_announcement(again=True) == ("hq-open-3", POSTED)
+    assert got == [True, True] and pub.posts == ["notice:수사본부 OPEN"] * 2
+    assert (await s.publish_announcement("없는id"))[1] == "unknown"

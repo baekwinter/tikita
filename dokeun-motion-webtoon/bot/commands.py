@@ -414,6 +414,22 @@ def register_commands(bot: "DalbitBot") -> None:
             return
         await interaction.followup.send("이벤트 채널에 공지를 올렸습니다.", ephemeral=True)
 
+    @admin.command(name="공지재게시", description="수사본부 OPEN 등 settings.json 공지를 배너·버튼·@everyone 그대로 지금 게시")
+    @app_commands.describe(다시올리기="이미 게시된 공지라도 한 번 더 올리기", 공지id="공지 id (비우면 마지막 공지)")
+    async def notice_repost_cmd(interaction: discord.Interaction, 다시올리기: bool = False, 공지id: str | None = None) -> None:
+        if not await admin_only(interaction):
+            return
+        await interaction.response.defer(ephemeral=True, thinking=True)
+        nid, res = await bot.scheduler.publish_announcement((공지id or "").strip() or None, again=다시올리기)
+        if res == FAILED:
+            reason = next((a["message"] for a in reversed(bot.db.alerts()) if a["key"] == f"failed:notice:{nid}"), "")
+            msg = f"공지 `{nid}` 게시 실패. {reason}\n이벤트 채널 <#{bot.cfg.event_channel_id}> 에서 봇 역할의 보기·보내기·임베드·파일 첨부 권한을 확인하세요."
+        elif res == ALREADY:
+            msg = f"공지 `{nid}` 는 이미 게시되어 있습니다. 한 번 더 올리려면 `다시올리기:True` 를 함께 입력하세요."
+        else:
+            msg = f"공지 `{nid}`: {describe(res)}"
+        await interaction.followup.send(msg, ephemeral=True)
+
     tree.add_command(admin)
 
 
