@@ -360,6 +360,24 @@ class ReleaseScheduler:
         return res
 
     # ---- 운영진 수동 조작 --------------------------------------------------
+    async def publish_announcement(self, nid: str | None = None, again: bool = False) -> tuple[str, PublishResult | str]:
+        """settings.json 의 공지를 지금 바로 게시한다 (id 생략 시 마지막 공지). again=True 면 이미 게시됐어도 다시 올린다."""
+        items = [i for i in self.cfg.section("event").get("announcements") or [] if str(i.get("id") or "").strip()]
+        if nid:
+            items = [i for i in items if str(i["id"]).strip() == nid]
+        if not items:
+            return nid or "-", "unknown"
+        item = items[-1]
+        nid = str(item["id"]).strip()
+        async with self._lock:
+            if again:
+                self.db.drop_release("notice", nid)
+            res = await self._publish("notice", nid, lambda: self.publisher.post_notice(
+                item.get("body", ""), title=item.get("title"), ref=marker("notice", nid), banner=bool(item.get("banner")),
+                mention_everyone=bool(item.get("mention_everyone"))), manual=True)
+            await self.flush_alerts()
+            return nid, res
+
     async def publish_opening(self) -> PublishResult:
         async with self._lock:
             res = await self._publish("opening", "main", self.publisher.post_opening, manual=True)
