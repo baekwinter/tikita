@@ -359,7 +359,6 @@ HUB_CSS = """
   .nx-hub-slogan{font-family:var(--nx-en);font-style:italic;font-size:clamp(20px,5vw,26px);letter-spacing:.06em;color:var(--nx-gold);margin-top:12px}
   .nx-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:12px}
   .nx-grid > .nx-card{flex:0 1 calc((100% - 24px)/3)}
-  @media (max-width:600px){.nx-grid > .nx-card{flex-basis:calc((100% - 12px)/2);padding:18px 16px}}
   .nx-card{--nx-gold:var(--c);display:flex;flex-direction:column;gap:10px;padding:22px 20px;border:1px solid rgba(236,230,218,.08);border-radius:14px;background:var(--nx-surface);color:var(--nx-ink);text-decoration:none;transition:border-color .3s,transform .3s}
   .nx-card:hover{border-color:var(--c);transform:translateY(-2px)}
   .nx-card-top{display:flex;align-items:center;justify-content:space-between}
@@ -367,13 +366,14 @@ HUB_CSS = """
   .nx-card .nx-emb{width:30px;height:30px;color:var(--c)}
   .nx-card-film{font-family:var(--nx-en);font-size:11.5px;letter-spacing:.3em;color:var(--c);text-transform:uppercase}
   .nx-card-name{font-family:var(--nx-serif);font-size:19px;font-weight:600}
-  .nx-card-name small{font-family:var(--nx-en);font-size:12.5px;letter-spacing:.16em;color:var(--nx-faint);margin-left:8px;font-weight:500}
+  .nx-card-name small{display:block;font-family:var(--nx-en);font-size:12px;letter-spacing:.16em;color:var(--nx-faint);margin-top:2px;font-weight:500}
   .nx-card-desc{font-size:13.5px;line-height:1.7;color:var(--nx-muted);word-break:keep-all}
   .nx-card-pow{font-size:12px;color:var(--c);letter-spacing:.04em}
   .nx-sugg{display:grid;grid-template-columns:72px 1fr;gap:8px 14px;font-size:14px}
   .nx-sugg dt{color:var(--nx-faint);font-size:12.5px}
   .nx-sugg dd{word-break:keep-all}
   @keyframes nx-spin{to{transform:rotate(360deg)}}
+  @media (max-width:600px){.nx-grid > .nx-card{flex-basis:calc((100% - 12px)/2);padding:18px 16px}.nx-card .nx-card-film{letter-spacing:.16em;font-size:11px}.nx-card .nx-face{width:60px;height:60px}}
 """
 
 
@@ -515,6 +515,27 @@ def tikitaka_test(platform):
 TEST_CSS = ".nxt-aplus{padding:14px 18px;border-radius:12px;background:#6b4fd8;color:#fff;font-weight:700}\n"
 
 
+# ---------------------------------------------------------------- review (Step 2 확인표)
+def review(members):
+    g = members["group"]["idol_concept"]
+    L = ["# NOX 7인 확인표", "",
+         "`data/members.json`에서 자동 생성. 수정은 members.json에서 하고 `python tools/build.py`.",
+         "확정하려면 Claude Code에 `<이름> 확정`이라고 말하면 status가 complete로 바뀐다.", "",
+         "| # | 멤버 | 상태 | 나이 · 신장 | 포지션 | 유저와의 관계 | 호칭 | 아키타입 | MODE | 능력 | 컬러 |",
+         "|---|---|---|---|---|---|---|---|---|---|---|"]
+    for m in members["members"]:
+        ps = m["profile_suggest"]
+        L.append(f"| {m['order']} | **{m['name']}** {m['concept_ko']} | {m['status']} | {ps['age']}세 · {ps['height']} | {m['position']} | "
+                 f"{ps['relation']} | {ps['address']} | {m['archetype_suggest']} | {m['copy']['mode']['name_en']} — {m['copy']['mode']['title']} | "
+                 f"{m['power']['name']} | {ps['color_name']} `{m['accent']}` |")
+    L += ["", "## 한 줄 훅 (시그니처 대사)", ""]
+    L += [f"- **{m['name']}** — “{m['copy']['signature_line']}”" for m in members["members"]]
+    L += ["", "## 그룹 제안값 (확인 필요)", "",
+          f"- 슬로건: {g['slogan_suggest']}", f"- 인사: {g['greeting_suggest']}",
+          f"- 팬덤명: {g['fandom_suggest']['name']} — {g['fandom_suggest']['meaning']}", f"- 공식 컬러: {g['official_color_suggest']}", ""]
+    return "\n".join(L)
+
+
 # ---------------------------------------------------------------- main
 def build(only=None):
     members, faces, platform = load()
@@ -541,6 +562,7 @@ def build(only=None):
             (od / "image_prompts.md").write_text(image_prompts(m, members), encoding="utf-8")
         report.append((m["id"], f"mode {platform['mode']}", len(paste), applied))
     (OUT / "index.html").write_text(hub(members, faces), encoding="utf-8")
+    (OUT / "_review.md").write_text(review(members), encoding="utf-8")
     (OUT / "_tikitaka_test.md").write_text(tikitaka_test(platform), encoding="utf-8")
     (OUT / "_test.css").write_text(TEST_CSS, encoding="utf-8")
     for mid, mode, n, applied in report:

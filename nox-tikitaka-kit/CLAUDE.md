@@ -13,20 +13,29 @@
 ## 1. 폴더 구조
 ```
 CLAUDE.md                     ← 이 문서 (상시 규칙)
-START.md                      ← 사용자가 붙여넣는 실행 프롬프트
+START.md                      ← 사용자가 붙여넣는 실행 프롬프트 + 현재 상태
 reference/eclipse_chaeungyeol.html  ← ★ 디자인 기준 (완성본, 얼굴 슬롯·아이돌 레이어 포함)
 data/members.json             ← ★ 단일 데이터 원본. 모든 출력은 여기서 생성
 data/faces.json               ← 얼굴 이미지 URL / 로컬 경로 등록부
-data/platform.json            ← (네가 생성) 티키타 렌더링 호환 모드 기록
+data/platform.json            ← 티키타 렌더링 호환 모드 기록 (테스트 전 기본값 A)
+data/locked/eclipse_source.txt     ← 사용자 원문 (차은결 카피 대조용, 수정 금지)
+data/locked/complete_copy.json     ← complete 카피 잠금 스냅샷 (check.py가 비교)
 assets/faces/<id>.png         ← 얼굴 이미지 (미리보기용)
-tools/                        ← (네가 생성) build.py, check.py
-output/                       ← (네가 생성) 결과물
+tools/build.py                ← data → output 전체 생성
+tools/check.py                ← 글자 수·얼굴·script·이모지·잠금·나이 검증 (실패 시 exit 1)
+tools/shots.py                ← 390/1280px 스크린샷 + 가로 스크롤 검사
+tools/heroes.py               ← 멤버별 히어로 효과 CSS + 문양 SVG
+tools/templates/base.css      ← reference에서 추출한 공통 CSS (포인트 컬러 토큰화)
+output/                       ← 결과물 (build.py가 생성, 직접 수정 금지)
   index.html                  ← 7인 허브 페이지 (티저 그리드)
+  _review.md                  ← 7인 확인표 (관계·호칭·MODE·능력)
   <id>/preview.html           ← 로컬 미리보기 (풀 CSS, 로컬 얼굴 이미지)
   <id>/tikitaka_intro.html    ← 티키타 공개 소개 붙여넣기용 (압축, URL 얼굴, ≤ 19,500자)
+  <id>/tikitaka_intro.md      ← HTML이 지워질 때 쓰는 마크다운 대체본 (C 모드)
+  <id>/nox.css                ← A+ 모드(외부 CSS)용 스타일시트
   <id>/tikitaka_fields.md     ← 티키타 입력칸 전체 + 글자 수
   <id>/image_prompts.md       ← 얼굴·썸네일·에피소드 이미지 프롬프트
-  _tikitaka_test.md           ← 호환성 테스트 스니펫
+  _tikitaka_test.md           ← 호환성 테스트 스니펫 (+ _test.css, _test.png)
   _screens/                   ← 검증 스크린샷
 ```
 멤버 id: `abyss` 기현석 · `eclipse` 차은결 · `comet` 윤하겸 · `mist` 연우진 · `moon` 백도하 · `aurora` 선우빈 · `star` 강지후
@@ -159,3 +168,19 @@ NOX는 **2010년대 세계관형 보이그룹**처럼 보여야 한다. EXO가 �
 - "티키타 테스트 결과: A, C 보임" → platform.json 기록 후 전체 재빌드
 - "트랙 03 열렸어" → album.tracks 상태 live로 → 7개 페이지 일괄 반영
 - "글자 수 표 보여줘" → check.py 결과만 출력
+
+## 12. members.json 필드 메모 (빌드가 읽는 것)
+- `copy` — 소개 페이지 카피 (§7 구조). `display` — 표시용 마크업만: `lead_html`(줄바꿈·em), `strong`(강조할 구절). 카피 텍스트 자체는 바꾸지 않는다.
+- `profile_suggest` — age·birth_year·height·color_name·relation(유저와의 관계)·address(호칭).
+- `tikitaka` — 입력칸 전체 (story_title, one_liner, char_intro, secret, story_setting, first_message, example_dialogue, episodes[4]{title,condition,narrative,private}, variables[≤3], categories, tags, creator_comment). 스토리 설정 칸에는 `group.tikitaka_common_rules`가 자동으로 뒤에 붙는다.
+- `image` — 이미지 프롬프트 재료 (appearance·outfit·symbol·episodes[4]·episode_assets). 공통 베이스는 `group.image_prompt_base`.
+- 작업 순서: members.json 수정 → `python tools/build.py` → `python tools/check.py` → (디자인 변경 시) `python tools/shots.py`.
+
+## 13. 현재 진행 상태 (2026-10-05)
+- Step 0 완료: `output/_tikitaka_test.md` 생성. **사용자 테스트 결과 대기** → 받으면 platform.json 갱신 후 재빌드.
+- Step 1 완료: build/check 작성. 재생성한 차은결 페이지 = reference와 1280px 픽셀 동일, 390px은 코로나 블러 안티앨리어싱 10픽셀 차이뿐.
+- Step 2 완료(초안): 6인 카피 `draft`. **사용자 확인 대기** — `output/_review.md` 표 참고.
+- Step 3~5 완료: 7인 페이지·허브·image_prompts·tikitaka_fields 생성, check 실패 0, 7인 × 2폭 가로 스크롤 0.
+- 남은 일: ① 티키타 테스트 결과 반영 ② 6인 카피 확정 ③ 얼굴 이미지 URL 등록(현재 0/7, 전부 실루엣) ④ 그룹 제안값(슬로건·팬덤명·인사) 확정.
+- 차은결 tikitaka 입력칸(비밀·설정·EP 비공개 등)은 원문에 없던 내용을 새로 쓴 것이라 `tikitaka.status: draft`. 소개 카피(copy)는 complete 그대로.
+

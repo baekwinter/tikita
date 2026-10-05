@@ -1,4 +1,22 @@
-# Claude Code 실행 프롬프트
+# NOX × 티키타 킷
+
+## 지금 상태 (2026-10-05)
+7인 소개 페이지 · 허브 · 티키타 입력칸 · 이미지 프롬프트까지 **전부 만들어져 있습니다.** 아래 4가지만 확인해 주면 끝납니다.
+
+| 할 일 | 어디서 | 끝나면 Claude Code에 |
+|---|---|---|
+| ① 티키타 호환성 테스트 | `output/_tikitaka_test.md` 내용을 티키타 **공개 소개** 칸에 붙여넣고 미리보기 | `티키타 테스트 결과: A, D 보임` |
+| ② 6인 카피 확인 | `output/_review.md` 표 + `output/<id>/preview.html` | `윤하겸 확정` / `백도하 EP02 대사 더 아프게` |
+| ③ 얼굴 이미지 | `output/<id>/image_prompts.md` 얼굴 프롬프트 → 티키타 생성 → 주소를 `data/faces.json`에 | `얼굴 반영해줘` |
+| ④ 그룹 제안값 | `_review.md` 하단 (슬로건 · 팬덤명 LUMEN · 인사) | `슬로건 확정` / `팬덤명 바꿔줘` |
+
+- 붙여넣기: `output/<id>/tikitaka_intro.html` → 공개 소개 칸 / `output/<id>/tikitaka_fields.md` → 나머지 입력칸 (칸마다 복사 블록 + 글자 수)
+- 미리보기: `output/index.html` (허브, 7인 링크)
+- 직접 고친 뒤: `python tools/build.py` → `python tools/check.py`
+
+---
+
+## 처음부터 다시 시킬 때 — Claude Code 실행 프롬프트
 
 이 폴더(`nox-tikitaka-kit`)를 Claude Code로 연 뒤, 아래 박스 안의 내용을 그대로 붙여넣으세요.
 (Claude Code는 같은 폴더의 `CLAUDE.md`를 자동으로 읽습니다.)

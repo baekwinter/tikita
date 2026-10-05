@@ -1,0 +1,7 @@
+{
+  "_comment": "티키타 공개 소개 렌더링 호환 모드. mode: A(<style> 블록) | A+(외부 CSS link) | B(인라인 style) | C(마크다운). 테스트 결과(output/_tikitaka_test.md)를 알려주면 갱신한다. cdn_ref = A+ 모드에서 jsDelivr가 CSS를 읽을 git 브랜치/커밋, test_ref = 테스트 스니펫용 커밋.",
+  "mode": "A",
+  "notes": "티키타 테스트 전 기본값. 결과 대기 중.",
+  "cdn_ref": "main",
+  "test_ref": "f95d83bc748891b00e02a63a0fb2be8ff019e698"
+}
