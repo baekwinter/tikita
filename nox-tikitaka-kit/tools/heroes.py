@@ -12,9 +12,9 @@ HERO_FX = {
         "after": "",
         "css": """
   .nx-deep{position:absolute;inset:-48px;border-radius:50%;background:radial-gradient(circle,rgba(__RGB__,.28) 0%,rgba(__RGB__,.08) 45%,transparent 70%);filter:blur(6px)}
-  .nx-rip{position:absolute;inset:0;border-radius:50%;border:1px solid rgba(__LRGB__,.7);opacity:0;animation:nx-sink 7.5s cubic-bezier(.3,.1,.3,1) infinite}
-  .nx-rip--2{animation-delay:-2.5s}.nx-rip--3{animation-delay:-5s}
-  @keyframes nx-sink{0%{transform:scale(1.85);opacity:0}35%{opacity:.55}100%{transform:scale(1);opacity:0}}
+  .nx-rip{position:absolute;inset:0;border-radius:50%;border:1px solid rgba(__LRGB__,.7);opacity:.35;transform:scale(1.12);animation:nx-sink 7.5s cubic-bezier(.3,.1,.3,1) infinite}
+  .nx-rip--2{opacity:.2;transform:scale(1.28);animation-delay:-2.5s}.nx-rip--3{opacity:.1;transform:scale(1.45);animation-delay:-5s}
+  @keyframes nx-sink{0%{transform:scale(1.6);opacity:0}35%{opacity:.55}100%{transform:scale(1);opacity:0}}
 """,
     },
     # 일식 — reference 그대로: 회전하는 코로나 + 다이아몬드 링 플레어
@@ -51,7 +51,7 @@ HERO_FX = {
         "css": """
   .nx-haze{position:absolute;inset:-40px;border-radius:50%;background:radial-gradient(circle,rgba(__RGB__,.22),transparent 68%);filter:blur(10px)}
   .nx-fog{position:absolute;z-index:2;left:-38%;width:176%;height:30%;top:16%;border-radius:50%;pointer-events:none;
-    background:radial-gradient(ellipse at center,rgba(__LRGB__,.34),rgba(__LRGB__,.08) 55%,transparent 72%);filter:blur(9px);animation:nx-drift 13s ease-in-out infinite alternate}
+    background:radial-gradient(ellipse at center,rgba(__LRGB__,.2),rgba(__LRGB__,.05) 55%,transparent 72%);filter:blur(12px);animation:nx-drift 13s ease-in-out infinite alternate}
   .nx-fog--2{top:48%;height:26%;animation-duration:17s;animation-direction:alternate-reverse}
   .nx-fog--3{top:72%;height:34%;animation-duration:21s;animation-delay:-6s}
   @keyframes nx-drift{from{transform:translateX(-14%)}to{transform:translateX(14%)}}

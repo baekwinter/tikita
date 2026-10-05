@@ -21,7 +21,7 @@
   .nx > *{position:relative;z-index:1}
 
   /* ---------- HERO ---------- */
-  .nx-hero{min-height:100vh;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:72px 0 56px}
+  .nx-hero{overflow:hidden;min-height:100vh;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:72px 0 56px}
   .nx-kicker{font-family:var(--nx-en);letter-spacing:.42em;font-size:13px;color:var(--nx-gold);text-transform:uppercase;margin-bottom:44px}
 
   .nx-orb{position:relative;width:220px;height:220px;margin-bottom:52px}
