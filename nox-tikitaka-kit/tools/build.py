@@ -493,9 +493,9 @@ def image_prompts(m, members):
 
 # ---------------------------------------------------------------- compat test (Step 0)
 def tikitaka_test(platform):
-    url = platform.get("test_css_url") or (
-        f"https://cdn.jsdelivr.net/gh/baekwinter/tikita@{platform['cdn_ref']}/nox-tikitaka-kit/output/_test.css")
-    img = "https://cdn.jsdelivr.net/gh/baekwinter/tikita@" + platform["cdn_ref"] + "/nox-tikitaka-kit/output/_test.png"
+    ref = platform.get("test_ref") or platform["cdn_ref"]
+    url = f"https://cdn.jsdelivr.net/gh/baekwinter/tikita@{ref}/nox-tikitaka-kit/output/_test.css"
+    img = f"https://cdn.jsdelivr.net/gh/baekwinter/tikita@{ref}/nox-tikitaka-kit/output/_test.png"
     return f"""<style>.nxt-a{{padding:14px 18px;border:2px solid #d9b26f;border-radius:12px;background:#0e0e13;color:#d9b26f;font-weight:700}}@keyframes nxt-b{{0%,100%{{opacity:.2}}50%{{opacity:1}}}}.nxt-d{{padding:14px 18px;border-radius:12px;background:#d9b26f;color:#07070a;font-weight:700;animation:nxt-b 1.2s ease-in-out infinite}}</style>
 <div class="nxt-a">A — 이 박스가 금색 테두리로 보이면 &lt;style&gt; 블록 OK</div>
 
