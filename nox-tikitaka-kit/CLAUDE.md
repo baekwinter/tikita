@@ -54,32 +54,37 @@ output/                       ← 결과물 (build.py가 생성, 직접 수정 �
 7. 실제 그룹·실존 인물의 이름, 로고, 슬로건, 능력 설정을 **차용하지 않는다** (§5 참조).
 8. 산출물에 `<script>` 금지 (티키타 붙여넣기 호환). 애니메이션은 CSS만.
 
-## 3. 티키타 플랫폼 규격 (입력칸 글자 수 제한)
-| 단계 | 입력칸 | 제한 |
-|---|---|---|
-| 프로필 | 스토리 제목 | 필수 |
-| | 한 줄 소개 | 100자 |
-| | 캐릭터 이름 | 15자 |
-| | 캐릭터 소개 | 1,000자 |
-| | 비밀 | 2,000자 |
-| | 성별 / 나이 | 남성 / 선택 |
-| | 스토리 설정 (비공개, AI 참고용) | 2,000자 |
-| 에피소드 (최대 10, 이 프로젝트는 4) | 에피소드 제목 | 20자 |
-| | 다음 에피소드로 넘어가는 조건 | 50자 |
-| | 서사 | 2,000자 |
-| | 비공개 설정 | 2,000자 |
-| | 변수 정의 | 최대 3개 |
-| 갤러리 | 썸네일 / 이미지 에셋 | 권장 512×768 (2:3), 에셋 설명 = 매칭 키워드 |
-| 이미지 생성 | 프롬프트 | 1,200자, 영문 키워드 콤마 구분, 품질 태그 포함 |
-| 공개여부 | 카테고리 | 최대 3개 |
-| | 태그 | 최대 15개 |
-| | **공개 소개 (마크다운)** | **50,000자** (실측, 2026-10-09) ← HTML 소개 페이지가 들어가는 곳 |
-| | 제작자 코멘트 | 1,000자 |
+## 3. 티키타 플랫폼 규격 (티키타 크리에이터 가이드 2026-10 기준 · `build.LIMITS`)
+| 단계 | 입력칸 | 제한 | 30,000자 합산 |
+|---|---|---|---|
+| 프로필 | 제목 | 20자 | X |
+| | 태그라인 (`one_liner`) | 100자 | X |
+| | 캐릭터 이름 | 15자 | O |
+| | 공개 정보 (`char_intro`, 유저에게 보임 · AI가 읽음) — 외모·태도·말투·관계·습관 | 20,000자 | O |
+| | 비공개 정보 (`secret`, 안 보임 · AI가 읽음) — 동기·상처·계획·거짓말·무너지는 때 + **언제 드러나는지** | 20,000자 | O |
+| | 스토리 설정 (+ 공통 규칙 자동 첨부) | 20,000자 | O |
+| 대화 | 첫 메시지 (공개 영역, 직접 묘사 금지) | 20,000자 · 권장 700~1,200 | O |
+| | 대화 시작 문구 (`starters`) 3개 — 받아들이기·파고들기·피하기, 인사말 말고 행동 | 각 200자 | O |
+| | 예시 대화 (`examples`) 최대 5개 — 하나에 패턴 하나 | 각 5,000자 | O |
+| | 추천 페르소나 (`personas`) 최대 3개 — 관계가 달라지는 역할 | 소개 200자 | X |
+| 에피소드 (최대 20) | 제목 | 20자 | O |
+| | 전환 조건 — 한 문장, {{user}}/{{char1}} 포함, 구체적 행동·선택·고백·발각, "조건:" 금지. 순차 진행 첫 화는 비움 | 200자 | O |
+| | 본문 (지금 상황과 압박만) / 비공개 설정 (뒤의 사정·속도) | 각 2,000자 | X |
+| | 변수 최대 10개 — 이름(띄어쓰기 X) 10 · 설명 5,000 · 범위 설명 5,000 · 시작값 200 | | O |
+| | 변수 디자인 HTML — 인라인 style만, 높이 300px 이하(가로 배치) | 10,240바이트 | X |
+| | 로어북 — 제목 50 · 키워드 1~20개(2~60자) · 내용 500 | | X |
+| 갤러리 | 이미지 그룹 이름 50 · 이미지 설명 100 · 썸네일(공개 영역) | | O |
+| 공개여부 | 카테고리 3개 · 태그 15개 · 제작자 코멘트 20,000(공개·심사 대상) · 스토리 소개 50,000(HTML) | | X |
+| 전체 | **작품 글자 수** | **30,000자** | |
+
+대사·지문 형식 (check.py가 검사)
+- 지문은 `*…*` 로 한 줄 전체를 감싸고 따로 쓴다. 지문 안에 콜론 금지.
+- 대사는 `차은결: 대사` (등록 이름 그대로, 콜론 뒤 한 칸). `{{user}}:` `{{char1}}:` 도 가능. `**이름**:` · `이름: *지문* 대사` 금지.
+- `tikitaka.guide_version`이 있는 멤버(현재 차은결)는 형식 위반이 실패, 없는 멤버는 경고.
 
 출력 형식 규칙
 - 이미지 프롬프트: `[모델명] 프롬프트: 영문 키워드, 콤마, 구분` (티키타 모델: Romance / Classic Webtoon / Pastel / Semi-Realistic / Glow / Soft Anime / Painting)
-- 대화 예시: `*상황 묘사*` → `{{user}}: 대사` → `{{char1}}: 대사`
-- 에피소드: 제목 / 넘어가는 조건 / 서사 / 비공개 설정
+- 에피소드: 제목 / 전환 조건 / 본문 / 비공개 설정
 
 ## 4. 얼굴 이미지 규칙
 - 슬롯 마크업: `<div class="nx-face" data-face="<id>">…</div>` (reference 참고). 이미지가 있으면 내부를 `<img src="…" alt="<이름>">` 로, 없으면 실루엣 SVG로 빌드.
@@ -183,7 +188,7 @@ NOX는 **2010년대 세계관형 보이그룹**처럼 보여야 한다. EXO가 �
 ## 12. members.json 필드 메모 (빌드가 읽는 것)
 - `copy` — 소개 페이지 카피 (§7 구조). `display` — 표시용 마크업만: `lead_html`(줄바꿈·em), `strong`(강조할 구절). 카피 텍스트 자체는 바꾸지 않는다.
 - `profile_suggest` — age·birth_year·height·color_name·relation(유저와의 관계)·address(호칭).
-- `tikitaka` — 입력칸 전체 (story_title, one_liner, char_intro, secret, story_setting, first_message, example_dialogue, episodes[4]{title,condition,narrative,private}, variables[≤3], categories, tags, creator_comment). 스토리 설정 칸에는 `group.tikitaka_common_rules`가 자동으로 뒤에 붙는다.
+- `tikitaka` — 입력칸 전체 (story_title, one_liner, char_intro, secret, story_setting, first_message, example_dialogue, episodes[4]{title,condition,narrative,private}, variables[≤10]{name,type,range,start,desc,range_desc}, starters, examples, personas, status_html, lorebook, gallery, settings, categories, tags, creator_comment). 스토리 설정 칸에는 `group.tikitaka_common_rules`가 자동으로 뒤에 붙는다.
 - `image` — 이미지 프롬프트 재료 (appearance·outfit·symbol·episodes[4]·episode_assets). 공통 베이스는 `group.image_prompt_base`.
 - 작업 순서: members.json 수정 → `python tools/build.py` → `python tools/check.py` → (디자인 변경 시) `python tools/shots.py`.
 
@@ -198,4 +203,4 @@ NOX는 **2010년대 세계관형 보이그룹**처럼 보여야 한다. EXO가 �
 - 2026-10-09 디자인 v3 'ON AIR' (사용자: 레퍼런스를 따라 하지 말고 NOX 세계관에 맞게. '낙화하는 신들'은 그룹 NOX의 세계관 컨셉이며 멤버가 실제 신인 것은 아님): 현대(아이돌) 층 = 생방송 LIVE 바·엔딩 요정 캠·방송 자막 띠·자막 명대사·포토카드·ON/OFF STAGE 분할·새벽 메신저·COORDI NOTE 의상 태그(공략+변수 게이지)·포토카드 라인업·앨범 바코드. 그룹 컨셉 층 = 'NOX CONCEPT · 落花記錄' 띠, PROFILE(IDOL PROFILE × NOX CONCEPT), 에피소드 = 상징의 4단계(`display.episode_marks`, 일식: 제1접촉→부분식→개기식→다이아몬드 링), 七神落花 세계관. 데이터: `display.tagline`·`timeline`(차은결 10년 타임라인)·`episode_marks`·`episode_caption`. 레퍼런스(사극 서찰 디자인)의 종이·인장·한자 챕터 구조는 쓰지 않는다.
 - 2026-10-09 디자인 v4 '공략 루트' (사용자: 아이돌과 연애하는 연애 시뮬레이션 느낌): 타이틀 화면(엔딩 요정 컷 + NOX FANTASIA 로고 + START/공략/CG/OST 메뉴) → 공략 대상 + 호감도 HUD(티키타 변수 시작값) → 프롤로그 나레이션 박스·MEMORY 회상·대사창(이름표 탭 + ▼) → OFF STAGE → CHAPTER 01~04(CG·장면·대사창·선택지 A/B와 수치 변화 `display.choices`) → 엔딩 카드(`display.endings`, ??? 잠금) → 공략 TIP → CG 갤러리(faces.json gallery) → 공략 캐릭터 선택(ROUTE 01~07) → OST → TO BE CONTINUED. 글자 수 절약: route.py는 반투명 rgba 대신 hex 토큰, word-break는 바깥 상자에서 상속. 차은결 약 48,000자(예산 49,500) — 내용을 더 넣을 땐 글자 수 먼저 확인.
 - 2026-10-09 디자인 v5 통합형 '컨셉 필름' (사용자 선택: 시안 C 티저 필름으로 시작 + A 프라이빗 메시지 + B 매거진 인터뷰 '국민 남친의 가면'): OPENING(컨셉 필름 타이틀·시네마 비율 메인 컷·자막·EN 타이틀) → PRIVATE MESSAGE(폰 화면 대화 `display.chat`, 없으면 signature·mode.line으로 자동) → INTERVIEW(매거진 표지 + 프로필 박스 + 프롤로그 기사 + ON/OFF STAGE + Q&A `display.interview`) → SCENES(`display.scene_slugs`) → 공략 노트(팁 + 변수) → CAST(7인) → OST → END CREDITS. 차은결 약 26,700자. v4(route.py)는 사용자가 전체적으로 마음에 들지 않는다고 해서 대체.
-
+- 2026-10-09 차은결 입력칸을 티키타 크리에이터 가이드 형식으로 재작성(`tikitaka.guide_version`): 공개/비공개 정보(드러나는 때 포함), 첫 메시지 747자, 대화 시작 문구 3, 예시 대화 5(`examples`), 추천 페르소나 3, 전환 조건(EP1 비움), 변수 6개(숫자 3 + 범위 설명, 텍스트 일시·장소·사건요약) + 상태창 HTML(`status_html`), 로어북 7(`lorebook`), 갤러리 그룹·설명(`gallery`), 작품 설정(`settings`). 작품 글자 수 약 7,300 / 30,000. 공통 규칙 문체 줄을 대사·지문 형식으로 교체. 제목 20자 제한 때문에 7인 제목을 `[NOX] 이름: 부제`로 통일. 나머지 6인 입력칸은 아직 구형(경고만).

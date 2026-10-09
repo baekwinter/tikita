@@ -459,43 +459,114 @@ def story_setting(m, members):
     return t["story_setting"].rstrip() + "\n\n" + members["group"]["tikitaka_common_rules"].strip()
 
 
-def fields_md(m, members):
-    """티키타 입력칸 전체. 각 칸은 ``` 블록이라 그대로 복사해 붙여넣을 수 있다."""
+# 티키타 크리에이터 가이드(2026-10) 기준 한도
+LIMITS = {"title": 20, "tagline": 100, "name": 15, "public": 20000, "private": 20000, "setting": 20000,
+          "first": 20000, "starter": 200, "example": 5000, "examples": 5, "persona": 200, "personas": 3,
+          "ep_title": 20, "ep_body": 2000, "ep_private": 2000, "ep_cond": 200, "episodes": 20,
+          "var_name": 10, "var_desc": 5000, "var_range": 5000, "var_start": 200, "variables": 10, "status_bytes": 10240,
+          "lore_title": 50, "lore_content": 500, "gallery_group": 50, "gallery_desc": 100,
+          "categories": 3, "tags": 15, "comment": 20000, "work": 30000}
+FIRST_RECOMMENDED = (700, 1200)
+
+
+def examples(t):
+    """예시 대화 목록 [{pattern, text}]. 구형 데이터는 example_dialogue 한 덩어리."""
+    if t.get("examples"):
+        return t["examples"]
+    return [{"pattern": "", "text": t["example_dialogue"]}] if t.get("example_dialogue") else []
+
+
+def work_count(m, members):
+    """작품 글자 수 30,000자에 들어가는 칸별 합계 (가이드 부록 기준)."""
     t = m["tikitaka"]
+    var = sum(len(v["name"]) + len(v["desc"]) + len(v.get("range_desc", "")) + len(str(v["start"])) for v in t["variables"])
+    gal = sum(len(g["group"]) + sum(len(i["desc"]) for i in g["images"]) for g in t.get("gallery", []))
+    rows = [("캐릭터 이름", len(m["name"])), ("공개 정보", len(t["char_intro"])), ("비공개 정보", len(t["secret"])),
+            ("스토리 설정", len(story_setting(m, members))), ("첫 메시지", len(t["first_message"])),
+            ("대화 시작 문구", sum(len(x["text"]) for x in t.get("starters", []))), ("변수", var),
+            ("예시 대화", sum(len(x["text"]) for x in examples(t))), ("이미지 그룹·설명", gal),
+            ("에피소드 제목·전환 조건", sum(len(e["title"]) + len(e["condition"]) for e in t["episodes"]))]
+    return rows, sum(n for _, n in rows)
+
+
+def fields_md(m, members):
+    """티키타 입력칸 전체 (만들기 화면 단계 순서). 각 칸은 ``` 블록이라 그대로 복사해 붙여넣을 수 있다."""
+    t, L_ = m["tikitaka"], LIMITS
     L = [f"# {m['name']} ({m['concept_ko']} · {m['concept_en']}) — 티키타 입력칸",
-         "", f"> 상태: 카피 `{m['status']}` / 입력칸 `{t.get('status', 'draft')}` · 글자 수는 `python tools/check.py`로 재확인",
-         "> 공개 소개(마크다운) 칸에는 `tikitaka_intro.html` 내용을 통째로 붙여넣는다.", ""]
+         "", f"> 상태: 카피 `{m['status']}` / 입력칸 `{t.get('status', 'draft')}` · 기준: {t.get('guide_version', '구형 입력칸 (가이드 반영 전)')}",
+         "> 글자 수는 `python tools/check.py`로 재확인. 스토리 소개 칸에는 `tikitaka_intro.html`을 붙여넣는다.", ""]
 
-    def block(label, val, limit=None):
-        n = len(val)
+    def block(label, val, limit=None, unit="자"):
+        n = len(val.encode("utf-8")) if unit == "바이트" else len(val)
         lim = f" / {limit:,}" if limit else ""
-        L.extend([f"### {label}  `{n:,}{lim}자`", "```", val, "```", ""])
+        L.extend([f"### {label}  `{n:,}{lim}{unit}`", "```", val, "```", ""])
 
+    st = t.get("settings")
+    if st:
+        L += ["## 0. 작품 설정", f"- 형식: **{st['format']}** · 진행 모드: **{st['progress']}** · 채팅 이미지: **{st['image_mode']}**", f"- {st['note']}", ""]
     L.append("## 1. 프로필")
-    block("스토리 제목", t["story_title"])
-    block("한 줄 소개", t["one_liner"], 100)
-    block("캐릭터 이름", m["name"], 15)
-    block("캐릭터 소개", t["char_intro"], 1000)
-    block("비밀", t["secret"], 2000)
+    block("제목", t["story_title"], L_["title"])
+    block("태그라인", t["one_liner"], L_["tagline"])
+    block("캐릭터 이름", m["name"], L_["name"])
     L.extend([f"### 성별 / 나이", f"남성 / {m['profile_suggest']['age']}세", ""])
-    block("스토리 설정 (비공개, AI 참고용)", story_setting(m, members), 2000)
-    block("첫 메시지", t["first_message"])
-    block("대화 예시", t["example_dialogue"])
-    L.append("## 2. 에피소드")
+    block("공개 정보 (유저에게 보임 · AI가 읽음)", t["char_intro"], L_["public"])
+    block("비공개 정보 (유저에게 안 보임 · AI가 읽음)", t["secret"], L_["private"])
+    block("스토리 설정", story_setting(m, members), L_["setting"])
+
+    L.append("## 2. 대화")
+    block(f"첫 메시지 (권장 {FIRST_RECOMMENDED[0]:,}~{FIRST_RECOMMENDED[1]:,}자)", t["first_message"], L_["first"])
+    for i, x in enumerate(t.get("starters", []), 1):
+        block(f"대화 시작 문구 {i} · {x['dir']}", x["text"], L_["starter"])
+    for i, x in enumerate(examples(t), 1):
+        block(f"예시 대화 {i}" + (f" · {x['pattern']}" if x["pattern"] else ""), x["text"], L_["example"])
+    for i, x in enumerate(t.get("personas", []), 1):
+        L.extend([f"### 추천 페르소나 {i}", "이름", "```", x["name"], "```"])
+        block(f"추천 페르소나 {i} 소개", x["intro"], L_["persona"])
+
+    L.append("## 3. 에피소드")
     for i, e in enumerate(t["episodes"], 1):
         L.append(f"### EP {i:02d}")
-        block(f"EP {i:02d} 제목", e["title"], 20)
-        block(f"EP {i:02d} 다음 에피소드로 넘어가는 조건", e["condition"], 50)
-        block(f"EP {i:02d} 서사", e["narrative"], 2000)
-        block(f"EP {i:02d} 비공개 설정", e["private"], 2000)
-    L.append("## 3. 변수 (최대 3개)")
-    L += ["| 변수명 | 키 | 범위 · 시작값 | 설명 |", "|---|---|---|---|"]
-    L += [f"| {v['name']} | `{v['key']}` | {v['range']} · {v['start']} | {v['desc']} |" for v in t["variables"]]
-    L += ["", "## 4. 공개여부"]
-    L += [f"### 카테고리  `{len(t['categories'])} / 3개`", "```", ", ".join(t["categories"]), "```", ""]
-    L += [f"### 태그  `{len(t['tags'])} / 15개`", "```", " ".join("#" + x for x in t["tags"]), "```", ""]
-    block("제작자 코멘트", t["creator_comment"], 1000)
-    L += ["### 공개 소개 (마크다운)", "`tikitaka_intro.html` 파일 내용 전체를 붙여넣기 (HTML이 지워지면 `tikitaka_intro.md`).", ""]
+        block(f"EP {i:02d} 제목", e["title"], L_["ep_title"])
+        if e["condition"]:
+            block(f"EP {i:02d} 전환 조건", e["condition"], L_["ep_cond"])
+        else:
+            L.extend([f"### EP {i:02d} 전환 조건", "비워 두기 (순차 진행의 첫 화는 조건이 필요 없음)", ""])
+        block(f"EP {i:02d} 본문", e["narrative"], L_["ep_body"])
+        block(f"EP {i:02d} 비공개 설정", e["private"], L_["ep_private"])
+    L.append(f"### 변수 ({len(t['variables'])} / {L_['variables']}개)")
+    for i, v in enumerate(t["variables"], 1):
+        L.extend([f"#### 변수 {i} · {v['name']} ({v.get('type', '숫자')}{', ' + v['range'] if v.get('range') else ''})", "이름", "```", v["name"], "```"])
+        block(f"변수 {i} 설명", v["desc"], L_["var_desc"])
+        if v.get("range_desc"):
+            block(f"변수 {i} 범위 설명", v["range_desc"], L_["var_range"])
+        block(f"변수 {i} 시작값", str(v["start"]), L_["var_start"])
+    if t.get("status_html"):
+        L.append("변수 디자인 → **HTML** 모드에 붙여넣기 (가로 배치, 높이 300px 이하, 인라인 style만)")
+        block("변수 디자인 HTML", t["status_html"], L_["status_bytes"], "바이트")
+    if t.get("lorebook"):
+        L.append("### 로어북 (에피소드 단계 맨 아래 · 로어북 관리 → 만들기 → 이 작품에 적용 → 작품 저장)")
+        for x in t["lorebook"]:
+            L.extend([f"#### {x['title']}", "발동 키워드", "```", ", ".join(x["keywords"]), "```"])
+            block(f"{x['title']} 내용", x["content"], L_["lore_content"])
+
+    if t.get("gallery"):
+        L.append("## 4. 갤러리")
+        for g in t["gallery"]:
+            L.extend([f"### 이미지 그룹 · {g['group']}", ""])
+            for x in g["images"]:
+                L.append(f"- `assets/{m['id']}/{x['file']}`{' **(썸네일)**' if x.get('thumb') else ''} — 설명: `{x['desc']}` ({len(x['desc'])}/{L_['gallery_desc']}자)")
+            L.append("")
+
+    L += ["## 5. 공개여부"]
+    L += [f"### 카테고리  `{len(t['categories'])} / {L_['categories']}개`", "```", ", ".join(t["categories"]), "```", ""]
+    L += [f"### 태그  `{len(t['tags'])} / {L_['tags']}개`", "```", " ".join("#" + x for x in t["tags"]), "```", ""]
+    block("제작자 코멘트 (공개 · 심사 대상 · AI가 읽지 않음)", t["creator_comment"], L_["comment"])
+    L += ["### 스토리 소개", "`tikitaka_intro.html` 파일 내용 전체를 붙여넣기 (HTML이 지워지면 `tikitaka_intro.md`).", ""]
+
+    rows, total = work_count(m, members)
+    L += [f"## 작품 글자 수  `{total:,} / {L_['work']:,}자`", "", "| 칸 | 글자 수 |", "|---|---:|"]
+    L += [f"| {k} | {n:,} |" for k, n in rows]
+    L += ["", "제목·태그라인·태그·카테고리·스토리 소개·제작자 코멘트·에피소드 본문/비공개·로어북·추천 페르소나는 합산에서 빠진다.", ""]
     return "\n".join(L)
 
 

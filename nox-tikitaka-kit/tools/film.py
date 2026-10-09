@@ -159,7 +159,7 @@ def page(m, members, faces, src, gal=lambda mid, k: None):
                   f'<p style="margin:0;font-size:13px;line-height:1.75;color:#5d575b">{sq(esc(x["body"]))}</p></div>' for i, x in enumerate(tips))
     var = "".join(f'<div style="flex:1 1 150px;padding:10px 12px;border-radius:12px;background-color:#fff;border:1px solid {PH_LINE}">'
                   f'<p style="margin:0;font-size:13.5px;font-weight:800;color:{A}">{esc(v["name"])}</p>'
-                  f'<p style="margin:2px 0 0;font-size:12px;line-height:1.6;color:#5d575b">{sq(esc(v["desc"].replace("{{user}}", "당신")))}</p></div>' for v in t.get("variables", []))
+                  f'<p style="margin:2px 0 0;font-size:12px;line-height:1.6;color:#5d575b">{sq(esc(v["desc"].replace("{{user}}", "당신")))}</p></div>' for v in t.get("variables", []) if v.get("type", "숫자") == "숫자")
     guide = g["play_guide"].replace(g["ooc_example"] + " 등 ", "")
     a(f'<div style="margin:0 12px;padding:22px 14px 16px;border-radius:20px;background-color:{PH_BG};color:{PH_INK}">'
       f'<p style="margin:0 0 2px;font-size:11px;font-weight:800;letter-spacing:.2em;color:{A}">공략 노트</p>'

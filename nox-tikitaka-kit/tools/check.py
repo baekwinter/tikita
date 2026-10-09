@@ -43,22 +43,78 @@ def copy_len(c):
 
 
 def field_rows(m, members):
-    """(칸 이름, 글자 수, 제한) 목록."""
-    t = m["tikitaka"]
-    rows = [("한 줄 소개", len(t["one_liner"]), 100), ("캐릭터 이름", len(m["name"]), 15),
-            ("캐릭터 소개", len(t["char_intro"]), 1000), ("비밀", len(t["secret"]), 2000),
-            ("스토리 설정", len(build.story_setting(m, members)), 2000)]
+    """(칸 이름, 글자 수, 제한) 목록 — 티키타 크리에이터 가이드 한도."""
+    t, L = m["tikitaka"], build.LIMITS
+    rows = [("제목", len(t["story_title"]), L["title"]), ("태그라인", len(t["one_liner"]), L["tagline"]),
+            ("캐릭터 이름", len(m["name"]), L["name"]),
+            ("공개 정보", len(t["char_intro"]), L["public"]), ("비공개 정보", len(t["secret"]), L["private"]),
+            ("스토리 설정", len(build.story_setting(m, members)), L["setting"]),
+            ("첫 메시지", len(t["first_message"]), L["first"])]
+    rows += [(f"시작 문구{i}", len(x["text"]), L["starter"]) for i, x in enumerate(t.get("starters", []), 1)]
+    ex = build.examples(t)
+    rows += [(f"예시 대화{i}", len(x["text"]), L["example"]) for i, x in enumerate(ex, 1)]
+    rows += [("예시 대화 수", len(ex), L["examples"]), ("추천 페르소나 수", len(t.get("personas", [])), L["personas"])]
+    rows += [(f"페르소나{i} 소개", len(x["intro"]), L["persona"]) for i, x in enumerate(t.get("personas", []), 1)]
     for i, e in enumerate(t["episodes"], 1):
-        rows += [(f"EP{i} 제목", len(e["title"]), 20), (f"EP{i} 조건", len(e["condition"]), 50),
-                 (f"EP{i} 서사", len(e["narrative"]), 2000), (f"EP{i} 비공개", len(e["private"]), 2000)]
-    rows += [("에피소드 수", len(t["episodes"]), 10), ("변수 수", len(t["variables"]), 3),
-             ("카테고리 수", len(t["categories"]), 3), ("태그 수", len(t["tags"]), 15),
-             ("제작자 코멘트", len(t["creator_comment"]), 1000)]
+        rows += [(f"EP{i} 제목", len(e["title"]), L["ep_title"]), (f"EP{i} 조건", len(e["condition"]), L["ep_cond"]),
+                 (f"EP{i} 본문", len(e["narrative"]), L["ep_body"]), (f"EP{i} 비공개", len(e["private"]), L["ep_private"])]
+    rows += [("에피소드 수", len(t["episodes"]), L["episodes"]), ("변수 수", len(t["variables"]), L["variables"])]
+    for v in t["variables"]:
+        rows += [(f"변수 {v['name']} 이름", len(v["name"]), L["var_name"]), (f"변수 {v['name']} 설명", len(v["desc"]), L["var_desc"]),
+                 (f"변수 {v['name']} 범위", len(v.get("range_desc", "")), L["var_range"]), (f"변수 {v['name']} 시작값", len(str(v["start"])), L["var_start"])]
+    if t.get("status_html"):
+        rows.append(("변수 디자인(바이트)", len(t["status_html"].encode("utf-8")), L["status_bytes"]))
+    for x in t.get("lorebook", []):
+        rows += [(f"로어북 {x['title']} 제목", len(x["title"]), L["lore_title"]), (f"로어북 {x['title']} 내용", len(x["content"]), L["lore_content"]),
+                 (f"로어북 {x['title']} 키워드 수", len(x["keywords"]), 20)]
+    for g in t.get("gallery", []):
+        rows.append((f"이미지 그룹 {g['group']}", len(g["group"]), L["gallery_group"]))
+        rows += [(f"이미지 설명 {x['file']}", len(x["desc"]), L["gallery_desc"]) for x in g["images"]]
+    rows += [("카테고리 수", len(t["categories"]), L["categories"]), ("태그 수", len(t["tags"]), L["tags"]),
+             ("제작자 코멘트", len(t["creator_comment"]), L["comment"]), ("작품 글자 수", build.work_count(m, members)[1], L["work"])]
     if "image" in m:
         md = build.image_prompts(m, members)
         for label, n in re.findall(r"^## (.+?)  `([\d,]+) / 1,200자`", md, flags=re.M):
             rows.append((f"이미지:{label.split(' (')[0].split(' —')[0]}", int(n.replace(",", "")), 1200))
     return rows
+
+
+def guide_format(m):
+    """가이드 형식 검사: 대사·지문 줄, 전환 조건, 변수 이름, 로어북 키워드. 문제 목록을 돌려준다."""
+    t, out = m["tikitaka"], []
+    names = {m["name"], "{{user}}", "{{char1}}"}
+    texts = [("첫 메시지", t["first_message"])] + [(f"예시 대화{i}", x["text"]) for i, x in enumerate(build.examples(t), 1)]
+    for label, txt in texts:
+        for ln in filter(None, (x.strip() for x in txt.splitlines())):
+            if ln.startswith("*"):
+                if not ln.endswith("*") or ln.count("*") != 2:
+                    out.append(f"{label}: 지문은 *한 쌍*으로 한 줄 전체를 감싸야 함 — {ln[:24]}…")
+                elif ":" in ln:
+                    out.append(f"{label}: 지문 안에 콜론 — 이름으로 오인됨 — {ln[:24]}…")
+                continue
+            who, sep, rest = ln.partition(": ")
+            if not sep or who not in names:
+                out.append(f"{label}: 이름 없는 줄 (자동 지문 처리됨) — {ln[:24]}…")
+            elif "*" in rest:
+                out.append(f"{label}: 대사 줄 안의 *지문* — 윗줄로 분리 — {ln[:24]}…")
+    for i, e in enumerate(t["episodes"], 1):
+        c = e["condition"]
+        if i == 1:
+            continue
+        if not c:
+            out.append(f"EP{i}: 전환 조건 없음")
+        elif c.startswith("조건") or ("{{user}}" not in c and "{{char1}}" not in c):
+            out.append(f"EP{i}: 전환 조건은 접두사 없이 {{{{user}}}}/{{{{char1}}}}를 넣은 한 문장으로")
+    for v in t["variables"]:
+        if " " in v["name"]:
+            out.append(f"변수 {v['name']}: 이름에 띄어쓰기")
+    for x in t.get("lorebook", []):
+        bad = [k for k in x["keywords"] if not 2 <= len(k) <= 60]
+        if bad:
+            out.append(f"로어북 {x['title']}: 키워드 길이 2~60자 위반 {bad}")
+    if t.get("status_html") and "<style" in t["status_html"]:
+        out.append("변수 디자인: <style> 태그는 안 먹음")
+    return out
 
 
 def main(short=False):
@@ -71,7 +127,7 @@ def main(short=False):
 
     # ---- 1. 글자 수 (입력칸)
     print("\n[1] 티키타 입력칸 글자 수 (최대값 / 제한)")
-    print(f"{'멤버':8s} {'상태':9s} {'카피':>6s} {'한줄':>7s} {'소개':>9s} {'비밀':>9s} {'설정':>9s} {'EP제목':>7s} {'EP조건':>7s} {'EP서사':>9s} {'EP비공개':>9s} {'태그':>6s} {'이미지':>9s} {'붙여넣기':>12s}")
+    print(f"{'멤버':8s} {'상태':9s} {'카피':>6s} {'작품 글자 수':>14s} {'첫 메시지':>8s} {'예시':>4s} {'문구':>4s} {'페르소나':>4s} {'EP':>3s} {'변수':>4s} {'붙여넣기':>14s}")
     for m in ms:
         if "tikitaka" not in m:
             fail(f"{m['id']}: tikitaka 입력칸 데이터 없음")
@@ -91,9 +147,18 @@ def main(short=False):
         if abs(ratio - 100) > 15:
             warn(f"{m['id']}: 카피 분량 {ratio:.0f}% (차은결 대비 ±15% 초과)")
         t = m["tikitaka"]
-        print(f"{m['id']:8s} {m['status']:9s} {ratio:5.0f}% {len(t['one_liner']):>3}/100 {len(t['char_intro']):>4}/1000 "
-              f"{len(t['secret']):>4}/2000 {len(build.story_setting(m, members)):>4}/2000 {mx('제목'):>4}/20 {mx('조건'):>4}/50 "
-              f"{mx('서사'):>4}/2000 {mx('비공개'):>4}/2000 {len(t['tags']):>3}/15 {mx('이미지'):>4}/1200 {pn:>6,}/{build.budget(platform):,}")
+        total = build.work_count(m, members)[1]
+        print(f"{m['id']:8s} {m['status']:9s} {ratio:5.0f}% {total:>7,}/30,000 {len(t['first_message']):>8,} {len(build.examples(t)):>4} "
+              f"{len(t.get('starters', [])):>4} {len(t.get('personas', [])):>6} {len(t['episodes']):>3} {len(t['variables']):>4} {pn:>6,}/{build.budget(platform):,}")
+        probs = guide_format(m)
+        lo, hi = build.FIRST_RECOMMENDED
+        if t.get("guide_version"):  # 가이드 반영을 마친 멤버는 형식 위반 = 실패
+            for x in probs:
+                fail(f"{m['id']}: {x}")
+            if not lo <= len(t["first_message"]) <= hi:
+                warn(f"{m['id']}: 첫 메시지 {len(t['first_message']):,}자 (가이드 권장 {lo:,}~{hi:,}자)")
+        elif probs:
+            warn(f"{m['id']}: 가이드 형식 미반영 {len(probs)}건 (입력칸 재작성 전) — 예: {probs[0]}")
     if short:
         return report()
 
