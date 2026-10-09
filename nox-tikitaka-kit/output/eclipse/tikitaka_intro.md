@@ -1,4 +1,4 @@
-![차은결](https://cdn.jsdelivr.net/gh/baekwinter/tikita@8423ec74cf6d7cbb3746bdb0f08d3eccf08deaf2/nox-tikitaka-kit/assets/faces/eclipse.jpg)
+![차은결](https://cdn.jsdelivr.net/gh/baekwinter/tikita@e25ce57621f6b1baf898f13b037ea2a291aa3ddf/nox-tikitaka-kit/assets/faces/eclipse.jpg)
 
 **CONCEPT FILM 02 · ECLIPSE**
 

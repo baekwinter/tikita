@@ -2,12 +2,12 @@
   "_comment": "얼굴 이미지 등록부. url = 티키타에 올린 이미지 주소(공개 소개 붙여넣기용, 필수) / local = 미리보기용 로컬 파일. 둘 다 비어 있으면 실루엣 플레이스홀더로 빌드된다.",
   "abyss": {
     "name": "차선우",
-    "url": "",
-    "local": "assets/faces/abyss.png"
+    "url": "https://cdn.jsdelivr.net/gh/baekwinter/tikita@e25ce57621f6b1baf898f13b037ea2a291aa3ddf/nox-tikitaka-kit/assets/faces/abyss.jpg",
+    "local": "assets/faces/abyss.jpg"
   },
   "eclipse": {
     "name": "차은결",
-    "url": "https://cdn.jsdelivr.net/gh/baekwinter/tikita@8423ec74cf6d7cbb3746bdb0f08d3eccf08deaf2/nox-tikitaka-kit/assets/faces/eclipse.jpg",
+    "url": "https://cdn.jsdelivr.net/gh/baekwinter/tikita@e25ce57621f6b1baf898f13b037ea2a291aa3ddf/nox-tikitaka-kit/assets/faces/eclipse.jpg",
     "local": "assets/faces/eclipse.jpg"
   },
   "comet": {

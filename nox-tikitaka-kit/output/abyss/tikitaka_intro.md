@@ -1,3 +1,5 @@
+![차선우](https://cdn.jsdelivr.net/gh/baekwinter/tikita@e25ce57621f6b1baf898f13b037ea2a291aa3ddf/nox-tikitaka-kit/assets/faces/abyss.jpg)
+
 **CONCEPT FILM 01 · ABYSS**
 
 # 철벽 리더 차선우 — 심연(Abyss)
