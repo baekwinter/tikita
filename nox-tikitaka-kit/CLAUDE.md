@@ -25,7 +25,8 @@ tools/build.py                ← data → output 전체 생성
 tools/check.py                ← 글자 수·얼굴·script·이모지·잠금·나이 검증 (실패 시 exit 1)
 tools/shots.py                ← 390/1280px 스크린샷 + 가로 스크롤 검사
 tools/heroes.py               ← 멤버별 히어로 효과 CSS + 문양 SVG
-tools/inline.py               ← B 모드 붙여넣기 버전 생성기 (인라인 style만, 정적 히어로)
+tools/inline.py               ← B 모드 v1(어두운 단색) — 공용 헬퍼(esc·sq·palette·emblem 등) 제공
+tools/stage.py                ← ★ B 모드 v3 'ON AIR' 레이아웃 (현재 붙여넣기·미리보기 생성기)
 tools/templates/base.css      ← reference에서 추출한 공통 CSS (포인트 컬러 토큰화)
 output/                       ← 결과물 (build.py가 생성, 직접 수정 금지)
   index.html                  ← 7인 허브 페이지 (티저 그리드)
@@ -146,7 +147,7 @@ NOX는 **2010년대 세계관형 보이그룹**처럼 보여야 한다. EXO가 �
 
 ### 8-1. 테스트 결과 (2026-10-09) → **B 모드 확정**
 - A `<style>` · A+ 외부 CSS · D `@keyframes` → **제거됨**. class 속성도 의미 없음.
-- B 인라인 `style=""` → **유지됨**. 그래서 붙여넣기 버전은 `tools/inline.py`가 만든다.
+- B 인라인 `style=""` → **유지됨**. 그래서 붙여넣기 버전은 `tools/stage.py`(v3)가 만든다.
 - C1 `<img src>` → 티키타가 **'외부 이미지 가져오기'** 버튼으로 반입(사용자가 눌러야 함). C2 `![](url)` → 글자로 노출(쓰지 말 것).
 - B 모드 규칙: 모든 요소에 인라인 style, `position`·애니메이션·가상요소·미디어쿼리 금지. 히어로 효과는 중첩 원(테두리·배경 그라디언트·그림자)으로 정적 재현. 좁은 화면은 flex-wrap·max-width로.
 - 아직 미확인: 인라인 `<svg>`(문양)·그라디언트·box-shadow가 실제로 살아남는지 → 사용자 스크린샷으로 확인 후 이 절에 기록.
@@ -159,7 +160,7 @@ NOX는 **2010년대 세계관형 보이그룹**처럼 보여야 한다. EXO가 �
   - 얼굴 슬롯 8개(히어로 1 + 멤버 7) 존재, url 누락 목록
   - `<script>` 0개, 이모지 0개
   - complete 카피가 원본과 1글자도 다르지 않은지 (members.json 대비)
-- 검증: Playwright가 있으면 390px·1280px 전체 스크린샷을 `output/_screens/`에 저장하고 직접 열어서 확인. 없으면 설치를 시유한고, 불가하면 그 사실을 보고.
+- 검증: Playwright가 있으면 390px·1280px 전체 스크린샷을 `output/_screens/`에 저장하고 직접 열어서 확인. 없으면 설치를 시도하고, 불가하면 그 사실을 보고.
 
 ## 10. 작업 단계와 확인 지점
 1. **Step 0** 호환성 테스트 스니펫 생성 → 사용자 결과 대기 (기다리는 동안 Step 1 진행 가능)
@@ -192,4 +193,4 @@ NOX는 **2010년대 세계관형 보이그룹**처럼 보여야 한다. EXO가 �
 - 남은 일: ① B 버전을 티키타에 붙여넣어 svg·그라디언트 유지 여부 확인 ② 6인 카피 확정 ③ 얼굴 이미지 URL 등록(현재 0/7, 전부 실루엣) ④ 그룹 제안값(슬로건·팬덤명·인사) 확정.
 - 차은결 tikitaka 입력칸(비밀·설정·EP 비공개 등)은 원문에 없던 내용을 새로 쓴 것이라 `tikitaka.status: draft`. 소개 카피(copy)는 complete 그대로.
 - 2026-10-09 차은결 방향 변경(사용자 요청): 대표 색 금색 → 레드(#e0475b, Crimson Eclipse, 붉은 일식), 아키타입 집착광공 + 계략남, 관계 = 10년 지기 + 전담 코디네이터(사내 비밀 연애), 변수 함락(capture)·갈증(thirst)·독점욕(possession), 공략 가이드 4개(`play_tips`, PLAY GUIDE 위에 표시). reference HTML은 금색 시절 기준이라 이제 차은결 preview와 픽셀 비교하지 않는다. 소개 카피(copy)는 complete라 그대로 — 수정안은 사용자 확인 후.
-
+- 2026-10-09 디자인 v3 'ON AIR' (사용자: 레퍼런스를 따라 하지 말고 NOX 세계관 = 현대판타지에 맞게): 현대(아이돌) 층 = 생방송 LIVE 바·엔딩 요정 캠·방송 자막 띠·자막 명대사·포토카드·ON/OFF STAGE 분할·새벽 메신저·COORDI NOTE 의상 태그(공략+변수 게이지)·포토카드 라인업·앨범 바코드. 판타지(낙화한 신) 층 = 'SIGNAL LOST · 落花記錄' 띠, TWO FACES(IDOL PROFILE 人 / DIVINE RECORD 神), 에피소드 = 상징의 4단계(`display.episode_marks`, 일식: 제1접촉→부분식→개기식→다이아몬드 링), 七神落花 세계관. 데이터: `display.tagline`·`timeline`(차은결 10년 타임라인)·`episode_marks`·`episode_caption`. 레퍼런스(사극 서찰 디자인)의 종이·인장·한자 챕터 구조는 쓰지 않는다.

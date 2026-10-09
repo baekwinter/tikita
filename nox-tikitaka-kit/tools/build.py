@@ -321,9 +321,18 @@ def paste_version(m, members, faces, platform):
 
 
 def inline_version(m, members, faces):
-    """B 모드: 인라인 style만 쓰는 정적 버전 (tools/inline.py)."""
-    import inline
-    return inline.page(m, members, faces) + "\n"
+    """B 모드: 인라인 style만 쓰는 'ON AIR' 무대 레이아웃 (tools/stage.py)."""
+    import stage
+    return stage.page(m, members, faces, lambda mid: faces.get(mid, {}).get("url")) + "\n"
+
+
+def inline_preview(m, members, faces):
+    """B 모드 미리보기: 붙여넣기 버전과 같은 레이아웃 + 로컬 얼굴 + 티키타 미리보기 칸과 비슷한 배경."""
+    import stage
+    inner = stage.page(m, members, faces, lambda mid: face_src(mid, faces, "preview"))
+    return ('<!DOCTYPE html>\n<html lang="ko">\n<head>\n<meta charset="UTF-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n'
+            f"<title>{m['concept_en'].upper()} · {m['name']}</title>\n{FONTS}\n</head>\n"
+            f'<body style="margin:0;background:#1d1b1f;padding:16px 12px">\n{inner}\n</body>\n</html>\n')
 
 
 def markdown_version(m, members, faces):
@@ -565,7 +574,10 @@ def build(only=None):
         od.mkdir(exist_ok=True)
         css = css_for(m)
         title = f"{m['concept_en'].upper()} · {m['name']}"
-        (od / "preview.html").write_text(doc(title, css, body(m, members, faces, "preview")), encoding="utf-8")
+        if platform["mode"] == "B":
+            (od / "preview.html").write_text(inline_preview(m, members, faces), encoding="utf-8")
+        else:
+            (od / "preview.html").write_text(doc(title, css, body(m, members, faces, "preview")), encoding="utf-8")
         (od / "nox.css").write_text(min_css(scope_css(css)) + "\n", encoding="utf-8")
         paste, applied = paste_version(m, members, faces, platform)
         (od / "tikitaka_intro.html").write_text(paste, encoding="utf-8")
