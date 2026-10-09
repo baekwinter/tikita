@@ -1,5 +1,7 @@
 # 이미지 생성 프롬프트 — 대표 포함 5장
 
+**먼저 `../characters.md`의 기준 시트(도겸 턴어라운드, 의상, 소품)를 만들고, 그 이미지를 참조 이미지로 넣은 뒤 아래 장면을 만드세요.** 외형, 색, 의상의 기준은 모두 `characters.md`에 있습니다.
+
 공모전에 내려면 실제 이미지가 대표 포함 5장 이상 필요합니다. 아래 프롬프트는 이미지 생성 도구에 그대로 붙여 넣을 수 있게 영어로 썼습니다. 다섯 장 모두 같은 인물로 보이도록 **공통 인물 기준**을 각 프롬프트 앞에 함께 붙이세요.
 
 슬롯 이름은 `fields/images.json`의 키와 같습니다. 완성한 이미지의 외부 주소를 그 파일에 넣으면 스토리 소개 HTML에 자동으로 들어갑니다. 주소를 채팅으로 보내 주셔도 됩니다.
@@ -8,7 +10,7 @@
 
 ```
 Korean webtoon romance-fantasy illustration, vertical 2:3, painterly soft lighting.
-Main character Baek Dogyeom: Korean man who looks about 30, short black hair, calm low-set eyes, dark brown eyes, a tiny mole at the outer end of his left eyebrow, neat composed face.
+Main character Baek Dogyeom: Korean man who looks about 30, 184cm, lean but firm build. Oval face, sharp jawline, long narrow eyes with slightly downturned outer corners, dark brown irises, a tiny mole at the outer end of his LEFT eyebrow, light warm-neutral skin with faint tired shadows under the eyes. Black hair parted 7:3 on his right side, bangs between eyebrows and eyes. Calm half smile, left corner of the mouth rising first. Thin black smart band on his left wrist. Human ears, no fox ears.
 Setting: alternate-history Seoul in 2050 where the Korean Empire palace still stands; old wooden palace gates next to glass tram stations and soft holographic signs.
 The viewer/user is never shown in full: only hands, a partial silhouette, or a point-of-view shot. Gender of the viewer is not shown.
 No readable text, no fake Hangul letters, no logos. Not a copy of any real actor or drama.
@@ -46,6 +48,7 @@ High-angle wide shot at dusk: a long Halloween mask parade flowing from the old 
 
 ## 지켜야 할 연속성
 
-- 꼬리는 4화 전까지 반사로만 보이게 한다. 본모습은 꼬리 **정확히 아홉 개**, 검은 털에 끝 10cm만 은빛.
+- 꼬리는 4화 전까지 반사로만 보이게 한다. 본모습은 꼬리 **정확히 아홉 개**, 검은 털에 끝 10cm만 은빛. 여우 귀는 없다.
+- 왼쪽 눈썹 끝의 점, 7:3 가르마, 왼손목 밴드를 모든 컷에서 확인한다.
 - 황제의 곤룡포, 황후의 적의, 용 문양은 도겸에게 쓰지 않는다.
 - 연령 등급이 **전체 이용가**이므로 노출과 신체 접촉 연출은 피한다. 티키타는 등급에 맞지 않는 이미지를 걸러 낸다.

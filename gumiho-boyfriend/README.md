@@ -9,7 +9,8 @@
 | `tikita/dist/story_intro.md` | 스토리 소개 MD 모드용 |
 | `tikita/dist/episode_1~5.txt` | 에피소드 내용 (공통 설정 + 해당 화) |
 | `tikita/dist/episode_all.txt` | 에피소드를 하나만 등록할 때 쓰는 통합본 |
-| `tikita/image_prompts.md` | 대표 포함 이미지 5장의 생성 프롬프트 |
+| `characters.md` | **캐릭터 외관 설정** — 도겸(사람·본모습·의상 4종), 윤서, 면객, 사용자 표현 규칙, 소품, 색 팔레트, 기준 시트 프롬프트 |
+| `tikita/image_prompts.md` | 대표 포함 이미지 5장의 생성 프롬프트 (기준 시트를 먼저 만든 뒤 사용) |
 
 ## 고치는 법
 
