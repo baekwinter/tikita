@@ -17,7 +17,7 @@ START.md                      ← 사용자가 붙여넣는 실행 프롬프트 
 reference/eclipse_chaeungyeol.html  ← ★ 디자인 기준 (완성본, 얼굴 슬롯·아이돌 레이어 포함)
 data/members.json             ← ★ 단일 데이터 원본. 모든 출력은 여기서 생성
 data/faces.json               ← 얼굴 이미지 URL / 로컬 경로 등록부
-data/platform.json            ← 티키타 렌더링 호환 모드 기록 (테스트 전 기본값 A)
+data/platform.json            ← 티키타 렌더링 호환 모드 기록 (현재 B: 인라인 style, 예산 49,500자)
 data/locked/eclipse_source.txt     ← 사용자 원문 (차은결 카피 대조용, 수정 금지)
 data/locked/complete_copy.json     ← complete 카피 잠금 스냅샷 (check.py가 비교)
 assets/faces/<id>.png         ← 얼굴 이미지 (미리보기용)
@@ -25,12 +25,13 @@ tools/build.py                ← data → output 전체 생성
 tools/check.py                ← 글자 수·얼굴·script·이모지·잠금·나이 검증 (실패 시 exit 1)
 tools/shots.py                ← 390/1280px 스크린샷 + 가로 스크롤 검사
 tools/heroes.py               ← 멤버별 히어로 효과 CSS + 문양 SVG
+tools/inline.py               ← B 모드 붙여넣기 버전 생성기 (인라인 style만, 정적 히어로)
 tools/templates/base.css      ← reference에서 추출한 공통 CSS (포인트 컬러 토큰화)
 output/                       ← 결과물 (build.py가 생성, 직접 수정 금지)
   index.html                  ← 7인 허브 페이지 (티저 그리드)
   _review.md                  ← 7인 확인표 (관계·호칭·MODE·능력)
   <id>/preview.html           ← 로컬 미리보기 (풀 CSS, 로컬 얼굴 이미지)
-  <id>/tikitaka_intro.html    ← 티키타 공개 소개 붙여넣기용 (압축, URL 얼굴, ≤ 19,500자)
+  <id>/tikitaka_intro.html    ← 티키타 공개 소개 붙여넣기용 (platform.json 모드, URL 얼굴, ≤ budget)
   <id>/tikitaka_intro.md      ← HTML이 지워질 때 쓰는 마크다운 대체본 (C 모드)
   <id>/nox.css                ← A+ 모드(외부 CSS)용 스타일시트
   <id>/tikitaka_fields.md     ← 티키타 입력칸 전체 + 글자 수
@@ -69,7 +70,7 @@ output/                       ← 결과물 (build.py가 생성, 직접 수정 �
 | 이미지 생성 | 프롬프트 | 1,200자, 영문 키워드 콤마 구분, 품질 태그 포함 |
 | 공개여부 | 카테고리 | 최대 3개 |
 | | 태그 | 최대 15개 |
-| | **공개 소개 (마크다운)** | **20,000자** ← HTML 소개 페이지가 들어가는 곳 |
+| | **공개 소개 (마크다운)** | **50,000자** (실측, 2026-10-09) ← HTML 소개 페이지가 들어가는 곳 |
 | | 제작자 코멘트 | 1,000자 |
 
 출력 형식 규칙
@@ -141,13 +142,20 @@ NOX는 **2010년대 세계관형 보이그룹**처럼 보여야 한다. EXO가 �
 - C → 마크다운 + 이미지 버전으로 재구성 (헤딩·인용·구분선으로 위계 유지)
 
 붙여넣기 버전 공통: **들여쓰기 0, HTML 블록 내부 빈 줄 0** (마크다운이 코드블록/문단으로 깨는 것 방지), 주석 제거, 공백 압축.
-**글자 수 예산 19,500자.** 초과 시 이 순서로 줄인다: Google Fonts `<link>` 제거 → CSS 변수명 단축(`--nx-gold`→`--a`) → 중복 규칙 병합 → WORLD 천체 점 열 제거 → MODE 대비 카드 제거. 카피(complete)는 절대 줄이지 않는다.
+**글자 수 예산은 platform.json `budget` (현재 49,500자).** A/A+ 모드에서 초과 시 이 순서로 줄인다: Google Fonts `<link>` 제거 → CSS 변수명 단축(`--nx-gold`→`--a`) → 중복 규칙 병합 → WORLD 천체 점 열 제거 → MODE 대비 카드 제거. 카피(complete)는 절대 줄이지 않는다.
+
+### 8-1. 테스트 결과 (2026-10-09) → **B 모드 확정**
+- A `<style>` · A+ 외부 CSS · D `@keyframes` → **제거됨**. class 속성도 의미 없음.
+- B 인라인 `style=""` → **유지됨**. 그래서 붙여넣기 버전은 `tools/inline.py`가 만든다.
+- C1 `<img src>` → 티키타가 **'외부 이미지 가져오기'** 버튼으로 반입(사용자가 눌러야 함). C2 `![](url)` → 글자로 노출(쓰지 말 것).
+- B 모드 규칙: 모든 요소에 인라인 style, `position`·애니메이션·가상요소·미디어쿼리 금지. 히어로 효과는 중첩 원(테두리·배경 그라디언트·그림자)으로 정적 재현. 좁은 화면은 flex-wrap·max-width로.
+- 아직 미확인: 인라인 `<svg>`(문양)·그라디언트·box-shadow가 실제로 살아남는지 → 사용자 스크린샷으로 확인 후 이 절에 기록.
 
 ## 9. 도구 (네가 만든다)
 - `tools/build.py` — members.json + faces.json + platform.json → output 전체 생성. `python tools/build.py [id|all]`
 - `tools/check.py` — 아래 항목을 표로 출력하고 실패 시 exit 1:
   - 티키타 입력칸 전부 글자 수 ≤ 제한 (§3)
-  - tikitaka_intro.html ≤ 19,500자
+  - tikitaka_intro.html ≤ platform.json budget
   - 얼굴 슬롯 8개(히어로 1 + 멤버 7) 존재, url 누락 목록
   - `<script>` 0개, 이모지 0개
   - complete 카피가 원본과 1글자도 다르지 않은지 (members.json 대비)
@@ -176,11 +184,11 @@ NOX는 **2010년대 세계관형 보이그룹**처럼 보여야 한다. EXO가 �
 - `image` — 이미지 프롬프트 재료 (appearance·outfit·symbol·episodes[4]·episode_assets). 공통 베이스는 `group.image_prompt_base`.
 - 작업 순서: members.json 수정 → `python tools/build.py` → `python tools/check.py` → (디자인 변경 시) `python tools/shots.py`.
 
-## 13. 현재 진행 상태 (2026-10-05)
-- Step 0 완료: `output/_tikitaka_test.md` 생성. **사용자 테스트 결과 대기** → 받으면 platform.json 갱신 후 재빌드.
+## 13. 현재 진행 상태 (2026-10-09)
+- Step 0 완료: 테스트 결과 B 모드 (§8-1). 7인 붙여넣기 버전 재빌드 완료(각 약 32,000자).
 - Step 1 완료: build/check 작성. 재생성한 차은결 페이지 = reference와 1280px 픽셀 동일, 390px은 코로나 블러 안티앨리어싱 10픽셀 차이뿐.
 - Step 2 완료(초안): 6인 카피 `draft`. **사용자 확인 대기** — `output/_review.md` 표 참고.
 - Step 3~5 완료: 7인 페이지·허브·image_prompts·tikitaka_fields 생성, check 실패 0, 7인 × 2폭 가로 스크롤 0.
-- 남은 일: ① 티키타 테스트 결과 반영 ② 6인 카피 확정 ③ 얼굴 이미지 URL 등록(현재 0/7, 전부 실루엣) ④ 그룹 제안값(슬로건·팬덤명·인사) 확정.
+- 남은 일: ① B 버전을 티키타에 붙여넣어 svg·그라디언트 유지 여부 확인 ② 6인 카피 확정 ③ 얼굴 이미지 URL 등록(현재 0/7, 전부 실루엣) ④ 그룹 제안값(슬로건·팬덤명·인사) 확정.
 - 차은결 tikitaka 입력칸(비밀·설정·EP 비공개 등)은 원문에 없던 내용을 새로 쓴 것이라 `tikitaka.status: draft`. 소개 카피(copy)는 complete 그대로.
 

@@ -85,15 +85,15 @@ def main(short=False):
         pn = len(paste.read_text(encoding="utf-8")) if paste.exists() else -1
         if pn < 0:
             fail(f"{m['id']}: tikitaka_intro.html 없음 (build.py 실행 필요)")
-        elif pn > build.BUDGET:
-            fail(f"{m['id']}: tikitaka_intro.html {pn:,}자 > 예산 {build.BUDGET:,}")
+        elif pn > build.budget(platform):
+            fail(f"{m['id']}: tikitaka_intro.html {pn:,}자 > 예산 {build.budget(platform):,}")
         ratio = copy_len(m["copy"]) / base_len * 100
         if abs(ratio - 100) > 15:
             warn(f"{m['id']}: 카피 분량 {ratio:.0f}% (차은결 대비 ±15% 초과)")
         t = m["tikitaka"]
         print(f"{m['id']:8s} {m['status']:9s} {ratio:5.0f}% {len(t['one_liner']):>3}/100 {len(t['char_intro']):>4}/1000 "
               f"{len(t['secret']):>4}/2000 {len(build.story_setting(m, members)):>4}/2000 {mx('제목'):>4}/20 {mx('조건'):>4}/50 "
-              f"{mx('서사'):>4}/2000 {mx('비공개'):>4}/2000 {len(t['tags']):>3}/15 {mx('이미지'):>4}/1200 {pn:>6,}/{build.BUDGET:,}")
+              f"{mx('서사'):>4}/2000 {mx('비공개'):>4}/2000 {len(t['tags']):>3}/15 {mx('이미지'):>4}/1200 {pn:>6,}/{build.budget(platform):,}")
     if short:
         return report()
 
@@ -106,10 +106,10 @@ def main(short=False):
                 continue
             s = p.read_text(encoding="utf-8")
             slots = re.findall(r'data-face="(\w+)"', s)
-            hero = re.search(r'<div class="nx-disc"><div class="nx-face" data-face="(\w+)"', s)
-            ok = len(slots) == 8 and hero and hero[1] == m["id"] and sorted(slots[1:]) == sorted(ids)
+            hero = slots[0] if slots else None  # 첫 슬롯 = 히어로
+            ok = len(slots) == 8 and hero == m["id"] and sorted(slots[1:]) == sorted(ids)
             if not ok:
-                fail(f"{m['id']}/{f}: 얼굴 슬롯 {len(slots)}개 (히어로={hero[1] if hero else '없음'})")
+                fail(f"{m['id']}/{f}: 얼굴 슬롯 {len(slots)}개 (히어로={hero or '없음'})")
         print(f"  {m['id']:8s} preview·intro 슬롯 OK" if not any(m['id'] + '/' in x for x in fails) else f"  {m['id']:8s} 슬롯 오류")
     missing_url = [f"{faces[i]['name']}({i})" for i in ids if not faces.get(i, {}).get("url")]
     if missing_url:

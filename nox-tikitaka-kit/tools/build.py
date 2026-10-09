@@ -16,7 +16,11 @@ sys.path.insert(0, str(ROOT / "tools"))
 from heroes import HERO_FX, emblem  # noqa: E402
 
 DATA, OUT = ROOT / "data", ROOT / "output"
-BUDGET = 19500
+BUDGET = 19500  # platform.json "budget"이 있으면 그 값 우선
+
+
+def budget(platform):
+    return int(platform.get("budget", BUDGET))
 FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com">\n'
          '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n'
          '<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500'
@@ -298,7 +302,7 @@ def paste_version(m, members, faces, platform):
         return inline_version(m, members, faces), []
     applied = []
     for label, fn in reduce_steps():
-        if len(assemble(s, mode)) <= BUDGET:
+        if len(assemble(s, mode)) <= budget(platform):
             break
         fn(s)
         applied.append(label)
@@ -306,15 +310,9 @@ def paste_version(m, members, faces, platform):
 
 
 def inline_version(m, members, faces):
-    try:
-        import premailer  # noqa: F401
-    except ImportError:
-        sys.exit("B 모드는 premailer가 필요합니다: pip install premailer")
-    from premailer import transform
-    full = doc("x", scope_css(css_for(m)), body(m, members, faces, "paste"))
-    out = transform(full, remove_classes=False, keep_style_tags=False, strip_important=False, disable_validation=True)
-    inner = out[out.index("<main"):out.rindex("</main>") + 7]
-    return min_html(inner) + "\n"
+    """B 모드: 인라인 style만 쓰는 정적 버전 (tools/inline.py)."""
+    import inline
+    return inline.page(m, members, faces) + "\n"
 
 
 def markdown_version(m, members, faces):
