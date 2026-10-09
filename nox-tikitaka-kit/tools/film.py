@@ -110,11 +110,7 @@ def page(m, members, faces, src, gal=lambda mid, k: None):
            + "".join(f'<p style="margin:0;padding:5px 0;border-top:1px solid {P_LINE};font-size:13px;display:flex;gap:10px">'
                      f'<span style="flex:0 0 84px;color:{P_MUT}">{k}</span><span style="flex:1 1 auto">{v}</span></p>' for k, v in ps_rows) + "</div>")
     pro = c["prologue"]
-    rp = rich(pro[0], A)
-    cap = (f'<span style="float:left;margin:4px 8px 0 0;font-family:{SERIF};font-size:46px;line-height:.9;font-weight:700;color:{A}">{rp[0]}</span>{rp[1:]}'
-           if rp[:1] not in ("<", "&", "") else rp)  # 첫 글자 드롭캡 (태그로 시작하면 생략)
-    body = (f'<p style="margin:0 0 14px;font-size:14.5px;line-height:1.95;color:#2a2628">{cap}</p>'
-            + "".join(f'<p style="margin:0 0 14px;font-size:14.5px;line-height:1.95;color:#2a2628">{rich(p, A)}</p>' for p in pro[1:]))
+    body = "".join(f'<p style="margin:0 0 14px;font-size:14.5px;line-height:1.95;color:#2a2628">{rich(p, A)}</p>' for p in pro)
     md, ct = c["mode"], c["mode"]["contrast"]
     vs = (f'<div style="display:flex;flex-wrap:wrap;margin:22px 0;border:1.5px solid {P_INK}">'
           f'<div style="flex:1 1 180px;padding:14px 16px"><p style="margin:0 0 6px;font-size:10.5px;font-weight:800;letter-spacing:.24em;color:{P_MUT}">{esc(ct["public_label"]).upper()}</p>'
