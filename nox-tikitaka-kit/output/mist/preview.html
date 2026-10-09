@@ -151,6 +151,10 @@
   .nx-track.is-soon .nx-track-s{color:var(--nx-muted)}
 
   /* ---------- GUIDE ---------- */
+  .nx-tips{list-style:none;counter-reset:tip;display:grid;gap:10px;margin-bottom:14px}
+  .nx-tips li{counter-increment:tip;position:relative;padding:16px 18px 16px 52px;background:var(--nx-surface);border:1px solid rgba(236,230,218,.07);border-radius:12px;font-size:14px;line-height:1.75;color:var(--nx-muted);word-break:keep-all}
+  .nx-tips li::before{content:counter(tip,decimal-leading-zero);position:absolute;left:18px;top:14px;font-family:var(--nx-en);font-size:20px;color:var(--nx-gold)}
+  .nx-tips b{display:block;color:var(--nx-ink);font-weight:500;margin-bottom:2px}
   .nx-guide{padding:24px 22px;border:1px solid var(--nx-line);border-radius:14px;background:var(--nx-surface)}
   .nx-guide p{font-size:14.5px;opacity:.86;word-break:keep-all}
   .nx-cmd{display:inline-block;margin-top:14px;font-family:ui-monospace,'SFMono-Regular',Consolas,monospace;font-size:13px;color:var(--nx-gold);background:rgba(169,189,180,.08);border:1px dashed var(--nx-line);border-radius:6px;padding:6px 12px}

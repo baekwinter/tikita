@@ -18,7 +18,7 @@
 - 신장 : 195cm
 - 상징 : 일식 日蝕 · Eclipse
 - 능력 : 차광 (Occult) — 가장 밝은 빛을 가려 세상의 시선을 지운다. 그 그늘 안에서 서로만 보이게 만드는 힘.
-- 컬러 : Eclipse Gold
+- 컬러 : Crimson Eclipse
 
 ## PROLOGUE
 

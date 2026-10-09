@@ -14,9 +14,9 @@
     --nx-ink:#ece6da;
     --nx-muted:rgba(236,230,218,.58);
     --nx-faint:rgba(236,230,218,.32);
-    --nx-gold:#d9b26f;
-    --nx-gold-soft:rgba(217,178,111,.16);
-    --nx-line:rgba(217,178,111,.22);
+    --nx-gold:#e0475b;
+    --nx-gold-soft:rgba(224,71,91,.16);
+    --nx-line:rgba(224,71,91,.22);
     --nx-serif:'Noto Serif KR',serif;
     --nx-sans:'Noto Sans KR',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo',sans-serif;
     --nx-en:'Cormorant Garamond','Times New Roman',serif;
@@ -27,7 +27,7 @@
 
   .nx{max-width:720px;margin:0 auto;padding:0 20px 56px;position:relative}
   .nx::before{content:"";position:fixed;inset:0;pointer-events:none;
-    background:radial-gradient(ellipse 80% 40% at 50% 0%,rgba(217,178,111,.08),transparent 70%);z-index:0}
+    background:radial-gradient(ellipse 80% 40% at 50% 0%,rgba(224,71,91,.08),transparent 70%);z-index:0}
   .nx > *{position:relative;z-index:1}
 
   /* ---------- HERO ---------- */
@@ -36,7 +36,7 @@
 
   .nx-orb{position:relative;width:220px;height:220px;margin-bottom:52px}
   .nx-disc{position:absolute;inset:0;border-radius:50%;background:#040406;
-    box-shadow:0 0 0 1px rgba(255,236,205,.55),0 0 28px 3px rgba(217,178,111,.6),0 0 90px 22px rgba(217,178,111,.16),inset 0 0 36px rgba(0,0,0,.95)}
+    box-shadow:0 0 0 1px rgba(246,200,206,.55),0 0 28px 3px rgba(224,71,91,.6),0 0 90px 22px rgba(224,71,91,.16),inset 0 0 36px rgba(0,0,0,.95)}
 
   .nx-label{font-size:13px;color:var(--nx-muted);letter-spacing:.08em;margin-bottom:10px}
   .nx-title{font-family:var(--nx-serif);font-weight:700;font-size:clamp(34px,8.4vw,52px);line-height:1.2;letter-spacing:-.01em}
@@ -54,10 +54,10 @@
 
   /* ---------- HERO FX : ECLIPSE ---------- */
   .nx-corona{position:absolute;inset:-34px;border-radius:50%;
-    background:conic-gradient(from 0deg,transparent 0%,rgba(217,178,111,.75) 8%,transparent 22%,rgba(255,236,205,.5) 38%,transparent 52%,rgba(217,178,111,.65) 70%,transparent 84%,rgba(255,236,205,.4) 94%,transparent 100%);
+    background:conic-gradient(from 0deg,transparent 0%,rgba(224,71,91,.75) 8%,transparent 22%,rgba(246,200,206,.5) 38%,transparent 52%,rgba(224,71,91,.65) 70%,transparent 84%,rgba(246,200,206,.4) 94%,transparent 100%);
     filter:blur(16px);animation:nx-spin 22s linear infinite}
   .nx-flare{position:absolute;top:20px;right:24px;z-index:2;width:14px;height:14px;border-radius:50%;background:#fff6e4;
-    box-shadow:0 0 12px 4px rgba(255,240,215,.9),0 0 40px 12px rgba(217,178,111,.5);animation:nx-pulse 4.5s ease-in-out infinite}
+    box-shadow:0 0 12px 4px rgba(255,240,215,.9),0 0 40px 12px rgba(224,71,91,.5);animation:nx-pulse 4.5s ease-in-out infinite}
   @keyframes nx-spin{to{transform:rotate(360deg)}}
   @keyframes nx-pulse{0%,100%{opacity:.55;transform:scale(.8)}50%{opacity:1;transform:scale(1.15)}}
 
@@ -124,7 +124,7 @@
   .nx-body{display:flex;flex-direction:column;align-items:center;gap:10px;font-size:12px;color:var(--nx-faint);letter-spacing:.04em}
   .nx-dot{width:14px;height:14px;border-radius:50%;border:1px solid rgba(236,230,218,.35)}
   .nx-body.is-me{color:var(--nx-gold)}
-  .nx-body.is-me .nx-dot{width:34px;height:34px;border:none;background:#040406;box-shadow:0 0 0 1px rgba(255,236,205,.6),0 0 14px 3px rgba(217,178,111,.6)}
+  .nx-body.is-me .nx-dot{width:34px;height:34px;border:none;background:#040406;box-shadow:0 0 0 1px rgba(246,200,206,.6),0 0 14px 3px rgba(224,71,91,.6)}
 
   /* ---------- MEMBERS ---------- */
   .nx-members{list-style:none;border-top:1px solid rgba(236,230,218,.07)}
@@ -134,7 +134,7 @@
   .nx-mem-con{font-family:var(--nx-en);font-size:12px;letter-spacing:.16em;color:var(--nx-faint)}
   .nx-mem-desc{margin-top:2px;font-size:13.5px;line-height:1.7;color:var(--nx-muted);word-break:keep-all}
   .nx-mem.is-me{background:linear-gradient(90deg,var(--nx-gold-soft),transparent);border-radius:10px;border-bottom-color:transparent;padding-left:14px;padding-right:14px;margin:4px -10px}
-  .nx-mem.is-me .nx-face{box-shadow:0 0 0 1px var(--nx-gold),0 0 14px rgba(217,178,111,.55)}
+  .nx-mem.is-me .nx-face{box-shadow:0 0 0 1px var(--nx-gold),0 0 14px rgba(224,71,91,.55)}
   .nx-mem.is-me .nx-mem-con{color:var(--nx-gold)}
   .nx-mem.is-me .nx-mem-desc{color:var(--nx-ink)}
   .nx-tag{display:inline-block;font-size:10.5px;letter-spacing:.08em;color:var(--nx-gold);border:1px solid var(--nx-line);border-radius:4px;padding:0 6px;font-weight:400;font-family:var(--nx-sans)}
@@ -152,9 +152,13 @@
   .nx-track.is-soon .nx-track-s{color:var(--nx-muted)}
 
   /* ---------- GUIDE ---------- */
+  .nx-tips{list-style:none;counter-reset:tip;display:grid;gap:10px;margin-bottom:14px}
+  .nx-tips li{counter-increment:tip;position:relative;padding:16px 18px 16px 52px;background:var(--nx-surface);border:1px solid rgba(236,230,218,.07);border-radius:12px;font-size:14px;line-height:1.75;color:var(--nx-muted);word-break:keep-all}
+  .nx-tips li::before{content:counter(tip,decimal-leading-zero);position:absolute;left:18px;top:14px;font-family:var(--nx-en);font-size:20px;color:var(--nx-gold)}
+  .nx-tips b{display:block;color:var(--nx-ink);font-weight:500;margin-bottom:2px}
   .nx-guide{padding:24px 22px;border:1px solid var(--nx-line);border-radius:14px;background:var(--nx-surface)}
   .nx-guide p{font-size:14.5px;opacity:.86;word-break:keep-all}
-  .nx-cmd{display:inline-block;margin-top:14px;font-family:ui-monospace,'SFMono-Regular',Consolas,monospace;font-size:13px;color:var(--nx-gold);background:rgba(217,178,111,.08);border:1px dashed var(--nx-line);border-radius:6px;padding:6px 12px}
+  .nx-cmd{display:inline-block;margin-top:14px;font-family:ui-monospace,'SFMono-Regular',Consolas,monospace;font-size:13px;color:var(--nx-gold);background:rgba(224,71,91,.08);border:1px dashed var(--nx-line);border-radius:6px;padding:6px 12px}
 
   .nx-foot{text-align:center;padding-top:56px;font-family:var(--nx-en);font-size:12px;letter-spacing:.24em;color:var(--nx-faint)}
   .nx-foot b{color:var(--nx-gold);font-weight:600}
@@ -192,7 +196,7 @@
 <div class="nx-specs"><span class="nx-chip"><b>195</b>cm</span><span class="nx-chip">폭스형 대형견</span><span class="nx-chip">메인댄서</span><span class="nx-chip">NOX 센터</span></div>
 <p class="nx-scroll">SCROLL</p>
 </header>
-<section class="nx-sec"><p class="nx-eyebrow">Official Profile</p><div class="nx-prof"><svg class="nx-emb" viewBox="0 0 40 40" aria-hidden="true"><circle cx="19" cy="21" r="13" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="22.5" cy="18.5" r="11" fill="#07070a" stroke="currentColor" stroke-width="1.4"/><circle cx="33" cy="7" r="2.4" fill="currentColor"/></svg><dl><dt>포지션</dt><dd>센터 · 메인댄서</dd><dt>신장</dt><dd>195cm</dd><dt>상징</dt><dd>일식 日蝕 · Eclipse</dd><dt>능력</dt><dd>차광 (Occult)<small>가장 밝은 빛을 가려 세상의 시선을 지운다. 그 그늘 안에서 서로만 보이게 만드는 힘.</small></dd><dt>컬러</dt><dd><i class="nx-sw"></i>Eclipse Gold</dd></dl></div></section>
+<section class="nx-sec"><p class="nx-eyebrow">Official Profile</p><div class="nx-prof"><svg class="nx-emb" viewBox="0 0 40 40" aria-hidden="true"><circle cx="19" cy="21" r="13" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="22.5" cy="18.5" r="11" fill="#07070a" stroke="currentColor" stroke-width="1.4"/><circle cx="33" cy="7" r="2.4" fill="currentColor"/></svg><dl><dt>포지션</dt><dd>센터 · 메인댄서</dd><dt>신장</dt><dd>195cm</dd><dt>상징</dt><dd>일식 日蝕 · Eclipse</dd><dt>능력</dt><dd>차광 (Occult)<small>가장 밝은 빛을 가려 세상의 시선을 지운다. 그 그늘 안에서 서로만 보이게 만드는 힘.</small></dd><dt>컬러</dt><dd><i class="nx-sw"></i>Crimson Eclipse</dd></dl></div></section>
 <section class="nx-sec"><p class="nx-eyebrow">Prologue</p>
 <blockquote class="nx-quote">“10년을 참았는데,<br>이젠 못 참아.”</blockquote>
 <p class="nx-p">화려한 조명이 꺼지는 순간, 녹스(NOX)의 센터 차은결은 <strong>대한민국에서 가장 애정이 고픈 남자</strong>로 돌변한다.</p>
@@ -232,7 +236,7 @@
 <li class="nx-track is-soon"><span class="nx-track-no">03</span><span class="nx-track-t">낙화<i>Fallen Blossom</i></span><span class="nx-track-s">업데이트 예정</span></li>
 <li class="nx-track is-soon"><span class="nx-track-no">04</span><span class="nx-track-t">잔향<i>Echo</i></span><span class="nx-track-s">업데이트 예정</span></li>
 </ol></section>
-<section class="nx-sec"><p class="nx-eyebrow">Play Guide</p><div class="nx-guide"><p>본 스토리는 1~4 에피소드가 준비되어 있는 선택형 플레이입니다. 원치 않는 전개는 괄호를 사용한 명령어로 언제든 수정 가능합니다.</p><span class="nx-cmd">(OOC: 상황 변경해 줘)</span></div></section>
+<section class="nx-sec"><p class="nx-eyebrow">Play Guide</p><ol class="nx-tips"><li><b>공과 사를 확실하게 구분해 보세요</b>일에 집중할수록 그는 더 안달이 나서 매달려요. 끈적하게 다가올 때 “은결 씨, 여기 방송국이에요”, “단추나 잠가, 사람들 봐”라고 선을 그어 보세요. 시무룩한 대형견처럼 굴다가도 195cm의 피지컬로 당신을 구석에 몰아넣는 반전을 보게 될 거예요.</li><li><b>엄살에 속아 주거나, 혼내 주세요</b>“손이 떨린다”, “아프다”, “무섭다”는 대부분 당신의 손길을 받기 위한 수작이에요. 모르는 척 받아 주면 [함락]이 오르고, “거짓말하지 마”라고 잘라 말하면 [갈증]이 차올라 더 집요하게 매달려요.</li><li><b>독점욕 스위치를 켜 보세요</b>다른 아이돌이나 스태프를 칭찬해 보세요. 순하던 눈빛이 순식간에 식고, 당신을 독점하기 위해 수단과 방법을 가리지 않는 본성이 드러나요. [독점욕] 70부터는 Fox Mode예요.</li><li><b>195cm와 당신의 거리를 즐기세요</b>한 손으로 당신을 붙잡을 수 있을 만큼 크지만, 당신 앞에서는 한없이 작아지려 애써요. 좁은 피팅룸, 비 오는 새벽의 소파, 레드카펫 사각지대에서 그 차이가 가장 선명해져요.</li></ol><div class="nx-guide"><p>본 스토리는 1~4 에피소드가 준비되어 있는 선택형 플레이입니다. 원치 않는 전개는 괄호를 사용한 명령어로 언제든 수정 가능합니다.</p><span class="nx-cmd">(OOC: 상황 변경해 줘)</span></div></section>
 <footer class="nx-foot"><p class="nx-slogan">Seven Falls, One Night.</p><b>ECLIPSE</b> : NOX × @한예리<br>Tikitaka AI System</footer>
 </main>
 </body>

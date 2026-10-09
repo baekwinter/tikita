@@ -56,8 +56,6 @@ def tokens(m):
     r, g, b = rgb(m["accent"])
     if m.get("accent_light"):
         lr, lg, lb = rgb(m["accent_light"])
-    elif m["id"] == "eclipse":  # reference 값 그대로
-        lr, lg, lb = 255, 236, 205
     else:
         lr, lg, lb = (round(c + (255 - c) * .7) for c in (r, g, b))
     return {"__A__": m["accent"], "__RGB__": f"{r},{g},{b}", "__LRGB__": f"{lr},{lg},{lb}"}
@@ -219,7 +217,9 @@ def body(m, members, faces, target):
     a("</ol></section>")
     # PLAY GUIDE
     guide = g["play_guide"].replace(g["ooc_example"] + " 등 ", "")
-    a(f'<section class="nx-sec"><p class="nx-eyebrow">Play Guide</p><div class="nx-guide"><p>{esc(guide)}</p>'
+    tips = "".join(f'<li><b>{esc(x["title"])}</b>{sq(esc(x["body"]))}</li>' for x in m.get("play_tips", []))
+    tips = f'<ol class="nx-tips">{tips}</ol>' if tips else ""
+    a(f'<section class="nx-sec"><p class="nx-eyebrow">Play Guide</p>{tips}<div class="nx-guide"><p>{esc(guide)}</p>'
       f'<span class="nx-cmd">{esc(g["ooc_example"])}</span></div></section>')
     # FOOTER
     a(f'<footer class="nx-foot"><p class="nx-slogan">{esc(g["idol_concept"]["slogan_suggest"])}</p>'

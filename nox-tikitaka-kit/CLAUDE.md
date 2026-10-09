@@ -191,4 +191,5 @@ NOX는 **2010년대 세계관형 보이그룹**처럼 보여야 한다. EXO가 �
 - Step 3~5 완료: 7인 페이지·허브·image_prompts·tikitaka_fields 생성, check 실패 0, 7인 × 2폭 가로 스크롤 0.
 - 남은 일: ① B 버전을 티키타에 붙여넣어 svg·그라디언트 유지 여부 확인 ② 6인 카피 확정 ③ 얼굴 이미지 URL 등록(현재 0/7, 전부 실루엣) ④ 그룹 제안값(슬로건·팬덤명·인사) 확정.
 - 차은결 tikitaka 입력칸(비밀·설정·EP 비공개 등)은 원문에 없던 내용을 새로 쓴 것이라 `tikitaka.status: draft`. 소개 카피(copy)는 complete 그대로.
+- 2026-10-09 차은결 방향 변경(사용자 요청): 대표 색 금색 → 레드(#e0475b, Crimson Eclipse, 붉은 일식), 아키타입 집착광공 + 계략남, 관계 = 10년 지기 + 전담 코디네이터(사내 비밀 연애), 변수 함락(capture)·갈증(thirst)·독점욕(possession), 공략 가이드 4개(`play_tips`, PLAY GUIDE 위에 표시). reference HTML은 금색 시절 기준이라 이제 차은결 preview와 픽셀 비교하지 않는다. 소개 카피(copy)는 complete라 그대로 — 수정안은 사용자 확인 후.
 

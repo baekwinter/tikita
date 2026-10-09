@@ -45,10 +45,7 @@ def rgb(hexcol):
 
 def palette(m):
     r, g, b = rgb(m["accent"])
-    if m["id"] == "eclipse":
-        lr, lg, lb = 255, 236, 205
-    else:
-        lr, lg, lb = (round(c + (255 - c) * .7) for c in (r, g, b))
+    lr, lg, lb = (round(c + (255 - c) * .7) for c in (r, g, b))
     return m["accent"], f"{r},{g},{b}", f"{lr},{lg},{lb}"
 
 
@@ -245,7 +242,14 @@ def page(m, members, faces):
       f'<span style="font-size:12px;color:{FAINT}">{al["label"]}</span></div>{tr}</div>')
     # PLAY GUIDE
     guide = g["play_guide"].replace(g["ooc_example"] + " 등 ", "")
-    a(f'<div style="{SEC}">' + eyebrow("Play Guide") +
+    tips = "".join(
+        f'<div style="display:flex;gap:14px;padding:16px 18px;background-color:{SURF};border:1px solid {HAIR};border-radius:12px">'
+        f'<span style="flex:0 0 28px;font-family:{EN};font-size:20px;line-height:1.3;color:{A}">{i:02d}</span>'
+        f'<div style="flex:1 1 auto"><p style="margin:0 0 2px;font-size:14.5px;font-weight:500;color:{INK};word-break:keep-all">{esc(x["title"])}</p>'
+        f'<p style="margin:0;font-size:13.5px;line-height:1.75;color:{MUTED};word-break:keep-all">{sq(esc(x["body"]))}</p></div></div>'
+        for i, x in enumerate(m.get("play_tips", []), 1))
+    tips = f'<div style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px">{tips}</div>' if tips else ""
+    a(f'<div style="{SEC}">' + eyebrow("Play Guide") + tips +
       f'<div style="{CARD};padding:22px 20px"><p style="margin:0;font-size:14.5px;line-height:1.85;color:{INK};word-break:keep-all">{esc(guide)}</p>'
       f'<span style="display:inline-block;margin-top:14px;font-family:{MONO};font-size:13px;color:{A};background-color:rgba({R},.08);border:1px dashed {LINE};border-radius:6px;padding:6px 12px">{esc(g["ooc_example"])}</span></div></div>')
     # FOOTER
