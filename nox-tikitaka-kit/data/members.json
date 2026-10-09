@@ -475,9 +475,9 @@
         "creator_comment": "NOX 프로젝트 두번째 컨셉 필름, 일식 차은결입니다. 가장 밝은 무대 위의 남자가 당신 앞에서만 그림자가 되는 이야기예요. 10년 우정의 선을 한 칸씩 넘는 과정을 천천히 즐겨 주세요. 원치 않는 전개는 (OOC: 상황 변경해 줘)처럼 괄호 명령어로 언제든 바꿀 수 있어요. 일곱 멤버의 스토리가 차례로 공개됩니다. 다른 낙화도 기다려 주세요. — @한예리"
       },
       "image": {
-        "appearance": "very tall, broad shoulders, fox-like upturned eyes, playful smirk, soft black hair with long bangs, small mole under left eye, gold ear cuffs",
-        "outfit": "black stage suit with gold embroidery, open collar white shirt",
-        "symbol": "golden solar eclipse corona glow behind head, gold rim light",
+        "appearance": "very tall, broad shoulders, messy jet black hair with long wet bangs falling over the eyes, sharp fox-like upturned eyes, flushed cheeks, glossy lips, sweat on skin, small silver stud earrings, thin silver chain necklace, sultry gaze",
+        "outfit": "white satin dress shirt with open collar, top buttons undone, sleeves rolled up",
+        "symbol": "black eclipse disc with blazing golden corona ring behind him, red and gold stage lights",
         "episodes": [
           "cramped fitting room after a live show, sweaty, wet white shirt, unbuttoning shirt collar, flushed face, breathless, mirror lights",
           "backstage hallway, leaning over viewer with arm on wall, jealous smile, cold eyes, stage lights in background",
@@ -509,6 +509,27 @@
             "손",
             "시상식"
           ]
+        ],
+        "light": "dark concert stage background, red stage spotlight from above, golden rim light, light beams through haze, glitter particles",
+        "extra": [
+          {
+            "title": "무대 버전 얼굴 ① 엔딩 요정 (7인 시리즈 톤)",
+            "note": "7인 공식 일러스트와 같은 사선 패널 구도. 소개 페이지 얼굴 원에 쓰기 좋은 컷.",
+            "keywords": "upper body portrait, three-quarter view, looking at viewer, face in upper third, very tall, broad shoulders, messy jet black hair with long wet bangs falling over the eyes, sharp fox-like upturned eyes, flushed cheeks, glossy lips, sweat on skin, small silver stud earrings, thin silver chain necklace, sultry gaze, white satin dress shirt with open collar, top buttons undone, sleeves rolled up, ending fairy pose after performance, out of breath, black eclipse with golden corona behind his head, dynamic diagonal composition, black and white geometric panel background, sharp angular light shapes, red stage spotlight, golden rim light, glitter particles, dark background",
+            "asset": "차은결, 프로필, 무대, 엔딩 요정"
+          },
+          {
+            "title": "무대 버전 ② 라이브 무대 위",
+            "note": "무대 한가운데 센터 느낌. 썸네일·공개 소개 대표 이미지 후보.",
+            "keywords": "upper body, slight low angle, looking at viewer, very tall, broad shoulders, messy jet black hair with long wet bangs falling over the eyes, sharp fox-like upturned eyes, flushed cheeks, glossy lips, sweat on skin, small silver stud earrings, thin silver chain necklace, sultry gaze, white satin dress shirt with open collar, top buttons undone, sleeves rolled up, headset microphone, sweat flying, center of concert stage, red stage lights and golden light beams through haze, crowd light sticks bokeh in background, giant eclipse LED screen behind him, confetti, dynamic pose",
+            "asset": "차은결, 무대, 센터, 콘서트"
+          },
+          {
+            "title": "무대 버전 ③ 무대 직후 대기실 (초기 버전 분위기)",
+            "note": "보내 주신 초기 버전(대기실 거울·붉은 조명)과 같은 분위기. EP01 피팅룸 장면에도 사용 가능.",
+            "keywords": "upper body, looking at viewer, very tall, broad shoulders, messy jet black hair with long wet bangs falling over the eyes, sharp fox-like upturned eyes, flushed cheeks, glossy lips, sweat on skin, small silver stud earrings, thin silver chain necklace, sultry gaze, white satin dress shirt with open collar, top buttons undone, sleeves rolled up, backstage dressing room right after the stage, vanity mirror with round light bulbs, red and pink ambient light, makeup table, stage outfit hanging behind, soft glow, intimate mood",
+            "asset": "차은결, 대기실, 거울, 무대 직후"
+          }
         ]
       }
     },

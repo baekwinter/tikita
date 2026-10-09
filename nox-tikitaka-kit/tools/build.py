@@ -483,9 +483,10 @@ def image_prompts(m, members):
         s = ", ".join(kws)
         return f"[{model}] 프롬프트: {s}", len(s)
 
-    face_kw = [ip["quality"], ip["subject"], ip["portrait"], im["appearance"], im["outfit"], im["symbol"], ip["light"], ip["style"]]
+    light = im.get("light") or ip["light"]  # 멤버별 조명 덮어쓰기 (예: 차은결 무대 조명)
+    face_kw = [ip["quality"], ip["subject"], ip["portrait"], im["appearance"], im["outfit"], im["symbol"], light, ip["style"]]
     thumb_kw = [ip["quality"], ip["subject"], "cover art, cinematic composition, three-quarter view, looking at viewer",
-                im["appearance"], im["outfit"], im["symbol"], "empty space at bottom for title", ip["light"], ip["style"]]
+                im["appearance"], im["outfit"], im["symbol"], "empty space at bottom for title", light, ip["style"]]
     L = [f"# {m['name']} ({m['concept_en']}) — 이미지 프롬프트", "",
          "티키타 이미지 생성 → 모델 **Romance** (7인 톤 통일) · 512×768 (2:3) · 실사 스타일 금지(illustration 키워드 유지).",
          "생성한 얼굴 이미지를 업로드한 뒤 이미지 주소를 `data/faces.json` → `url`에 붙여넣고 `얼굴 반영해줘`.", ""]
@@ -493,8 +494,11 @@ def image_prompts(m, members):
                              ("썸네일 (스토리 대표 이미지)", thumb_kw, f"{m['name']}, 썸네일, {m['concept_ko']}")]:
         p, n = P("Romance", kws)
         L += [f"## {title}  `{n:,} / 1,200자`", "```", p, "```", f"에셋 설명(매칭 키워드): `{desc}`", ""]
+    for x in im.get("extra", []):  # 추가 컷 (예: 무대 버전 얼굴)
+        p, n = P(x.get("model", "Romance"), [ip["quality"], ip["subject"], x["keywords"], ip["style"]])
+        L += [f"## {x['title']}  `{n:,} / 1,200자`", x.get("note", ""), "```", p, "```", f"에셋 설명(매칭 키워드): `{x['asset']}`", ""]
     for i, (e, kw) in enumerate(zip(m["copy"]["episodes"], im["episodes"]), 1):
-        kws = [ip["quality"], ip["subject"], im["appearance"], kw, ip["light"], ip["style"]]
+        kws = [ip["quality"], ip["subject"], im["appearance"], kw, light, ip["style"]]
         p, n = P("Romance", kws)
         L += [f"## EP {i:02d} — {e['title']}  `{n:,} / 1,200자`", "```", p, "```",
               f"에셋 설명(매칭 키워드): `{', '.join(im['episode_assets'][i - 1])}`", ""]
