@@ -12,27 +12,27 @@
   },
   "comet": {
     "name": "한서하",
-    "url": "",
-    "local": "assets/faces/comet.png"
+    "url": "https://cdn.jsdelivr.net/gh/baekwinter/tikita@c5ac7593790f861dc813f3e3b0bbc37646c78c22/nox-tikitaka-kit/assets/faces/comet.jpg",
+    "local": "assets/faces/comet.jpg"
   },
   "mist": {
     "name": "서이준",
-    "url": "",
-    "local": "assets/faces/mist.png"
+    "url": "https://cdn.jsdelivr.net/gh/baekwinter/tikita@c5ac7593790f861dc813f3e3b0bbc37646c78c22/nox-tikitaka-kit/assets/faces/mist.jpg",
+    "local": "assets/faces/mist.jpg"
   },
   "moon": {
     "name": "백유한",
-    "url": "",
-    "local": "assets/faces/moon.png"
+    "url": "https://cdn.jsdelivr.net/gh/baekwinter/tikita@c5ac7593790f861dc813f3e3b0bbc37646c78c22/nox-tikitaka-kit/assets/faces/moon.jpg",
+    "local": "assets/faces/moon.jpg"
   },
   "aurora": {
     "name": "류시온",
-    "url": "",
-    "local": "assets/faces/aurora.png"
+    "url": "https://cdn.jsdelivr.net/gh/baekwinter/tikita@c5ac7593790f861dc813f3e3b0bbc37646c78c22/nox-tikitaka-kit/assets/faces/aurora.jpg",
+    "local": "assets/faces/aurora.jpg"
   },
   "star": {
     "name": "이하루",
-    "url": "",
-    "local": "assets/faces/star.png"
+    "url": "https://cdn.jsdelivr.net/gh/baekwinter/tikita@c5ac7593790f861dc813f3e3b0bbc37646c78c22/nox-tikitaka-kit/assets/faces/star.jpg",
+    "local": "assets/faces/star.jpg"
   }
 }

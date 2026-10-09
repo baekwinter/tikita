@@ -1,3 +1,5 @@
+![한서하](https://cdn.jsdelivr.net/gh/baekwinter/tikita@c5ac7593790f861dc813f3e3b0bbc37646c78c22/nox-tikitaka-kit/assets/faces/comet.jpg)
+
 **CONCEPT FILM 03 · COMET**
 
 # 레전드 비주얼 한서하 — 혜성(Comet)

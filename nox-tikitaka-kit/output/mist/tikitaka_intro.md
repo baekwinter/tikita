@@ -1,3 +1,5 @@
+![서이준](https://cdn.jsdelivr.net/gh/baekwinter/tikita@c5ac7593790f861dc813f3e3b0bbc37646c78c22/nox-tikitaka-kit/assets/faces/mist.jpg)
+
 **CONCEPT FILM 04 · MIST**
 
 # 무표정 장인 서이준 — 안개(Mist)

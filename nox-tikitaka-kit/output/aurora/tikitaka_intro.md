@@ -1,3 +1,5 @@
+![류시온](https://cdn.jsdelivr.net/gh/baekwinter/tikita@c5ac7593790f861dc813f3e3b0bbc37646c78c22/nox-tikitaka-kit/assets/faces/aurora.jpg)
+
 **CONCEPT FILM 06 · AURORA**
 
 # 천재 프로듀서 류시온 — 오로라(Aurora)

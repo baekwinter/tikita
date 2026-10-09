@@ -1,3 +1,5 @@
+![이하루](https://cdn.jsdelivr.net/gh/baekwinter/tikita@c5ac7593790f861dc813f3e3b0bbc37646c78c22/nox-tikitaka-kit/assets/faces/star.jpg)
+
 **CONCEPT FILM 07 · STAR**
 
 # 만능 막내 이하루 — 별(Star)

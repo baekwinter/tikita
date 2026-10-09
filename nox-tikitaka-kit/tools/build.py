@@ -113,7 +113,7 @@ def face_src(mid, faces, target):
         p = ROOT / local
         for cand in [p] + [p.with_suffix(e) for e in (".png", ".jpg", ".jpeg", ".webp")]:
             if cand.exists():
-                return "../../" + cand.relative_to(ROOT).as_posix()
+                return ("../" if target == "hub" else "../../") + cand.relative_to(ROOT).as_posix()
     return f.get("url") or None
 
 
@@ -396,7 +396,7 @@ def hub(members, faces):
     cards = []
     for x in members["members"]:
         cards.append(f'<a class="nx-card" href="{x["id"]}/preview.html" style="--c:{x["accent"]}">'
-                     f'<div class="nx-card-top">{face(x["id"], x["name"], faces, "preview")}{emblem(x["id"])}</div>'
+                     f'<div class="nx-card-top">{face(x["id"], x["name"], faces, "hub")}{emblem(x["id"])}</div>'
                      f'<p class="nx-card-film">{x["concept_film"].title()}</p>'
                      f'<p class="nx-card-name">{x["name"]}<small>{x["concept_ko"]} · {x["concept_en"].upper()}</small></p>'
                      f'<p class="nx-card-desc">{sq(esc(x["one_liner"]))}</p>'
