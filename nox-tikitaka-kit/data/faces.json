@@ -7,8 +7,30 @@
   },
   "eclipse": {
     "name": "차은결",
-    "url": "https://cdn.jsdelivr.net/gh/baekwinter/tikita@3fe3d37d625a3c17bca92ebf9b14b138e94791fc/nox-tikitaka-kit/assets/faces/eclipse.jpg",
-    "local": "assets/faces/eclipse.jpg"
+    "url": "https://cdn.jsdelivr.net/gh/baekwinter/tikita@6b63cdcd29a9d53f2314ba22a10ec622667cbcb7/nox-tikitaka-kit/assets/faces/eclipse.jpg",
+    "local": "assets/faces/eclipse.jpg",
+    "gallery": {
+      "hero": {
+        "url": "https://cdn.jsdelivr.net/gh/baekwinter/tikita@6b63cdcd29a9d53f2314ba22a10ec622667cbcb7/nox-tikitaka-kit/assets/eclipse/hero.jpg",
+        "local": "assets/eclipse/hero.jpg"
+      },
+      "ep1": {
+        "url": "https://cdn.jsdelivr.net/gh/baekwinter/tikita@6b63cdcd29a9d53f2314ba22a10ec622667cbcb7/nox-tikitaka-kit/assets/eclipse/ep1.jpg",
+        "local": "assets/eclipse/ep1.jpg"
+      },
+      "ep2": {
+        "url": "https://cdn.jsdelivr.net/gh/baekwinter/tikita@6b63cdcd29a9d53f2314ba22a10ec622667cbcb7/nox-tikitaka-kit/assets/eclipse/ep2.jpg",
+        "local": "assets/eclipse/ep2.jpg"
+      },
+      "ep3": {
+        "url": "https://cdn.jsdelivr.net/gh/baekwinter/tikita@6b63cdcd29a9d53f2314ba22a10ec622667cbcb7/nox-tikitaka-kit/assets/eclipse/ep3.jpg",
+        "local": "assets/eclipse/ep3.jpg"
+      },
+      "ep4": {
+        "url": "https://cdn.jsdelivr.net/gh/baekwinter/tikita@6b63cdcd29a9d53f2314ba22a10ec622667cbcb7/nox-tikitaka-kit/assets/eclipse/ep4.jpg",
+        "local": "assets/eclipse/ep4.jpg"
+      }
+    }
   },
   "comet": {
     "name": "한서하",
@@ -34,5 +56,6 @@
     "name": "이하루",
     "url": "https://cdn.jsdelivr.net/gh/baekwinter/tikita@c5ac7593790f861dc813f3e3b0bbc37646c78c22/nox-tikitaka-kit/assets/faces/star.jpg",
     "local": "assets/faces/star.jpg"
-  }
+  },
+  "_comment_gallery": "gallery = 소개 페이지 추가 컷 (hero = 엔딩 요정 캠 메인, ep1~ep4 = 에피소드 장면). 없으면 얼굴 이미지로 대체."
 }

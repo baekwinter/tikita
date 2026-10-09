@@ -115,6 +115,18 @@ def face_src(mid, faces, target):
     return f.get("url") or None
 
 
+def gallery_src(mid, key, faces, target):
+    """소개 페이지 추가 컷 (faces.json → <id>.gallery.<key>). 붙여넣기는 URL, 미리보기는 로컬 우선."""
+    g = faces.get(mid, {}).get("gallery", {}).get(key)
+    if not g:
+        return None
+    if target == "paste":
+        return g.get("url")
+    if g.get("local") and (ROOT / g["local"]).exists():
+        return "../../" + g["local"]
+    return g.get("url")
+
+
 def face(mid, name, faces, target, cls=""):
     src = face_src(mid, faces, target)
     inner = f'<img src="{html.escape(src)}" alt="{name}">' if src else ("" if target == "paste" else SILHOUETTE)
@@ -323,13 +335,15 @@ def paste_version(m, members, faces, platform):
 def inline_version(m, members, faces):
     """B 모드: 인라인 style만 쓰는 'ON AIR' 무대 레이아웃 (tools/stage.py)."""
     import stage
-    return stage.page(m, members, faces, lambda mid: faces.get(mid, {}).get("url")) + "\n"
+    return stage.page(m, members, faces, lambda mid: faces.get(mid, {}).get("url"),
+                      lambda mid, k: gallery_src(mid, k, faces, "paste")) + "\n"
 
 
 def inline_preview(m, members, faces):
     """B 모드 미리보기: 붙여넣기 버전과 같은 레이아웃 + 로컬 얼굴 + 티키타 미리보기 칸과 비슷한 배경."""
     import stage
-    inner = stage.page(m, members, faces, lambda mid: face_src(mid, faces, "preview"))
+    inner = stage.page(m, members, faces, lambda mid: face_src(mid, faces, "preview"),
+                       lambda mid, k: gallery_src(mid, k, faces, "preview"))
     return ('<!DOCTYPE html>\n<html lang="ko">\n<head>\n<meta charset="UTF-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n'
             f"<title>{m['concept_en'].upper()} · {m['name']}</title>\n{FONTS}\n</head>\n"
             f'<body style="margin:0;background:#1d1b1f;padding:16px 12px">\n{inner}\n</body>\n</html>\n')

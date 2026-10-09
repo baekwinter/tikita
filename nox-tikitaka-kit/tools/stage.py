@@ -39,7 +39,7 @@ def phase_icon(k, A, L):
             f'background-image:radial-gradient(circle 17px at {cx}px 18px,{BASE} 99%,transparent 100%){extra}"></span>')
 
 
-def page(m, members, faces, src):
+def page(m, members, faces, src, gal=lambda mid, k: None):
     A, R, L = palette(m)
     DIM = mix(rgb(m["accent"]), (11, 10, 13), .78)   # 포인트 컬러가 스민 어두운 면
     g, c, d = members["group"], m["copy"], m.get("display", {})
@@ -67,7 +67,8 @@ def page(m, members, faces, src):
       f'<b style="color:{INK};letter-spacing:.2em">LIVE</b>NOX COMEBACK</span>'
       f'<span style="font-family:{MONO};letter-spacing:.04em">CF.{film} 02:57:14</span></div>')
     cover = src(m["id"])
-    img = (f'<img src="{html.escape(cover)}" alt="{m["name"]}" style="display:block;width:100%;height:380px;object-fit:cover;object-position:50% 22%">' if cover else
+    hero = gal(m["id"], "hero") or cover
+    img = (f'<img src="{html.escape(hero)}" alt="{m["name"]}" style="display:block;width:100%;height:420px;object-fit:cover;object-position:50% 18%">' if hero else
            f'<div style="height:300px;background-color:{DIM}"></div>')
     pos = m["position"].replace(" · ", " / ")
     a(f'<div style="padding:0 12px">'
@@ -168,8 +169,11 @@ def page(m, members, faces, src):
         mk = f'<span style="font-family:{MONO};font-size:10.5px;letter-spacing:.06em;color:{A}">EP {e["no"]}' + (f' · {esc(marks[i])}' if i < len(marks) else "") + "</span>"
         q = (f'<p style="margin:8px 0 0;padding-left:10px;border-left:2px solid {A};font-family:{SERIF};font-size:14px;line-height:1.75;color:{INK};word-break:keep-all">{sq(esc(e["line"]))}</p>'
              if e.get("line") else "")
+        shot = gal(m["id"], f"ep{i + 1}")
+        shot = (f'<div style="margin:8px 0 10px;border-radius:8px;overflow:hidden;line-height:0;box-shadow:0 0 0 1px {HAIR}">'
+                f'<img src="{html.escape(shot)}" alt="EP {e["no"]}" style="display:block;width:100%;height:180px;object-fit:cover;object-position:50% 22%"></div>') if shot else ""
         eps += (f'<div style="display:flex;gap:14px;padding:18px 0;{"" if i == 0 else f"border-top:1px solid {HAIR};"}">{phase_icon(i, A, L)}'
-                f'<div style="flex:1 1 auto">{mk}<p style="margin:2px 0 6px;font-size:16px;font-weight:700;line-height:1.5;color:{INK};word-break:keep-all">{sq(esc(e["title"]))}</p>'
+                f'<div style="flex:1 1 auto;min-width:0">{mk}{shot}<p style="margin:2px 0 6px;font-size:16px;font-weight:700;line-height:1.5;color:{INK};word-break:keep-all">{sq(esc(e["title"]))}</p>'
                 f'<p style="margin:0;font-size:13.5px;line-height:1.8;color:{MUTED};word-break:keep-all">{sq(esc(e["scene"]))}</p>{q}</div></div>')
     a(f'<div style="{SEC}">' + label("Episodes", A, d.get("episode_caption", "4 NIGHTS")) + eps + "</div>")
 
