@@ -1,10 +1,38 @@
 {
   "_comment": "얼굴 이미지 등록부. url = 티키타에 올린 이미지 주소(공개 소개 붙여넣기용, 필수) / local = 미리보기용 로컬 파일. 둘 다 비어 있으면 실루엣 플레이스홀더로 빌드된다.",
-  "abyss":   { "name": "기현석", "url": "", "local": "assets/faces/abyss.png" },
-  "eclipse": { "name": "차은결", "url": "", "local": "assets/faces/eclipse.png" },
-  "comet":   { "name": "윤하겸", "url": "", "local": "assets/faces/comet.png" },
-  "mist":    { "name": "연우진", "url": "", "local": "assets/faces/mist.png" },
-  "moon":    { "name": "백도하", "url": "", "local": "assets/faces/moon.png" },
-  "aurora":  { "name": "선우빈", "url": "", "local": "assets/faces/aurora.png" },
-  "star":    { "name": "강지후", "url": "", "local": "assets/faces/star.png" }
+  "abyss": {
+    "name": "기현석",
+    "url": "",
+    "local": "assets/faces/abyss.png"
+  },
+  "eclipse": {
+    "name": "차은결",
+    "url": "https://cdn.jsdelivr.net/gh/baekwinter/tikita@8423ec74cf6d7cbb3746bdb0f08d3eccf08deaf2/nox-tikitaka-kit/assets/faces/eclipse.jpg",
+    "local": "assets/faces/eclipse.jpg"
+  },
+  "comet": {
+    "name": "윤하겸",
+    "url": "",
+    "local": "assets/faces/comet.png"
+  },
+  "mist": {
+    "name": "연우진",
+    "url": "",
+    "local": "assets/faces/mist.png"
+  },
+  "moon": {
+    "name": "백도하",
+    "url": "",
+    "local": "assets/faces/moon.png"
+  },
+  "aurora": {
+    "name": "선우빈",
+    "url": "",
+    "local": "assets/faces/aurora.png"
+  },
+  "star": {
+    "name": "강지후",
+    "url": "",
+    "local": "assets/faces/star.png"
+  }
 }

@@ -1,3 +1,5 @@
+![차은결](https://cdn.jsdelivr.net/gh/baekwinter/tikita@8423ec74cf6d7cbb3746bdb0f08d3eccf08deaf2/nox-tikitaka-kit/assets/faces/eclipse.jpg)
+
 **CONCEPT FILM 02 · ECLIPSE**
 
 # 얼굴 천재 차은결 — 일식(Eclipse)
@@ -74,8 +76,8 @@
 
 ## BGM : NOX 1st EP [FANTASIA]
 
-- 트랙 01. 환몽 (幻夢) (Illusion)
-- 트랙 02. 달무리 (Moon Halo)
+- 트랙 01. [환몽 (幻夢) (Illusion)](https://youtu.be/J6e06YDlFo4)
+- 트랙 02. [달무리 (Moon Halo)](https://youtu.be/E1yibOP3rzs)
 - 트랙 03. 낙화 (Fallen Blossom) — 업데이트 예정
 - 트랙 04. 잔향 (Echo) — 업데이트 예정
 

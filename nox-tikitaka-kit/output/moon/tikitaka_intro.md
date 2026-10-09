@@ -74,8 +74,8 @@
 
 ## BGM : NOX 1st EP [FANTASIA]
 
-- 트랙 01. 환몽 (幻夢) (Illusion)
-- 트랙 02. 달무리 (Moon Halo)
+- 트랙 01. [환몽 (幻夢) (Illusion)](https://youtu.be/J6e06YDlFo4)
+- 트랙 02. [달무리 (Moon Halo)](https://youtu.be/E1yibOP3rzs)
 - 트랙 03. 낙화 (Fallen Blossom) — 업데이트 예정
 - 트랙 04. 잔향 (Echo) — 업데이트 예정
 

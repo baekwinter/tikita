@@ -30,6 +30,14 @@ def sq(s):
     return re.sub(r"'([^']*)'", "‘\\1’", s)
 
 
+def yt_id(url):
+    """https://youtu.be/ID 또는 ...watch?v=ID → ID"""
+    if not url:
+        return None
+    mm = re.search(r"(?:youtu\.be/|[?&]v=|/embed/|/shorts/)([\w-]{11})", url)
+    return mm[1] if mm else None
+
+
 def rgb(hexcol):
     h = hexcol.lstrip("#")
     return tuple(int(h[i:i + 2], 16) for i in (0, 2, 4))
@@ -218,10 +226,20 @@ def page(m, members, faces):
     tr = ""
     for t in al["tracks"]:
         live = t["status"] == "live"
-        tr += (f'<div style="display:flex;align-items:center;gap:12px;padding:13px 4px;border-bottom:1px solid {HAIR};font-size:14.5px;opacity:{1 if live else .45}">'
-               f'<span style="flex:0 0 28px;font-family:{EN};font-size:15px;color:{A}">{t["no"]}</span>'
-               f'<span style="flex:1 1 auto;color:{INK}">{t["ko"]}<span style="font-family:{EN};color:{FAINT};margin-left:6px">{t["en"]}</span></span>'
-               f'<span style="font-size:11.5px;letter-spacing:.04em;color:{A if live else MUTED}">{TRACK_STATUS.get(t["status"], t["status"])}</span></div>')
+        url, vid = t.get("url"), yt_id(t.get("url"))
+        title = f'{t["ko"]}<span style="font-family:{EN};color:{FAINT};margin-left:6px">{t["en"]}</span>'
+        if live and url:
+            thumb = (f'<a href="{html.escape(url)}" style="flex:0 0 96px;display:block;border-radius:6px;overflow:hidden;border:1px solid {LINE}">'
+                     f'<img src="https://img.youtube.com/vi/{vid}/mqdefault.jpg" alt="{t["ko"]}" width="96" height="54" style="display:block;width:96px;height:54px;object-fit:cover"></a>') if vid else ""
+            tr += (f'<div style="display:flex;align-items:center;gap:12px;padding:12px 4px;border-bottom:1px solid {HAIR};font-size:14.5px">'
+                   f'<span style="flex:0 0 22px;font-family:{EN};font-size:15px;color:{A}">{t["no"]}</span>{thumb}'
+                   f'<a href="{html.escape(url)}" style="flex:1 1 auto;color:{INK};text-decoration:none;word-break:keep-all">{title}'
+                   f'<span style="display:block;margin-top:2px;font-size:11.5px;letter-spacing:.04em;color:{A}">YouTube에서 듣기</span></a></div>')
+        else:
+            tr += (f'<div style="display:flex;align-items:center;gap:12px;padding:13px 4px;border-bottom:1px solid {HAIR};font-size:14.5px;opacity:{1 if live else .45}">'
+                   f'<span style="flex:0 0 22px;font-family:{EN};font-size:15px;color:{A}">{t["no"]}</span>'
+                   f'<span style="flex:1 1 auto;color:{INK}">{title}</span>'
+                   f'<span style="font-size:11.5px;letter-spacing:.04em;color:{A if live else MUTED}">{TRACK_STATUS.get(t["status"], t["status"])}</span></div>')
     a(f'<div style="{SEC}">' + eyebrow("BGM") +
       f'<div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:12px"><span style="font-family:{EN};font-size:24px;font-weight:600;letter-spacing:.14em;color:{INK}">{al["title"]}</span>'
       f'<span style="font-size:12px;color:{FAINT}">{al["label"]}</span></div>{tr}</div>')

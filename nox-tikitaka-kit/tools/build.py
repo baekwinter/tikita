@@ -108,21 +108,32 @@ def face_src(mid, faces, target):
     f = faces.get(mid, {})
     if target == "paste":
         return f.get("url") or None
-    if f.get("url"):
-        return f["url"]
-    local = f.get("local")
+    local = f.get("local")  # 미리보기는 로컬 파일 우선, 없으면 URL
     if local:
         p = ROOT / local
         for cand in [p] + [p.with_suffix(e) for e in (".png", ".jpg", ".jpeg", ".webp")]:
             if cand.exists():
                 return "../../" + cand.relative_to(ROOT).as_posix()
-    return None
+    return f.get("url") or None
 
 
 def face(mid, name, faces, target, cls=""):
     src = face_src(mid, faces, target)
     inner = f'<img src="{html.escape(src)}" alt="{name}">' if src else ("" if target == "paste" else SILHOUETTE)
     return f'<div class="nx-face{cls}" data-face="{mid}">{inner}</div>'
+
+
+def track_title(t):
+    inner = f'{t["ko"]}<i>{t["en"]}</i>'
+    if t.get("url") and t["status"] == "live":
+        return f'<a href="{html.escape(t["url"])}" target="_blank" rel="noopener" style="color:inherit;text-decoration:none">{inner}</a>'
+    return inner
+
+
+def track_status(t):
+    if t.get("url") and t["status"] == "live":
+        return f'<a href="{html.escape(t["url"])}" target="_blank" rel="noopener" style="color:inherit">YouTube에서 듣기</a>'
+    return TRACK_STATUS.get(t["status"], t["status"])
 
 
 # ---------------------------------------------------------------- page
@@ -204,7 +215,7 @@ def body(m, members, faces, target):
     for t in al["tracks"]:
         soon = t["status"] != "live"
         a(f'<li class="nx-track{" is-soon" if soon else ""}"><span class="nx-track-no">{t["no"]}</span>'
-          f'<span class="nx-track-t">{t["ko"]}<i>{t["en"]}</i></span><span class="nx-track-s">{TRACK_STATUS.get(t["status"], t["status"])}</span></li>')
+          f'<span class="nx-track-t">{track_title(t)}</span><span class="nx-track-s">{track_status(t)}</span></li>')
     a("</ol></section>")
     # PLAY GUIDE
     guide = g["play_guide"].replace(g["ooc_example"] + " 등 ", "")
@@ -344,7 +355,8 @@ def markdown_version(m, members, faces):
         L.append(f"- **{x['name']}** ({x['concept_ko']} · {x['concept_en'].upper()}) — {sq(x['one_liner'])}{mark}")
     al = g["album"]
     L += ["", f"## BGM : {al['label']} [{al['title']}]", ""]
-    L += [f"- 트랙 {t['no']}. {t['ko']} ({t['en']}){'' if t['status'] == 'live' else ' — 업데이트 예정'}" for t in al["tracks"]]
+    L += [f"- 트랙 {t['no']}. " + (f"[{t['ko']} ({t['en']})]({t['url']})" if t.get("url") and t["status"] == "live" else f"{t['ko']} ({t['en']})")
+          + ("" if t["status"] == "live" else " — 업데이트 예정") for t in al["tracks"]]
     L += ["", "## PLAY GUIDE", "", g["play_guide"], "", "---", "",
           f"*{g['idol_concept']['slogan_suggest']}*  ", f"{m['concept_en'].upper()} : {g['name']} × {g['credit']} | Tikitaka AI System", ""]
     return "\n".join(L)
@@ -391,7 +403,7 @@ def hub(members, faces):
                      f'<p class="nx-card-pow">POWER · {esc(x["power"]["name"])}</p></a>')
     al = g["album"]
     tracks = "".join(f'<li class="nx-track{"" if t["status"] == "live" else " is-soon"}"><span class="nx-track-no">{t["no"]}</span>'
-                     f'<span class="nx-track-t">{t["ko"]}<i>{t["en"]}</i></span><span class="nx-track-s">{TRACK_STATUS.get(t["status"], t["status"])}</span></li>'
+                     f'<span class="nx-track-t">{track_title(t)}</span><span class="nx-track-s">{track_status(t)}</span></li>'
                      for t in al["tracks"])
     inner = f"""<main class="nx">
 <header class="nx-hero">
