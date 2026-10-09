@@ -1,0 +1,11 @@
+{
+  "groups": ["카페", "월하당", "안채", "가면의 밤", "본모습"],
+  "images": [
+    {"key": "cover", "file": "카페_창가_저녁_대표.png", "group": "카페", "description": "황궁 목문이 보이는 카페 창가, 달 카드 뒷면을 든 회색 코트의 도겸. 늦가을 저녁", "secret": false, "thumbnail": true},
+    {"key": "ep1", "file": "카페_메뉴판_낮.png", "group": "카페", "description": "낮의 카페, 계피차 한 잔을 물리고 메뉴판을 당신 쪽으로 미는 도겸", "secret": false},
+    {"key": "ep2", "file": "월하당_대문_낮.png", "group": "월하당", "description": "한옥 골목 끝, 월하당 나무 대문을 열어 두고 비켜 선 검은 두루마기의 도겸", "secret": false},
+    {"key": "ep3", "file": "안채_탈끈_밤.png", "group": "안채", "description": "주황 불빛의 안채, 엉킨 종이 탈 끈 앞에서 웃는 흰 저고리의 도겸", "secret": false},
+    {"key": "ep4", "file": "가면행렬_북문_해질녘.png", "group": "가면의 밤", "description": "해 질 녘 황궁 북문의 가면 행렬, 검푸른 제복의 도겸과 멀리 흰 탈 하나", "secret": false},
+    {"key": "trueform", "file": "본모습_여우불_밤.png", "group": "본모습", "description": "밤의 돌길, 금빛 눈과 아홉 꼬리를 드러내고 푸른 여우불을 낮게 펼친 도겸", "secret": true, "unlock_cost": 50, "min_unlock": 100}
+  ]
+}
