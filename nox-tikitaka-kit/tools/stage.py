@@ -1,7 +1,8 @@
 """B 모드 v3 — 'ON AIR' 무대 레이아웃 (NOX 세계관 전용 디자인).
 
 모티프는 전부 NOX 세계에서 가져온다:
-  음악방송 생방송 화면(LIVE 바·엔딩 요정 캠·방송 자막 띠) → 포토카드 + 프로필 데이터 시트
+  음악방송 생방송 화면(LIVE 바·엔딩 요정 캠·방송 자막 띠) → NOX 컨셉 띠 → IDOL PROFILE × NOX CONCEPT
+  ('낙화하는 신들'은 그룹 NOX의 세계관 컨셉. 멤버는 실제 신이 아니라 무대 위에서 그 역할을 맡은 현실의 아이돌)
   → 10년 타임라인(display.timeline) → ON STAGE / OFF STAGE 분할 + 새벽 메신저 말풍선
   → 에피소드 = 상징의 4단계(display.episode_marks, 일식이면 제1접촉→부분식→개기식→다이아몬드 링)
   → COORDI NOTE(의상 태그) 공략 가이드 + 변수 게이지 → 낙화하는 7신 → 포토카드 라인업 → 앨범 트랙리스트 + 바코드.
@@ -85,13 +86,13 @@ def page(m, members, faces, src):
       f'<p style="margin:10px 0 0;font-family:{MONO};font-size:11px;letter-spacing:.08em;color:{FAINT}">— {m["name"]}, {esc(c["title_label"])}</p>'
       f'<p style="margin:18px 0 0;font-size:14.5px;line-height:1.85;color:{MUTED};word-break:keep-all">{sq(esc(c["lead"]))}</p></div>')
 
-    # ---------------------------------------------------------------- DIVINE SIGNAL (현대 → 판타지 전환 띠)
+    # ---------------------------------------------------------------- CONCEPT 띠 (그룹 세계관 속 역할)
     big = phase_icon(2, A, L).replace("flex:0 0 36px;", "flex:0 0 64px;").replace("width:36px;height:36px", "width:64px;height:64px").replace("circle 17px at 18px 18px", "circle 30px at 32px 32px")
     a(f'<div style="margin:0 12px;padding:20px 18px;border-radius:10px;background-color:{DIM};'
       f'background-image:radial-gradient(circle at 15% 50%,rgba({R},.45),transparent 45%),repeating-linear-gradient(0deg,rgba(255,255,255,.025) 0 1px,transparent 1px 4px);'
       f'display:flex;gap:18px;align-items:center;box-shadow:0 0 0 1px {LINE}">{big}'
-      f'<div style="flex:1 1 auto"><p style="margin:0 0 4px;font-family:{MONO};font-size:10.5px;letter-spacing:.14em;color:rgb({L})">SIGNAL LOST · 落花記錄 No.{film}</p>'
-      f'<p style="margin:0 0 4px;font-family:{SERIF};font-size:17px;font-weight:600;line-height:1.5;color:{INK};word-break:keep-all">방송이 끊긴 자리, 그는 {m["concept_ko"]}의 신이었다.</p>'
+      f'<div style="flex:1 1 auto"><p style="margin:0 0 4px;font-family:{MONO};font-size:10.5px;letter-spacing:.14em;color:rgb({L})">NOX CONCEPT · 落花記錄 No.{film}</p>'
+      f'<p style="margin:0 0 4px;font-family:{SERIF};font-size:17px;font-weight:600;line-height:1.5;color:{INK};word-break:keep-all">NOX 세계관 속, 그의 이름은 ‘{m["concept_ko"]}’의 신.</p>'
       f'<p style="margin:0;font-size:12.5px;line-height:1.7;color:{MUTED};word-break:keep-all"><b style="color:{A}">{esc(m["power"]["name"])}</b> — {sq(esc(m["power"]["desc"]))}</p></div></div>')
 
     # ---------------------------------------------------------------- PROFILE (포토카드 + 데이터 시트)
@@ -102,7 +103,7 @@ def page(m, members, faces, src):
     idol = sheet([("POSITION", esc(m["position"])), ("HEIGHT", esc(ps["height"])), ("AGE", f'{ps.get("age", "")}세'),
                   ("TYPE", esc(m["archetype_suggest"])), ("TO YOU", esc(ps.get("relation", "")).replace("{{user}}", "당신"))], FAINT)
     divine = sheet([("SYMBOL", f'{m["concept_ko"]} {m["concept_hanja"]} · {en}'), ("POWER", esc(m["power"]["name"])),
-                    ("FALL", f'낙화 {film} / 07'),
+                    ("FILM", f'Concept Film {film} / 07'),
                     ("COLOR", f'<span style="display:inline-block;width:10px;height:10px;border-radius:2px;background-color:{A};margin-right:6px"></span>{esc(ps["color_name"])}')], A)
     pc_img = (f'<img src="{html.escape(cover)}" alt="" style="display:block;width:100%;height:170px;object-fit:cover;object-position:50% 20%">' if cover
               else f'<div style="height:170px;background-color:{DIM}"></div>')
@@ -112,12 +113,12 @@ def page(m, members, faces, src):
                  f'<span style="font-size:11.5px;font-weight:800">{m["name"]}</span><span style="font-family:{MONO};font-size:9.5px;color:{A}">NOX {film}</span></div></div>')
     head = lambda t1, t2, col: (f'<p style="margin:0 0 6px;display:flex;justify-content:space-between;font-size:10.5px;font-weight:800;letter-spacing:.2em;color:{col}">'  # noqa: E731
                                 f'<span>{t1}</span><span style="font-family:{SERIF};letter-spacing:.1em">{t2}</span></p>')
-    a(f'<div style="{SEC}">' + label("Two Faces", A, "人 / 神") +
+    a(f'<div style="{SEC}">' + label("Profile", A, "IDOL × CONCEPT") +
       f'<div style="display:flex;flex-wrap:wrap;gap:12px">'
-      f'<div style="flex:1 1 260px;padding:16px;border-radius:10px;background-color:{PANEL}">' + head("IDOL PROFILE", "人", MUTED) +
+      f'<div style="flex:1 1 260px;padding:16px;border-radius:10px;background-color:{PANEL}">' + head("IDOL PROFILE", "NOX " + film, MUTED) +
       f'<div style="display:flex;flex-wrap:wrap;gap:14px;align-items:flex-start">{photocard}<div style="flex:1 1 170px;min-width:0">{idol}</div></div></div>'
       f'<div style="flex:1 1 220px;padding:16px;border-radius:10px;background-color:{DIM};'
-      f'background-image:radial-gradient(circle at 85% 15%,rgba({R},.35),transparent 55%);box-shadow:0 0 0 1px {LINE}">' + head("DIVINE RECORD", m["concept_hanja"], A) + divine +
+      f'background-image:radial-gradient(circle at 85% 15%,rgba({R},.35),transparent 55%);box-shadow:0 0 0 1px {LINE}">' + head("NOX CONCEPT", m["concept_hanja"], A) + divine +
       f'<p style="margin:10px 0 0;font-size:12.5px;line-height:1.75;color:{MUTED};word-break:keep-all">{sq(esc(m["power"]["desc"]))}</p></div></div></div>')
 
     # ---------------------------------------------------------------- PROLOGUE (+ 타임라인)
@@ -213,7 +214,7 @@ def page(m, members, faces, src):
         dot = (f'<span style="display:block;width:26px;height:26px;border-radius:50%;background-color:{BASE};box-shadow:0 0 0 1px rgb({L}),0 0 14px 3px rgba({R},.7)"></span>' if me
                else f'<span style="display:block;width:10px;height:10px;border-radius:50%;border:1px solid {FAINT}"></span>')
         bodies += f'<div style="display:flex;flex-direction:column;align-items:center;gap:8px;font-size:11px;color:{A if me else FAINT}">{dot}{x["concept_ko"]}</div>'
-    a(f'<div style="{SEC};background-image:radial-gradient(ellipse 80% 60% at 50% 100%,rgba({R},.14),transparent)">' + label("World", A, "七神落花") +
+    a(f'<div style="{SEC};background-image:radial-gradient(ellipse 80% 60% at 50% 100%,rgba({R},.14),transparent)">' + label("NOX Concept", A, "七神落花") +
       f'<p style="margin:0 0 14px;font-family:{SERIF};font-size:22px;font-weight:600;color:{INK}">{esc(g["worldview_title"])}</p>'
       f'<p style="{P};color:{MUTED}">{sq(esc(g["worldview"]))}</p>'
       f'<div style="display:flex;justify-content:space-between;align-items:flex-end;margin:26px 2px">{bodies}</div>'
