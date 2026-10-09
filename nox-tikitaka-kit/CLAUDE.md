@@ -26,7 +26,8 @@ tools/check.py                ← 글자 수·얼굴·script·이모지·잠금�
 tools/shots.py                ← 390/1280px 스크린샷 + 가로 스크롤 검사
 tools/heroes.py               ← 멤버별 히어로 효과 CSS + 문양 SVG
 tools/inline.py               ← B 모드 v1(어두운 단색) — 공용 헬퍼(esc·sq·palette·emblem 등) 제공
-tools/route.py                ← ★ B 모드 v4 '공략 루트' 연애 시뮬레이션 레이아웃 (현재 붙여넣기·미리보기 생성기)
+tools/film.py                 ← ★ B 모드 v5 통합형 '컨셉 필름' (현재 붙여넣기·미리보기 생성기)
+tools/route.py                ← B 모드 v4 '공략 루트' (보관)
 tools/stage.py                ← B 모드 v3 'ON AIR' (route.py가 공용 토큰·label·phase_icon을 가져다 씀)
 tools/templates/base.css      ← reference에서 추출한 공통 CSS (포인트 컬러 토큰화)
 output/                       ← 결과물 (build.py가 생성, 직접 수정 금지)
@@ -148,7 +149,7 @@ NOX는 **2010년대 세계관형 보이그룹**처럼 보여야 한다. EXO가 �
 
 ### 8-1. 테스트 결과 (2026-10-09) → **B 모드 확정**
 - A `<style>` · A+ 외부 CSS · D `@keyframes` → **제거됨**. class 속성도 의미 없음.
-- B 인라인 `style=""` → **유지됨**. 그래서 붙여넣기 버전은 `tools/route.py`(v4)가 만든다.
+- B 인라인 `style=""` → **유지됨**. 그래서 붙여넣기 버전은 `tools/film.py`(v5)가 만든다.
 - C1 `<img src>` → 티키타가 **'외부 이미지 가져오기'** 버튼으로 반입(사용자가 눌러야 함). C2 `![](url)` → 글자로 노출(쓰지 말 것).
 - B 모드 규칙: 모든 요소에 인라인 style, `position`·애니메이션·가상요소·미디어쿼리 금지. 히어로 효과는 중첩 원(테두리·배경 그라디언트·그림자)으로 정적 재현. 좁은 화면은 flex-wrap·max-width로.
 - 아직 미확인: 인라인 `<svg>`(문양)·그라디언트·box-shadow가 실제로 살아남는지 → 사용자 스크린샷으로 확인 후 이 절에 기록.
@@ -196,4 +197,5 @@ NOX는 **2010년대 세계관형 보이그룹**처럼 보여야 한다. EXO가 �
 - 2026-10-09 차은결 방향 변경(사용자 요청): 대표 색 금색 → 레드(#e0475b, Crimson Eclipse, 붉은 일식), 아키타입 집착광공 + 계략남, 관계 = 10년 지기 + 전담 코디네이터(사내 비밀 연애), 변수 함락(capture)·갈증(thirst)·독점욕(possession), 공략 가이드 4개(`play_tips`, PLAY GUIDE 위에 표시). reference HTML은 금색 시절 기준이라 이제 차은결 preview와 픽셀 비교하지 않는다. 소개 카피(copy)는 complete라 그대로 — 수정안은 사용자 확인 후.
 - 2026-10-09 디자인 v3 'ON AIR' (사용자: 레퍼런스를 따라 하지 말고 NOX 세계관에 맞게. '낙화하는 신들'은 그룹 NOX의 세계관 컨셉이며 멤버가 실제 신인 것은 아님): 현대(아이돌) 층 = 생방송 LIVE 바·엔딩 요정 캠·방송 자막 띠·자막 명대사·포토카드·ON/OFF STAGE 분할·새벽 메신저·COORDI NOTE 의상 태그(공략+변수 게이지)·포토카드 라인업·앨범 바코드. 그룹 컨셉 층 = 'NOX CONCEPT · 落花記錄' 띠, PROFILE(IDOL PROFILE × NOX CONCEPT), 에피소드 = 상징의 4단계(`display.episode_marks`, 일식: 제1접촉→부분식→개기식→다이아몬드 링), 七神落花 세계관. 데이터: `display.tagline`·`timeline`(차은결 10년 타임라인)·`episode_marks`·`episode_caption`. 레퍼런스(사극 서찰 디자인)의 종이·인장·한자 챕터 구조는 쓰지 않는다.
 - 2026-10-09 디자인 v4 '공략 루트' (사용자: 아이돌과 연애하는 연애 시뮬레이션 느낌): 타이틀 화면(엔딩 요정 컷 + NOX FANTASIA 로고 + START/공략/CG/OST 메뉴) → 공략 대상 + 호감도 HUD(티키타 변수 시작값) → 프롤로그 나레이션 박스·MEMORY 회상·대사창(이름표 탭 + ▼) → OFF STAGE → CHAPTER 01~04(CG·장면·대사창·선택지 A/B와 수치 변화 `display.choices`) → 엔딩 카드(`display.endings`, ??? 잠금) → 공략 TIP → CG 갤러리(faces.json gallery) → 공략 캐릭터 선택(ROUTE 01~07) → OST → TO BE CONTINUED. 글자 수 절약: route.py는 반투명 rgba 대신 hex 토큰, word-break는 바깥 상자에서 상속. 차은결 약 48,000자(예산 49,500) — 내용을 더 넣을 땐 글자 수 먼저 확인.
+- 2026-10-09 디자인 v5 통합형 '컨셉 필름' (사용자 선택: 시안 C 티저 필름으로 시작 + A 프라이빗 메시지 + B 매거진 인터뷰 '국민 남친의 가면'): OPENING(컨셉 필름 타이틀·시네마 비율 메인 컷·자막·EN 타이틀) → PRIVATE MESSAGE(폰 화면 대화 `display.chat`, 없으면 signature·mode.line으로 자동) → INTERVIEW(매거진 표지 + 프로필 박스 + 프롤로그 기사(드롭캡) + ON/OFF STAGE + Q&A `display.interview`) → SCENES(`display.scene_slugs`) → 공략 노트(팁 + 변수) → CAST(7인) → OST → END CREDITS. 차은결 약 26,700자. v4(route.py)는 사용자가 전체적으로 마음에 들지 않는다고 해서 대체.
 

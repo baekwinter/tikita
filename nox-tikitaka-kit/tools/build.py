@@ -333,16 +333,16 @@ def paste_version(m, members, faces, platform):
 
 
 def inline_version(m, members, faces):
-    """B 모드: 인라인 style만 쓰는 '공략 루트' 연애 시뮬레이션 레이아웃 (tools/route.py)."""
-    import route
-    return route.page(m, members, faces, lambda mid: faces.get(mid, {}).get("url"),
+    """B 모드: 인라인 style만 쓰는 통합형 '컨셉 필름' 레이아웃 (tools/film.py)."""
+    import film
+    return film.page(m, members, faces, lambda mid: faces.get(mid, {}).get("url"),
                       lambda mid, k: gallery_src(mid, k, faces, "paste")) + "\n"
 
 
 def inline_preview(m, members, faces):
     """B 모드 미리보기: 붙여넣기 버전과 같은 레이아웃 + 로컬 얼굴 + 티키타 미리보기 칸과 비슷한 배경."""
-    import route
-    inner = route.page(m, members, faces, lambda mid: face_src(mid, faces, "preview"),
+    import film
+    inner = film.page(m, members, faces, lambda mid: face_src(mid, faces, "preview"),
                        lambda mid, k: gallery_src(mid, k, faces, "preview"))
     return ('<!DOCTYPE html>\n<html lang="ko">\n<head>\n<meta charset="UTF-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n'
             f"<title>{m['concept_en'].upper()} · {m['name']}</title>\n{FONTS}\n</head>\n"
