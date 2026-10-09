@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>구미호 등록 도우미</title>
+<style>
+  :root {
+    --bg: #f6f4f0; --card: #ffffff; --ink: #1d1b22; --muted: #6b6676;
+    --line: #e2ddd4; --accent: #4b3fd1; --accent-ink: #ffffff; --ok: #1f7a4d;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #17161b; --card: #222128; --ink: #ecebf1; --muted: #a29fae;
+      --line: #34323c; --accent: #7d73ff; --accent-ink: #ffffff; --ok: #5fd39a;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #17161b; --card: #222128; --ink: #ecebf1; --muted: #a29fae;
+    --line: #34323c; --accent: #7d73ff; --accent-ink: #ffffff; --ok: #5fd39a;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font: 15px/1.6 -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+  }
+  main { max-width: 860px; margin: 0 auto; padding: 24px 16px 64px; }
+  h1 { font-size: 22px; margin: 0 0 4px; }
+  .sub { color: var(--muted); margin: 0 0 20px; }
+  .stats { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+  .stat { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 8px 12px; font-size: 13px; }
+  .stat b { font-variant-numeric: tabular-nums; }
+  h2 { font-size: 15px; color: var(--muted); margin: 28px 0 10px; font-weight: 600; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 12px; margin-bottom: 12px; }
+  .head { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .label { font-weight: 600; flex: 1; min-width: 0; }
+  .count { color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  button {
+    border: 0; border-radius: 8px; padding: 6px 12px; cursor: pointer;
+    background: var(--accent); color: var(--accent-ink); font: inherit; font-size: 13px; white-space: nowrap;
+  }
+  button.done { background: var(--ok); }
+  textarea {
+    width: 100%; min-height: 72px; max-height: 260px; resize: vertical;
+    background: var(--bg); color: var(--ink); border: 1px solid var(--line); border-radius: 8px;
+    padding: 8px; font: 13px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1>내 남자친구는 구미호 · 티키타 등록 도우미</h1>
+  <p class="sub">칸마다 ‘복사’를 누르고 티키타 입력란에 붙여 넣으세요. 글자 수는 공백을 포함한 값입니다.</p>
+  <div class="stats">
+    <div class="stat">작품 글자 수 · 5화 등록 <b>__TOTAL_A__</b> / 30,000</div>
+    <div class="stat">작품 글자 수 · 통합 1화 <b>__TOTAL_B__</b> / 30,000</div>
+  </div>
+  <div id="list"></div>
+</main>
+<script>
+  const DATA = __DATA__;
+  const list = document.getElementById("list");
+  let lastGroup = null;
+  DATA.forEach((item) => {
+    if (item.group !== lastGroup) {
+      const h = document.createElement("h2");
+      h.textContent = item.group;
+      list.appendChild(h);
+      lastGroup = item.group;
+    }
+    const card = document.createElement("div");
+    card.className = "card";
+    const head = document.createElement("div");
+    head.className = "head";
+    const label = document.createElement("span");
+    label.className = "label";
+    label.textContent = item.label;
+    const count = document.createElement("span");
+    count.className = "count";
+    count.textContent = [...item.text].length.toLocaleString() + "자";
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.textContent = "복사";
+    const ta = document.createElement("textarea");
+    ta.readOnly = true;
+    ta.value = item.text;
+    btn.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(item.text);
+      } catch (e) {
+        ta.select();
+        document.execCommand("copy");
+      }
+      btn.textContent = "복사됨";
+      btn.classList.add("done");
+      setTimeout(() => { btn.textContent = "복사"; btn.classList.remove("done"); }, 1500);
+    });
+    head.append(label, count, btn);
+    card.append(head, ta);
+    list.appendChild(card);
+  });
+</script>
+</body>
+</html>

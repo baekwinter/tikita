@@ -1,0 +1,9 @@
+Names & terms (keep consistent):
+- 백도겸 → Baek Dogyeom (he/him). Polite speech; render as courteous, slightly formal English, not archaic.
+- 윤서 → Yunseo. 면객 → the Faceless Guest (white mask, no face).
+- 월하당 → Wolhadang ("House Under the Moon"); keep romanized name.
+- 대한제국 → the Korean Empire (alternate-history, still exists in 2050). 황궁 의례청 → Imperial Palace Ceremonies Office. 야간 수문관 → night gatekeeper.
+- 소원함 → wish box; 맡김 → "Keep" slot; 놓음 → "Release" slot; 번호표 → claim ticket.
+- 여우불 → foxfire; 큰 여우불 → great foxfire; 여우구슬 → fox bead (his own, dark blue); 마음 구슬 → heart bead (clear, small).
+- 장난 아니면 선물 → "Trick or treat."
+- The user is "you"; never assign gender.
