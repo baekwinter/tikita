@@ -72,7 +72,7 @@ Close-up from the chest up. Baek Dogyeom, a strikingly beautiful Korean man who 
 He wears a dark navy wool frock coat in the style of 1900s Korean Empire civil officials' Western-style ceremonial dress: a high upright Western collar and cuffs edged with silver plum-blossom (ihwa) embroidery, one row of silver buttons, a short dark navy cape over one shoulder. Korean, not Chinese: no cross-collar robe, no tassels, no jade pendants.
 Head slightly tilted, he looks straight at the viewer through his fringe with a dangerously gentle half smile. Heterochromia is the key detail: his right eye is plain dark brown and human; his left eye is clearly visible, uncovered by hair, glowing amber-gold with a thin vertical slit pupil like a fox.
 One slender gloved hand rises near his lips, holding a tarot card face-down; the card back is navy with a silver crescent moon and fox.
-Behind his shoulders, two or three separate fox tails curl into the frame: each one long, fluffy and tapering to a point, jet black with a bright silver tip, clearly animal tails rising from behind him, not a fur collar or coat trim.
+Behind his shoulders, two or three separate fox tails curl into the frame: each one long, fluffy and tapering to a point, snow-white with a faint blue foxfire glow at the tip, clearly animal tails rising from behind him, not a fur collar or coat trim.
 Small blue-white foxfire flames drift like petals, mixed with falling red maple leaves.
 Background: deep navy night with a full moon, the softly blurred stone columns of a Western neoclassical palace hall like Deoksugung's Seokjojeon beside a Korean palace gate with dancheong-painted eaves, warm gas-lamp street lights. Korean Empire atmosphere, not Chinese. Palette: deep navy, silver, black, with blue foxfire and autumn red accents.
 ```
@@ -174,7 +174,7 @@ Festive and beautiful, quietly eerie.
 Vertical 2:3, Korean manhwa romance-fantasy illustration, semi-realistic painterly digital art, soft airbrushed shading, delicate fine line art, dramatic night lighting with blue glow and soft bloom, not photorealistic, no text, all-ages.
 Night on a stone-paved hanok alley outside the palace's north wall, a gas-lamp flickering. Baek Dogyeom in his dark navy Korean Empire style gatekeeper uniform — high standing collar with silver plum-blossom embroidery, short cape torn back by the wind — the collar scorched with blue soot, his peaked cap fallen on the stones.
 His eyes are glowing gold with thin vertical slit pupils. Human ears — no fox ears, no fangs, no claws. Strikingly beautiful face, faint red flush at the eye corners, tiny mole at the outer end of his LEFT eyebrow, glossy black hair blown by the wind.
-Exactly NINE fluffy black fox tails with silver tips fan out behind his waist as if growing from his shadow, spread wide like a protective fence between the crowd and the danger; all nine clearly countable.
+Exactly NINE fluffy snow-white fox tails with a faint blue foxfire glow at the tips fan out behind his waist as if growing from his shadow, spread wide like a protective fence between the crowd and the danger; all nine clearly countable.
 A low blue-white foxfire spreads across the stones without burning anyone, revealing a white faceless paper mask that is hollow inside.
 A faint deep navy glow shows through the center of his chest. Festival-goers in paper masks step back in the background.
 Overwhelming, beautiful, protective — awe rather than horror.
@@ -190,6 +190,7 @@ photorealistic, photo, 3d render, chinese architecture, pagoda, hanfu, wuxia, xi
 
 - 5~8번에는 `fox tails, golden eyes, slit pupils`도 추가하세요. 일상 장면은 사람의 모습이어야 합니다.
 - 1번에서 꼬리가 너무 많이 나오면 `full body tails, many tails`를 추가하세요. 2~3개의 꼬리 끝만 보이는 게 좋습니다.
+- 1·9번에는 `black tails, grey fur, fur collar, fur trim`도 추가하세요. 꼬리가 옷의 털 장식처럼 보이지 않고 흰 꼬리로 또렷하게 나와야 합니다.
 - 9번에는 `fewer than nine tails, more than nine tails`를 추가하세요.
 
 ## 업로드할 때

@@ -16,7 +16,8 @@
 | 먹색 | `#2B2D33` | 도겸의 저고리, 밤 골목의 그림자 |
 | 두루마기 검정 | `#1B1B1F` | 월하당의 도겸 |
 | 의례청 검푸른색 | `#1C2A3A` | 황궁 제복 |
-| 은사 | `#C9CDD3` | 제복 자수, 꼬리 끝, 은색 실 |
+| 은사 | `#C9CDD3` | 제복 자수, 은색 실 |
+| 꼬리 흰색 | `#F4F6FA` | 구미호의 꼬리 (끝에는 여우불 청색) |
 | 북담 청회색 | `#6F7C8A` | 늦가을 하늘, 궁 담장 |
 | 한지 미색 | `#F2EFE8` | 안채, 흰 저고리, 한지 창 |
 | 여우불 청색 | `#5FA8FF` (중심 `#E8F4FF`) | 여우불 |
@@ -90,12 +91,12 @@
 
 **이야기 안에서는** 4화 23시 10분, 첫 큰 여우불과 함께 처음 드러납니다. 그 전의 장면 이미지(갤러리 배경)에는 꼬리를 그리지 않습니다.
 
-**홍보 이미지에서는** 다릅니다. 작품 제목이 이미 '구미호'이고 공모전이 인외 설정을 보기 때문에, 대표 이미지와 프로필에는 구미호다운 매력을 앞에 내세웁니다. 금빛으로 갈라지는 한쪽 눈, 얼굴 곁을 감싸는 은빛 꼬리 끝, 손끝의 푸른 여우불 정도입니다. 진짜 반전은 정체가 아니라 그가 숨긴 마음 구슬이므로, 이것으로 스포일러가 되지 않습니다. 꼬리 아홉 개가 다 드러나는 전신 본모습은 비밀 이미지로 아껴 둡니다.
+**홍보 이미지에서는** 다릅니다. 작품 제목이 이미 '구미호'이고 공모전이 인외 설정을 보기 때문에, 대표 이미지와 프로필에는 구미호다운 매력을 앞에 내세웁니다. 금빛으로 갈라지는 한쪽 눈, 얼굴 곁을 감싸는 흰 꼬리, 손끝의 푸른 여우불 정도입니다. 진짜 반전은 정체가 아니라 그가 숨긴 마음 구슬이므로, 이것으로 스포일러가 되지 않습니다. 꼬리 아홉 개가 다 드러나는 전신 본모습은 비밀 이미지로 아껴 둡니다.
 
 | 항목 | 설정 |
 |---|---|
 | 눈 | 금빛 홍채 `#D9A441`, 가늘게 선 **세로 동공**. 흰자는 그대로 둔다 |
-| 꼬리 | **정확히 아홉 개.** 검은 털 `#0E0D10`, 끝 약 10cm만 은빛 `#C9CDD3`. 한 개의 길이는 약 1.2m로 풍성하고 부드러운 털이다. 허리 뒤의 공간에서 부채꼴로 펼쳐진다 |
+| 꼬리 | **정확히 아홉 개.** **눈처럼 흰 털** `#F4F6FA`. 끝 약 10cm에는 푸른 여우불빛 `#5FA8FF`이 은은하게 어린다. 이름의 백(白)과 이어지는 색이고, 흑발·검푸른 제복과 대비되어 한눈에 구미호로 읽힌다. 한 개의 길이는 약 1.2m로 풍성하고 부드러운 털이다. 허리 뒤의 공간에서 부채꼴로 펼쳐진다 |
 | 꼬리가 나는 방식 | 옷을 뚫지 않는다. 등 뒤 그림자에서 피어나듯 생겨난다 |
 | 귀 | **사람의 귀 그대로. 여우 귀는 없다** |
 | 얼굴·몸 | 그 밖에는 사람의 모습과 같다. 송곳니, 발톱, 털은 생기지 않는다 |
@@ -116,7 +117,7 @@
 - 지름 약 3cm, 호박알 크기의 **검푸른** `#16324F` 구슬. 안쪽에 별가루 같은 미세한 빛이 떠 있다
 - 평소에는 가슴 안에 있어 보이지 않는다. 큰 불을 쓸 때 가슴 중앙에서 옷 위로 검푸른 빛이 비친다
 - 셋째 불을 쓸 때는 손바닥 위로 끌어낸다
-- **금이 간 뒤:** 표면에 밝은 청색 균열선이 남는다. 다시 붙거나 고쳐진 모습으로 그리지 않는다. 꼬리 아홉 개의 은빛 끝도 한 계절 동안 꺼진 채 검게 남는다
+- **금이 간 뒤:** 표면에 밝은 청색 균열선이 남는다. 다시 붙거나 고쳐진 모습으로 그리지 않는다. 흰 꼬리 아홉 개도 끝의 푸른 빛이 꺼지고 한 계절 동안 잿빛으로 바랜 채 남는다
 
 ---
 
@@ -214,7 +215,7 @@ No dragons, no phoenix, no gold embroidery, no fringed epaulettes, no red or yel
 ```
 True-form reference sheet of the same man in the dark navy uniform, Korean webtoon style, dark plain background, no text.
 Golden irises with thin vertical slit pupils, white sclera unchanged. Human ears, NO fox ears, no fangs, no claws.
-Exactly NINE fluffy black fox tails, each about 1.2m long, the last 10cm of every tail silver, fanning out behind his waist as if growing out of his shadow, not piercing the clothes.
+Exactly NINE fluffy snow-white fox tails, each about 1.2m long, the last 10cm of every tail glowing with faint blue foxfire, fanning out behind his waist as if growing out of his shadow, not piercing the clothes.
 Close-ups: eyes; back view with all nine tails clearly countable; palm holding a small blue-white foxfire flame; a walnut-sized deep navy glowing bead with tiny starlike specks, one intact version and one version with bright blue crack lines.
 Blue foxfire color #5FA8FF with near-white core. Protective, not menacing.
 ```
