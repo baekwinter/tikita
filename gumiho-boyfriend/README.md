@@ -10,7 +10,8 @@
 | `tikita/dist/story_intro.html` | 스토리 소개 HTML (공개여부 단계) |
 | `tikita/dist/status_window.html` | 변수 디자인 HTML (상태창, 높이 88px) |
 | `characters.md` | 캐릭터 외관 설정과 기준 시트 프롬프트 |
-| `tikita/image_prompts.md` | 갤러리·썸네일·비밀 이미지·프로필 이미지 프롬프트 |
+| `tikita/image_prompts.md` | 인물 이미지 프롬프트와 현재 이미지 수정 지시 |
+| `tikita/background_prompts.md` | 장소 배경 이미지 프롬프트 17종 |
 | `manuscript.md` | 전체 원고(작가용, 약 5.5만 자). 티키타에는 직접 넣지 않는다 |
 
 ## 티키타 칸 구성
