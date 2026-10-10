@@ -586,126 +586,172 @@
 본모습 이미지는 4화의 반전이므로 비밀 이미지로 두고 최소 해금 조건을 켜 두세요. 첫 메시지와 썸네일에는 넣지 않습니다.
 
 ## 05 공개여부
-### 스토리 소개 — HTML (9,750자)
+### 스토리 소개 — HTML (12,543자)
 AI는 이 글을 읽지 않습니다. 이미지 주소를 넣었다면 붙여 넣은 뒤 **외부 이미지 가져오기**를 누르세요.
 ```html
-<div style="text-align:center;padding:20px 8px 8px">
-  <p style="margin:0 0 6px;font-size:12px;letter-spacing:0.2em;color:var(--color-primary);font-weight:600">2050 대한제국 · 궁중 로맨스 판타지</p>
-  <h2 style="margin:0 0 10px;font-size:24px;line-height:1.35;color:var(--foreground)">내 남자친구는 구미호</h2>
-  <p style="margin:0 auto;max-width:520px;line-height:1.8;color:var(--text-secondary)">소개팅 상대는 황궁의 문을 지키는 구미호였다.<br>그의 집에는 열어 주지 않는 방이 하나 있다.</p>
+<div style="background:#111823;color:#e9eef5;border-radius:14px 14px 0 0;padding:28px 22px 24px;margin:12px 0 0">
+  <p style="margin:0 0 18px;font-size:11px;letter-spacing:0.22em;font-weight:600;color:#9fb3cc">2050 · 大韓帝國 · ROMANCE FANTASY</p>
+  <p style="margin:0;font-family:'Gowun Batang','Nanum Myeongjo','Noto Serif KR',serif;font-size:32px;line-height:1.35;color:#f2f5f9">당신의 소개팅 상대는,</p>
+  <p style="margin:0 0 22px;font-family:'Gowun Batang','Nanum Myeongjo','Noto Serif KR',serif;font-size:32px;line-height:1.35;color:#7fb2ff">구미호였다.</p>
+  <hr style="border:0;border-top:1px solid #2c3a4f;margin:0 0 16px">
+  <div style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 16px">
+    <span style="font-size:18px;font-weight:700;color:#f2f5f9">백도겸</span>
+    <span style="font-family:'Gowun Batang','Nanum Myeongjo','Noto Serif KR',serif;font-size:15px;letter-spacing:0.15em;color:#b8c4d4">白道謙</span>
+  </div>
+  <p style="margin:6px 0 0;font-size:13px;color:#9fb3cc">월하당 점술사 · 황궁 의례청 야간 수문관 · 사람이 아닌 것</p>
 </div>
 
-<div style="border:1px solid var(--border);border-radius:14px;padding:18px;margin:16px 0;background:var(--surface)">
-  <p style="margin:0 0 10px;line-height:1.85;color:var(--foreground)">2050년에도 황궁이 남아 있는 서울. 소개팅으로 만난 월하당 점술사 <strong>백도겸</strong>은 당신이 마실 차부터 틀린다. 이상하게도, 틀렸다는 말을 들은 뒤의 태도가 오래 남는다.</p>
-  <p style="margin:0 0 10px;line-height:1.85;color:var(--foreground)">낮에는 월하당에서 타로와 사주를 보고, 밤에는 황궁 의례청의 호출을 받는 남자. 검은 개량 한복의 소매에서는 가끔 낯선 은빛이 비친다.</p>
-  <p style="margin:0 0 10px;line-height:1.85;color:var(--foreground)">대한제국의 2050년 할로윈 가면 행렬이 다가오자 그의 약속은 자꾸 궁의 시간표와 겹치고, 월하당의 잠긴 방에서는 지금 아무도 하지 않은 말이 들린다.</p>
-  <p style="margin:0;line-height:1.85;color:var(--foreground)">화려한 의전과 수천 개의 탈 가운데 그가 끝까지 감추고 싶은 얼굴은 무엇일까. 그가 열어 줄 수 없는 문이 있다면, 당신은 어느 문 앞에 남을 것인가.</p>
+<div style="background:#f3efe7;color:#2a2622;border-radius:0 0 14px 14px;margin:0 0 20px;padding:0 0 8px">
+  <p style="margin:0;padding:14px 18px;text-align:center;font-size:12px;letter-spacing:0.06em;color:#6b6258;border-bottom:1px solid #ddd5c8">틀린 점괘 · 잠긴 방 · 아홉 개의 흰 꼬리</p>
+
+  <div style="padding:22px 20px 6px">
+    <p style="margin:0 0 14px;line-height:1.9">2050년에도 황궁이 남아 있는 서울. 소개팅으로 만난 월하당 점술사 백도겸은 당신이 마실 차부터 틀린다. 이상하게도, 틀렸다는 말을 들은 뒤의 태도가 오래 남는다.</p>
+    <p style="margin:0 0 14px;line-height:1.9">낮에는 월하당에서 타로와 사주를 보고, 밤에는 황궁 의례청의 호출을 받는 남자. 검은 두루마기의 소매에서는 가끔 낯선 은빛이 비친다.</p>
+    <p style="margin:0;line-height:1.9">가면 행렬의 밤이 다가올수록 그의 약속은 궁의 시간표와 겹치고, 월하당의 잠긴 방에서는 지금 아무도 하지 않은 말이 들린다.</p>
+  </div>
+
+  <div style="padding:26px 20px 6px">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin:0 0 10px">
+      <span style="font-size:11px;letter-spacing:0.16em;color:#8a8076">01 / THE MOON</span>
+      <span style="font-family:'Gowun Batang','Nanum Myeongjo','Noto Serif KR',serif;font-size:15px;color:#8a8076">月</span>
+    </div>
+    <p style="margin:0;font-family:'Gowun Batang','Nanum Myeongjo','Noto Serif KR',serif;font-size:24px;line-height:1.4;color:#2a2622">점 보는 사람이</p>
+    <p style="margin:0 0 14px;font-family:'Gowun Batang','Nanum Myeongjo','Noto Serif KR',serif;font-size:24px;line-height:1.4;color:#2b4a7a">첫 질문부터 틀렸다.</p>
+    <p style="margin:0 0 16px;line-height:1.9">황궁 북담 카페의 창가. 그는 당신이 무엇을 마실지 묻기도 전에 계피차 두 잔을 주문하려다 멈춘다. 처음 맞힌 것은 하나도 없는데, 헤어질 때의 질문만 오래 남는다.</p>
+    <div style="background:#ebe5da;border-radius:10px;padding:16px 16px 14px;display:flex;gap:14px;align-items:flex-start">
+      <div style="flex:1 1 auto;min-width:0">
+        <p style="margin:0 0 6px;font-size:12px;color:#8a8076">백도겸</p>
+        <p style="margin:0;font-family:'Gowun Batang','Nanum Myeongjo','Noto Serif KR',serif;font-size:16px;line-height:1.7;color:#2a2622">“점 보는 사람이 첫 질문부터 틀렸네요.<br>어떤 걸 드시겠어요?”</p>
+      </div>
+      <span style="flex:none;display:inline-block;background:#8e2a24;color:#f3efe7;font-family:'Gowun Batang','Nanum Myeongjo','Noto Serif KR',serif;font-size:15px;line-height:1;padding:7px 8px;border-radius:3px">問</span>
+    </div>
+  </div>
+
+  <div style="padding:26px 20px 6px">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin:0 0 10px">
+      <span style="font-size:11px;letter-spacing:0.16em;color:#8a8076">02 / THE LOVERS</span>
+      <span style="font-family:'Gowun Batang','Nanum Myeongjo','Noto Serif KR',serif;font-size:15px;color:#8a8076">戀</span>
+    </div>
+    <p style="margin:0;font-family:'Gowun Batang','Nanum Myeongjo','Noto Serif KR',serif;font-size:24px;line-height:1.4;color:#2a2622">상담이 끝나도,</p>
+    <p style="margin:0 0 14px;font-family:'Gowun Batang','Nanum Myeongjo','Noto Serif KR',serif;font-size:24px;line-height:1.4;color:#2b4a7a">당신을 보고 싶다고 했다.</p>
+    <p style="margin:0 0 16px;line-height:1.9">황궁 담장 끝의 점집 월하당. 타인의 마음을 정리하는 손보다, 자기 피로를 숨기는 손이 더 서툰 사람. 상담실 한쪽에는 누구나 쓸 수 있는 작은 소원함이 놓여 있다.</p>
+    <div style="background:#ebe5da;border-radius:10px;padding:16px">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin:0 0 10px">
+        <span style="font-size:13px;font-weight:600;color:#2a2622">월하당 소원함</span>
+        <span style="display:inline-block;background:#8e2a24;color:#f3efe7;font-family:'Gowun Batang','Nanum Myeongjo','Noto Serif KR',serif;font-size:15px;line-height:1;padding:7px 8px;border-radius:3px">願</span>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        <div style="flex:1 1 140px;min-width:0;background:#f3efe7;border-radius:8px;padding:10px 12px">
+          <p style="margin:0 0 2px;font-weight:700;color:#2b4a7a">맡김</p>
+          <p style="margin:0;font-size:13px;line-height:1.6;color:#6b6258">기한을 정해 맡겨 둔다. 번호표로 다시 찾아갈 수 있다.</p>
+        </div>
+        <div style="flex:1 1 140px;min-width:0;background:#f3efe7;border-radius:8px;padding:10px 12px">
+          <p style="margin:0 0 2px;font-weight:700;color:#8e2a24">놓음</p>
+          <p style="margin:0;font-size:13px;line-height:1.6;color:#6b6258">놓아 버리고 싶은 마음. 다음 날 종이를 태워 정리한다.</p>
+        </div>
+      </div>
+      <p style="margin:10px 0 0;font-size:12px;color:#8a8076">쓰지 않아도 됩니다. 쓴다면, 무엇을 쓸지는 당신이 정합니다.</p>
+    </div>
+  </div>
+
+  <div style="padding:26px 20px 6px">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin:0 0 10px">
+      <span style="font-size:11px;letter-spacing:0.16em;color:#8a8076">03 / THE DEVIL</span>
+      <span style="font-family:'Gowun Batang','Nanum Myeongjo','Noto Serif KR',serif;font-size:15px;color:#8a8076">魔</span>
+    </div>
+    <p style="margin:0;font-family:'Gowun Batang','Nanum Myeongjo','Noto Serif KR',serif;font-size:24px;line-height:1.4;color:#2a2622">제복의 깃은 흐트러지지 않는데,</p>
+    <p style="margin:0 0 14px;font-family:'Gowun Batang','Nanum Myeongjo','Noto Serif KR',serif;font-size:24px;line-height:1.4;color:#2b4a7a">잠긴 방은 열리지 않는다.</p>
+    <p style="margin:0;line-height:1.9">안채에서는 국이 식고 탈끈이 엉킨다. 궁에서는 대한제국 예복을 본뜬 검푸른 제복을 입고 문을 지킨다. 가까워질수록 그가 대신 정해 버리는 것들이 눈에 밟히고, 안채 끝의 방문은 끝내 잠겨 있다.</p>
+  </div>
+
+  <div style="padding:26px 20px 6px">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin:0 0 10px">
+      <span style="font-size:11px;letter-spacing:0.16em;color:#8a8076">04 / JUDGEMENT</span>
+      <span style="font-family:'Gowun Batang','Nanum Myeongjo','Noto Serif KR',serif;font-size:15px;color:#8a8076">審</span>
+    </div>
+    <p style="margin:0;font-family:'Gowun Batang','Nanum Myeongjo','Noto Serif KR',serif;font-size:24px;line-height:1.4;color:#2a2622">사람이 탈을 벗기 전,</p>
+    <p style="margin:0 0 14px;font-family:'Gowun Batang','Nanum Myeongjo','Noto Serif KR',serif;font-size:24px;line-height:1.4;color:#2b4a7a">흰 꼬리가 먼저 드러난다.</p>
+    <p style="margin:0 0 16px;line-height:1.9">10월 31일, 2050 황궁 가면의 밤. 북문이 열리고 종이 탈을 쓴 사람들이 골목으로 흘러나온다. 그 사이에서 얼굴 없는 흰 탈 하나가 사탕을 내민다.</p>
+    <div style="background:#ebe5da;border-radius:10px;padding:16px 16px 14px;display:flex;gap:14px;align-items:flex-start">
+      <div style="flex:1 1 auto;min-width:0">
+        <p style="margin:0 0 6px;font-size:12px;color:#8a8076">흰 탈</p>
+        <p style="margin:0;font-family:'Gowun Batang','Nanum Myeongjo','Noto Serif KR',serif;font-size:16px;line-height:1.7;color:#2a2622">“장난 아니면 선물.<br>하나만 놓아 주실래요?”</p>
+      </div>
+      <span style="flex:none;display:inline-block;background:#8e2a24;color:#f3efe7;font-family:'Gowun Batang','Nanum Myeongjo','Noto Serif KR',serif;font-size:15px;line-height:1;padding:7px 8px;border-radius:3px">面</span>
+    </div>
+  </div>
+
+  <div style="padding:26px 20px 18px">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin:0 0 10px">
+      <span style="font-size:11px;letter-spacing:0.16em;color:#8a8076">05 / THE STAR</span>
+      <span style="font-family:'Gowun Batang','Nanum Myeongjo','Noto Serif KR',serif;font-size:15px;color:#8a8076">星</span>
+    </div>
+    <p style="margin:0;font-family:'Gowun Batang','Nanum Myeongjo','Noto Serif KR',serif;font-size:24px;line-height:1.4;color:#2a2622">첫 햇빛은 괴물을 거두지만,</p>
+    <p style="margin:0 0 14px;font-family:'Gowun Batang','Nanum Myeongjo','Noto Serif KR',serif;font-size:24px;line-height:1.4;color:#2b4a7a">당신의 답은 대신하지 않는다.</p>
+    <p style="margin:0;line-height:1.9">자정이 지나도 문밖의 목소리는 그치지 않는다. 그가 문을 지키는 동안, 마음의 행방은 당신이 정한다. 점괘에 없는 내일은 당신이 실제로 한 대답으로 끝난다.</p>
+  </div>
 </div>
 
-<h3 style="margin:28px 0 12px;font-size:17px;color:var(--foreground)">🌙 다섯 개의 밤</h3>
+<div style="background:#f3efe7;color:#2a2622;border-radius:14px;margin:0 0 20px;padding:22px 20px 10px">
+  <p style="margin:0 0 16px;font-size:11px;letter-spacing:0.16em;color:#8a8076">CHARACTERS</p>
 
-<div style="display:flex;flex-wrap:wrap;gap:10px;margin:0 0 8px">
-  <div style="box-sizing:border-box;flex:1 1 220px;min-width:0;border:1px solid var(--border);border-radius:12px;padding:14px;background:var(--surface)">
-    <p style="margin:0 0 4px;font-size:12px;font-weight:600;color:var(--color-primary)">1화 · 달</p>
-    <p style="margin:0 0 6px;font-weight:700;color:var(--foreground)">소개팅 상대는 궁의 점술사</p>
-    <p style="margin:0;font-size:14px;line-height:1.7;color:var(--text-secondary)">처음 맞힌 것은 하나도 없는데, 헤어질 때의 질문만 오래 남는다.</p>
+  <div style="padding:0 0 14px;margin:0 0 14px;border-bottom:1px solid #ddd5c8">
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:4px 12px">
+      <span style="font-size:18px;font-weight:700">백도겸</span>
+      <span style="font-family:'Gowun Batang','Nanum Myeongjo','Noto Serif KR',serif;letter-spacing:0.12em;color:#8a8076">白道謙</span>
+    </div>
+    <p style="margin:2px 0 8px;font-size:12px;color:#2b4a7a">월하당 점술사 · 황궁 의례청 야간 수문관</p>
+    <p style="margin:0;font-size:14px;line-height:1.8;color:#4a433c">겉보기 서른 즈음. 흐트러진 흑발 아래 맑은 푸른 눈, 누구에게나 존댓말. 농담은 쉽고 침묵은 어렵다. 남의 운은 잘 보지만 자기 연애운만 보면 카드가 흐려진다. 틀렸다는 말을 들으면 변명보다 고치는 쪽을 택한다.</p>
   </div>
-  <div style="box-sizing:border-box;flex:1 1 220px;min-width:0;border:1px solid var(--border);border-radius:12px;padding:14px;background:var(--surface)">
-    <p style="margin:0 0 4px;font-size:12px;font-weight:600;color:var(--color-primary)">2화 · 연인</p>
-    <p style="margin:0 0 6px;font-weight:700;color:var(--foreground)">월하당의 두 번째 문</p>
-    <p style="margin:0;font-size:14px;line-height:1.7;color:var(--text-secondary)">타인의 마음을 정리하는 손보다, 자기 피로를 숨기는 손이 더 서툰 사람.</p>
+
+  <div style="padding:0 0 14px;margin:0 0 14px;border-bottom:1px solid #ddd5c8">
+    <span style="font-size:16px;font-weight:700">윤서</span>
+    <p style="margin:2px 0 8px;font-size:12px;color:#2b4a7a">소개팅을 주선한 지인 · 북담 상인회</p>
+    <p style="margin:0;font-size:14px;line-height:1.8;color:#4a433c">골목 상인회와 황궁 공개 행사를 잇는 일을 한다. 밝고 수다스럽지만 눈치가 빠르다. 축제 준비로 늘 바쁘다.</p>
   </div>
-  <div style="box-sizing:border-box;flex:1 1 220px;min-width:0;border:1px solid var(--border);border-radius:12px;padding:14px;background:var(--surface)">
-    <p style="margin:0 0 4px;font-size:12px;font-weight:600;color:var(--color-primary)">3화 · 악마</p>
-    <p style="margin:0 0 6px;font-weight:700;color:var(--foreground)">황궁 제복을 입은 남자친구</p>
-    <p style="margin:0;font-size:14px;line-height:1.7;color:var(--text-secondary)">안채에서는 국이 식고 탈끈이 엉킨다. 궁에서는 제복 깃이 한 치도 흐트러지지 않는다.</p>
+
+  <div style="padding:0 0 14px;margin:0 0 14px;border-bottom:1px solid #ddd5c8">
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:4px 12px">
+      <span style="font-size:16px;font-weight:700">흰 탈</span>
+      <span style="font-family:'Gowun Batang','Nanum Myeongjo','Noto Serif KR',serif;letter-spacing:0.12em;color:#8a8076">面客</span>
+    </div>
+    <p style="margin:2px 0 8px;font-size:12px;color:#2b4a7a">가면의 밤에만 나타나는 것</p>
+    <p style="margin:0;font-size:14px;line-height:1.8;color:#4a433c">눈도 코도 입도 없는 한지 탈. 곱고 공손한 목소리로 사탕을 내민다.</p>
   </div>
-  <div style="box-sizing:border-box;flex:1 1 220px;min-width:0;border:1px solid var(--border);border-radius:12px;padding:14px;background:var(--surface)">
-    <p style="margin:0 0 4px;font-size:12px;font-weight:600;color:var(--color-primary)">4화 · 심판</p>
-    <p style="margin:0 0 6px;font-weight:700;color:var(--foreground)">탈의 밤, 아홉 개의 꼬리</p>
-    <p style="margin:0;font-size:14px;line-height:1.7;color:var(--text-secondary)">사람이 탈을 벗기 전, 월하당의 문이 먼저 흔들린다.</p>
-  </div>
-  <div style="box-sizing:border-box;flex:1 1 220px;min-width:0;border:1px solid var(--border);border-radius:12px;padding:14px;background:var(--surface)">
-    <p style="margin:0 0 4px;font-size:12px;font-weight:600;color:var(--color-primary)">5화 · 별</p>
-    <p style="margin:0 0 6px;font-weight:700;color:var(--foreground)">점괘에 없는 내일</p>
-    <p style="margin:0;font-size:14px;line-height:1.7;color:var(--text-secondary)">첫 햇빛은 괴물을 거두지만, 두 사람의 답까지 대신하지는 않는다.</p>
+
+  <div style="padding:0 0 12px">
+    <span style="font-size:16px;font-weight:700">당신</span>
+    <p style="margin:2px 0 8px;font-size:12px;color:#2b4a7a">성별 · 직업 · 과거는 정해져 있지 않다</p>
+    <p style="margin:0;font-size:14px;line-height:1.8;color:#4a433c">소개팅에 나온 이유도, 다시 만날지도, 축제의 밤 문밖의 목소리에 무엇이라 답할지도 당신이 정한다.</p>
   </div>
 </div>
 
-<h3 style="margin:28px 0 12px;font-size:17px;color:var(--foreground)">👤 등장인물</h3>
-
-<div style="display:flex;flex-wrap:wrap;gap:10px;margin:0 0 8px">
-  <div style="box-sizing:border-box;flex:1 1 260px;min-width:0;border:1px solid var(--border);border-radius:12px;padding:14px;background:var(--surface)">
-    <p style="margin:0 0 2px;font-weight:700;font-size:16px;color:var(--foreground)">백도겸</p>
-    <p style="margin:0 0 8px;font-size:12px;color:var(--color-primary)">월하당 점술사 · 황궁 의례청 야간 수문관</p>
-    <p style="margin:0;font-size:14px;line-height:1.7;color:var(--text-secondary)">겉보기 서른 즈음. 낮은 목소리, 누구에게나 존댓말. 농담은 쉽고 침묵은 어렵다. 남의 운은 잘 보지만 자기 연애운만 보면 카드가 흐려진다. 틀렸다는 말을 들으면 변명보다 고치는 쪽을 택한다.</p>
-  </div>
-  <div style="box-sizing:border-box;flex:1 1 260px;min-width:0;border:1px solid var(--border);border-radius:12px;padding:14px;background:var(--surface)">
-    <p style="margin:0 0 2px;font-weight:700;font-size:16px;color:var(--foreground)">윤서</p>
-    <p style="margin:0 0 8px;font-size:12px;color:var(--color-primary)">소개팅을 주선한 지인 · 북담 상인회</p>
-    <p style="margin:0;font-size:14px;line-height:1.7;color:var(--text-secondary)">골목 상인회와 황궁 공개 행사를 잇는 일을 한다. 밝고 수다스럽지만 눈치가 빠르다. 축제 준비로 늘 바쁘다.</p>
-  </div>
-  <div style="box-sizing:border-box;flex:1 1 260px;min-width:0;border:1px solid var(--border);border-radius:12px;padding:14px;background:var(--surface)">
-    <p style="margin:0 0 2px;font-weight:700;font-size:16px;color:var(--foreground)">당신</p>
-    <p style="margin:0 0 8px;font-size:12px;color:var(--color-primary)">성별·직업·과거는 정해져 있지 않다</p>
-    <p style="margin:0;font-size:14px;line-height:1.7;color:var(--text-secondary)">소개팅에 나온 이유도, 다시 만날지도, 축제에 갈지도 당신이 정한다.</p>
-  </div>
-</div>
-
-<h3 style="margin:28px 0 12px;font-size:17px;color:var(--foreground)">🏯 이 세계</h3>
-
-<details style="border:1px solid var(--border);border-radius:12px;padding:12px 16px;margin:0 0 8px;background:var(--surface)">
-  <summary style="cursor:pointer;font-weight:600;color:var(--foreground)">2050년, 대한제국</summary>
-  <p style="margin:10px 0 8px;line-height:1.8;color:var(--text-secondary)">이 작품의 대한제국은 1897년 이후 끊기지 않았다는 가상 역사입니다. 황권은 헌법에 묶였고, 2050년의 국정은 선거로 뽑힌 정부와 의회가 맡습니다. 황실은 궁궐을 보존하고 국가 의례와 문화 행사를 지킵니다. 황족이 누군가의 연애를 허락하거나 금지하는 시대는 이미 지났습니다.</p>
-  <ul style="margin:0 0 8px;padding-left:20px;line-height:1.8;color:var(--text-secondary)">
+<details style="background:#f3efe7;color:#2a2622;border-radius:14px;margin:0 0 10px;padding:16px 20px">
+  <summary style="cursor:pointer;font-weight:600">2050년, 대한제국</summary>
+  <p style="margin:12px 0 10px;font-size:14px;line-height:1.85;color:#4a433c">이 작품의 대한제국은 1897년 이후 끊기지 않았다는 가상 역사입니다. 국정은 선거로 뽑힌 정부와 의회가 맡고, 황실은 궁궐과 국가 의례를 지킵니다. 유리 천장 전차와 손목 화면이 흔한 서울 한복판에 석조전과 오래된 목문이 서 있습니다.</p>
+  <ul style="margin:0;padding-left:20px;font-size:14px;line-height:1.85;color:#4a433c">
     <li>1924년 헌장 개정 — 혼인과 직업은 황실 의례가 아닌 개인의 권리가 되었다.</li>
-    <li>1988년 북담 보존 지구 지정 — 궁문과 한옥 골목은 사람이 실제로 사는 동네로 남았다.</li>
-    <li>2036년 황궁 야간 시민 개방, 2047년부터 10월 마지막 날의 탈 행렬.</li>
-  </ul>
-  <p style="margin:0;line-height:1.8;color:var(--text-secondary)">유리 천장 전차가 다니고 손목 화면이 흔한 서울 한복판에 오래된 목문이 서 있습니다. 궁의 카메라와 출입 기록은 많은 것을 남기지만, 사람의 마음까지 기록하지는 못합니다.</p>
-</details>
-
-<details style="border:1px solid var(--border);border-radius:12px;padding:12px 16px;margin:0 0 8px;background:var(--surface)">
-  <summary style="cursor:pointer;font-weight:600;color:var(--foreground)">황궁 북담의 골목과 월하당</summary>
-  <p style="margin:10px 0 8px;line-height:1.8;color:var(--text-secondary)">황궁 북쪽 담장 밖, 한복 수선집의 천 조각과 탈 공방의 한지가 함께 걸린 좁은 한옥 골목. 그 끝 나무 대문 너머가 월하당입니다. 황궁 북문까지는 걸어서 여섯 분.</p>
-  <ul style="margin:0;padding-left:20px;line-height:1.8;color:var(--text-secondary)">
-    <li>상담실 — 달과 여우의 타로, 찻잔, 향합, 엽전. 누구나 쓸 수 있는 무료 소원함에는 '맡김'과 '놓음' 두 칸이 있다.</li>
-    <li>안채 — 도겸이 밥을 데우고 빨래를 너는 생활 공간.</li>
-    <li>잠긴 방 — 안채 끝, 손님에게 열어 주지 않는 문.</li>
+    <li>1988년 북담 보존 지구 — 궁문과 한옥 골목은 사람이 사는 동네로 남았다.</li>
+    <li>2047년부터 10월 마지막 날, 황궁 북문에서 탈 행렬이 열린다.</li>
   </ul>
 </details>
 
-<details style="border:1px solid var(--border);border-radius:12px;padding:12px 16px;margin:0 0 8px;background:var(--surface)">
-  <summary style="cursor:pointer;font-weight:600;color:var(--foreground)">2050 황궁 가면의 밤</summary>
-  <p style="margin:10px 0 0;line-height:1.8;color:var(--text-secondary)">황실 의례청과 시가 함께 여는 10월 31일 야간 행렬. 해가 지면 북문이 열리고, 시민들은 한복이든 현대 옷이든 원하는 옷 위에 종이 탈을 쓰고 골목으로 흘러나옵니다. 가게들은 사탕을 팝니다. 행사는 자정에 끝납니다. 적어도 일정표에는 그렇게 적혀 있습니다.</p>
+<details style="background:#f3efe7;color:#2a2622;border-radius:14px;margin:0 0 10px;padding:16px 20px">
+  <summary style="cursor:pointer;font-weight:600">황궁의 제복</summary>
+  <p style="margin:12px 0 0;font-size:14px;line-height:1.85;color:#4a433c">도겸이 근무 때 입는 제복은 대한제국 문관 대례복을 2050년식으로 옮겨 이 작품에서 디자인한 의례청 근무복입니다. 무늬 없는 검푸른 프록코트의 높은 칼라와 소매 끝에만 은사 이화문이 둘려 있고, 어깨에는 짧은 망토를 걸칩니다. 황족의 옷이 아니라 문을 지키는 사람의 옷입니다.</p>
 </details>
 
-<details style="border:1px solid var(--border);border-radius:12px;padding:12px 16px;margin:0 0 8px;background:var(--surface)">
-  <summary style="cursor:pointer;font-weight:600;color:var(--foreground)">황궁의 제복에 대하여</summary>
-  <p style="margin:10px 0 0;line-height:1.8;color:var(--text-secondary)">도겸이 근무 때 입는 제복은 대한제국 문관 대례복을 2050년식으로 옮겨 이 작품에서 디자인한 황궁 의례청 근무복입니다. 검푸른 프록코트의 높은 칼라와 소매 끝에 은사 이화문이 둘려 있고, 어깨에는 짧은 망토를 걸칩니다. 황제의 곤룡포나 황후의 적의가 아니며, 그 옷을 입었다고 황족이 되지는 않습니다. 당신의 옷은 언제나 당신이 고릅니다.</p>
-</details>
-
-<h3 style="margin:28px 0 12px;font-size:17px;color:var(--foreground)">☕ 1화 맛보기</h3>
-
-<blockquote style="margin:0 0 8px;padding:14px 16px;border-left:3px solid var(--color-primary);border-radius:0 12px 12px 0;background:color-mix(in srgb, var(--foreground) 5%, transparent)">
-  <p style="margin:0 0 10px;line-height:1.85;color:var(--text-secondary)"><em>황궁 북담을 따라 움직이는 전차가 정류장에 멈춘다. 유리 광고판에 ‘2050 황궁 가면의 밤, 10월 31일’이라는 글자가 흘러가고, 그 아래의 진짜 목문은 광고보다 훨씬 낡았다.</em></p>
-  <p style="margin:0 0 10px;line-height:1.85;color:var(--foreground)">“안녕하세요. 백도겸입니다. 창가가 좀 눈부신데, 여기 괜찮으세요?”</p>
-  <p style="margin:0 0 10px;line-height:1.85;color:var(--text-secondary)"><em>직원이 주문을 받으러 오자 그가 먼저 “계피차 두 잔...” 하고 말하다가, 펼쳐진 당신의 메뉴판을 보고 말을 멈춘다.</em></p>
-  <p style="margin:0;line-height:1.85;color:var(--foreground)">“점 보는 사람이 첫 질문부터 틀렸네요. 어떤 걸 드시겠어요?”</p>
-</blockquote>
-
-<h3 style="margin:28px 0 12px;font-size:17px;color:var(--foreground)">🗝️ 이렇게 즐겨 주세요</h3>
-
-<div style="border:1px solid var(--border);border-radius:14px;padding:16px 18px;margin:0 0 8px;background:var(--surface)">
-  <p style="margin:0 0 10px;line-height:1.8;color:var(--foreground)">이 이야기는 당신의 말로 갈라집니다. 다시 만날지, 소원지를 쓸지, 고백에 어떻게 답할지, 잠긴 방을 열라고 할지, 축제의 밤 문밖에서 들리는 목소리에 무엇이라고 할지.</p>
-  <ul style="margin:0;padding-left:20px;line-height:1.8;color:var(--text-secondary)">
+<details style="background:#f3efe7;color:#2a2622;border-radius:14px;margin:0 0 20px;padding:16px 20px">
+  <summary style="cursor:pointer;font-weight:600">이렇게 즐겨 주세요</summary>
+  <ul style="margin:12px 0 0;padding-left:20px;font-size:14px;line-height:1.85;color:#4a433c">
+    <li>이 이야기는 당신의 말로 갈라집니다. 다시 만날지, 소원지를 쓸지, 고백에 어떻게 답할지, 잠긴 방을 열라고 할지.</li>
     <li>당신이 실제로 한 말만 이야기 속 사실이 됩니다. 대답을 미루는 것도, 거절하는 것도 하나의 길입니다.</li>
     <li>도겸은 당신이 허락한 만큼만 다가옵니다.</li>
     <li>채팅방 위 상태창에서 날짜와 장소, 관계와 소원지의 기록을 확인할 수 있습니다.</li>
   </ul>
-</div>
+</details>
 
-<p style="margin:20px 0 0;font-size:12px;line-height:1.7;color:var(--text-secondary)">이 작품의 2050년 대한제국, 황궁 의례청과 그 제복, 가면 행렬, 마음과 여우불의 규칙은 모두 창작입니다. 실존 궁궐 제도나 민속, 실존 인물과는 관계가 없습니다.</p>
+<p style="margin:0;font-size:12px;line-height:1.7;color:var(--text-secondary)">이 작품의 2050년 대한제국, 황궁 의례청과 그 제복, 가면 행렬, 마음과 여우불의 규칙은 모두 창작입니다. 실존 궁궐 제도나 민속, 실존 인물과는 관계가 없습니다.</p>
 ```
 - 카테고리: 로맨스 판타지 · 현대 판타지 · 시대극/동양풍
 - 태그 (15/15): 판타지공모전, 인외, 구미호, 로맨스판타지, 대체역사, 대한제국, 궁중로맨스, 할로윈, 점술사, 소개팅, 한복, 선택형, 집착, 순애, 2050
