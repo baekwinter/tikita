@@ -17,11 +17,12 @@
 | 두루마기 검정 | `#1B1B1F` | 월하당의 도겸 |
 | 의례청 검푸른색 | `#1C2A3A` | 황궁 제복 |
 | 은사 | `#C9CDD3` | 제복 자수, 은색 실 |
-| 꼬리 흰색 | `#F4F6FA` | 구미호의 꼬리 (끝에는 여우불 청색) |
+| 꼬리 흰색 | `#FFFFFF` | 구미호의 꼬리 (끝까지 순백) |
 | 북담 청회색 | `#6F7C8A` | 늦가을 하늘, 궁 담장 |
 | 한지 미색 | `#F2EFE8` | 안채, 흰 저고리, 한지 창 |
 | 여우불 청색 | `#5FA8FF` (중심 `#E8F4FF`) | 여우불 |
-| 금빛 동공 | `#D9A441` | 본모습의 눈 |
+| 사람의 눈 | `#4F7DB8` | 평소의 맑은 푸른 눈 |
+| 은빛 세로 동공 | `#DDE3EA` | 본모습의 동공 (홍채는 여우불 청색) |
 | 여우구슬 검푸른색 | `#16324F` | 도겸의 힘을 담은 구슬 |
 | 등불 주황 | `#E8A15A` | 안채 실내등, 축제 등불 |
 
@@ -39,7 +40,7 @@
 | 키·체형 | 184cm. 마른 듯 단단한 체형, 곧은 어깨, 긴 목. 근육을 과시하지 않음 |
 | 피부 | 창백하고 매끈한 도자기 피부. 혈색이 적고 눈 밑에 옅은 그늘 (피로) |
 | 얼굴형 | 누가 봐도 미남. 갸름한 V라인, 선명한 턱선, 높고 곧은 콧대, 옅은 장밋빛의 얇은 입술 |
-| 눈 | 길고 가는 눈매, 속쌍꺼풀, 눈꼬리가 살짝 내려간 '낮은 눈매'. **눈꼬리에 옅은 홍조**가 번져 아이라인처럼 보인다(여우의 흔적). 아래 속눈썹이 길다. 홍채는 짙은 갈색 `#3B2A20` |
+| 눈 | 길고 가는 눈매, 속쌍꺼풀, 눈꼬리가 살짝 내려간 '낮은 눈매'. **눈꼬리에 옅은 홍조**가 번져 아이라인처럼 보인다(여우의 흔적). 아래 속눈썹이 길다. 홍채는 **맑은 푸른색** `#4F7DB8`, 사람의 둥근 동공 |
 | 표식 | **왼쪽 눈썹 끝의 아주 작은 점.** 모든 컷에 넣는다 |
 | 머리 | 윤기 있는 흑발 `#141216`, 한 올씩 결이 보인다. 오른쪽 7:3 가르마에 흐트러진 앞머리가 한쪽 눈썹과 눈을 살짝 덮는다(식사할 때 귀 뒤로 넘긴다). 옆머리는 귀 윗부분을 덮고, 뒷머리는 목덜미에 닿을 만큼 |
 | 손 | 길고 마디가 곧은 손가락. 오른손 중지 첫 마디에 붓 굳은살. 반지 없음 |
@@ -72,7 +73,8 @@
 **D. 황궁 의례청 야간 수문관 제복 — 3·4·5화 근무, 대표 이미지**
 대한제국 문관 대례복을 2050년식으로 옮긴 디자인이다. 황제의 군복이나 대례복이 아니라 관원의 예복 계열이다.
 - 검푸른 `#1C2A3A` 울 프록코트. 무릎 위 길이로, 두루마기처럼 곧게 떨어진다
-- **높은 스탠드 칼라.** 칼라·앞여밈·소매 끝을 따라 **은사 이화문(오얏꽃) 자수 띠**가 둘린다
+- **무늬 없는 옷감.** 꽃무늬 직물이나 문양 원단을 쓰지 않는다
+- **높은 스탠드 칼라.** 칼라와 소매 끝에만 가는 **은사 이화문(오얏꽃) 자수 띠**가 둘린다. 꽃무늬는 이 두 곳과 휘장에만 둔다
 - 앞여밈에 은색 이화 단추 한 줄
 - 왼쪽 어깨에 짧은 검푸른 망토(케이프)를 걸친다
 - 좁은 검정 가죽 허리띠, 이화문을 새긴 작은 은색 버클
@@ -91,12 +93,12 @@
 
 **이야기 안에서는** 4화 23시 10분, 첫 큰 여우불과 함께 처음 드러납니다. 그 전의 장면 이미지(갤러리 배경)에는 꼬리를 그리지 않습니다.
 
-**홍보 이미지에서는** 다릅니다. 작품 제목이 이미 '구미호'이고 공모전이 인외 설정을 보기 때문에, 대표 이미지와 프로필에는 구미호다운 매력을 앞에 내세웁니다. 금빛으로 갈라지는 한쪽 눈, 얼굴 곁을 감싸는 흰 꼬리, 손끝의 푸른 여우불 정도입니다. 진짜 반전은 정체가 아니라 그가 숨긴 마음 구슬이므로, 이것으로 스포일러가 되지 않습니다. 꼬리 아홉 개가 다 드러나는 전신 본모습은 비밀 이미지로 아껴 둡니다.
+**홍보 이미지에서는** 다릅니다. 작품 제목이 이미 '구미호'이고 공모전이 인외 설정을 보기 때문에, 대표 이미지와 프로필에는 구미호다운 매력을 앞에 내세웁니다. 푸른 빛을 내며 은빛 세로 동공으로 갈라지는 오른쪽 눈, 얼굴 곁을 감싸는 흰 꼬리, 손끝의 푸른 여우불 정도입니다. 진짜 반전은 정체가 아니라 그가 숨긴 마음 구슬이므로, 이것으로 스포일러가 되지 않습니다. 꼬리 아홉 개가 다 드러나는 전신 본모습은 비밀 이미지로 아껴 둡니다.
 
 | 항목 | 설정 |
 |---|---|
-| 눈 | 금빛 홍채 `#D9A441`, 가늘게 선 **세로 동공**. 흰자는 그대로 둔다 |
-| 꼬리 | **정확히 아홉 개.** **눈처럼 흰 털** `#F4F6FA`. 끝 약 10cm에는 푸른 여우불빛 `#5FA8FF`이 은은하게 어린다. 이름의 백(白)과 이어지는 색이고, 흑발·검푸른 제복과 대비되어 한눈에 구미호로 읽힌다. 한 개의 길이는 약 1.2m로 풍성하고 부드러운 털이다. 허리 뒤의 공간에서 부채꼴로 펼쳐진다 |
+| 눈 | 여우불처럼 **푸른 빛을 내는 홍채** `#5FA8FF`에 가늘게 선 **은빛 세로 동공** `#DDE3EA`. 흰자는 그대로 둔다. 홍보 이미지에서는 **오른쪽 눈만** 변하고 왼쪽은 사람의 푸른 눈으로 남는다 |
+| 꼬리 | **정확히 아홉 개.** **새하얀 털** `#FFFFFF`. 끝까지 순백이다. 본모습일 때는 **푸른 여우불이 꼬리와 몸을 휘감아 돈다**. 이름의 백(白)과 이어지는 색이고, 흑발·검푸른 제복과 대비되어 한눈에 구미호로 읽힌다. 한 개의 길이는 약 1.2m로 풍성하고 부드러운 털이다. 허리 뒤의 공간에서 부채꼴로 펼쳐진다 |
 | 꼬리가 나는 방식 | 옷을 뚫지 않는다. 등 뒤 그림자에서 피어나듯 생겨난다 |
 | 귀 | **사람의 귀 그대로. 여우 귀는 없다** |
 | 얼굴·몸 | 그 밖에는 사람의 모습과 같다. 송곳니, 발톱, 털은 생기지 않는다 |
@@ -117,7 +119,7 @@
 - 지름 약 3cm, 호박알 크기의 **검푸른** `#16324F` 구슬. 안쪽에 별가루 같은 미세한 빛이 떠 있다
 - 평소에는 가슴 안에 있어 보이지 않는다. 큰 불을 쓸 때 가슴 중앙에서 옷 위로 검푸른 빛이 비친다
 - 셋째 불을 쓸 때는 손바닥 위로 끌어낸다
-- **금이 간 뒤:** 표면에 밝은 청색 균열선이 남는다. 다시 붙거나 고쳐진 모습으로 그리지 않는다. 흰 꼬리 아홉 개도 끝의 푸른 빛이 꺼지고 한 계절 동안 잿빛으로 바랜 채 남는다
+- **금이 간 뒤:** 표면에 밝은 청색 균열선이 남는다. 다시 붙거나 고쳐진 모습으로 그리지 않는다. 새하얀 꼬리 아홉 개도 끝부터 잿빛으로 바래 한 계절 동안 돌아오지 않는다
 
 ---
 
@@ -185,7 +187,7 @@
 ```
 Character reference turnaround sheet, Korean webtoon romance-fantasy style, clean plain light background, no text.
 Baek Dogyeom: Korean man who looks about 30, 184cm, lean but firm build, straight shoulders, long neck.
-Oval face, sharp jawline, straight nose, thin lips. Long narrow monolid-like eyes with subtle inner double eyelid, outer corners slightly downturned, dark brown irises.
+Oval face, sharp jawline, straight nose, thin lips. Long narrow monolid-like eyes with subtle inner double eyelid, outer corners slightly downturned, clear blue irises with round human pupils.
 A tiny mole at the outer end of his LEFT eyebrow. Light warm-neutral skin, faint tired shadows under the eyes.
 Black hair parted 7:3 on his right side, bangs between eyebrows and eyes, sides lightly covering the top of the ears, neat nape.
 Outfit: grey wool chesterfield coat over a charcoal-ink modern hanbok jeogori with a thin white collar strip and a short charcoal tie ribbon, charcoal slacks, black derby shoes, thin black smart band on left wrist.
@@ -195,7 +197,7 @@ Views: front, three-quarter, side, back. Calm half smile, the left corner of his
 ### 시트 2 — 도겸 표정
 
 ```
-Expression sheet of the same man (Baek Dogyeom, tiny mole at the outer end of left eyebrow, black 7:3 hair, dark brown downturned eyes), Korean webtoon style, plain background, no text.
+Expression sheet of the same man (Baek Dogyeom, tiny mole at the outer end of left eyebrow, black 7:3 hair, clear blue downturned eyes), Korean webtoon style, plain background, no text.
 Six head shots: calm half smile; embarrassed with eyes lowered; serious listening; tired with bangs falling over forehead; laughing while tucking bangs behind the ear; holding back tears with a steady jaw.
 ```
 
@@ -206,7 +208,7 @@ Outfit lineup sheet of the same man, full body, plain background, no text, four 
 1) grey wool coat over charcoal modern jeogori, charcoal slacks;
 2) black modern hanbok durumagi coat below the knee with narrow sleeves, ink stains on the sleeve cuffs, a dark navy Western waistcoat over the jeogori with a silver pocket-watch chain, a black felt fedora with a small silver plum-blossom pin;
 3) off-white cotton jeogori with sleeves rolled to the elbows, worn grey-brown trousers, slightly messy hair;
-4) fictional 2050 palace ceremonies office night gatekeeper uniform inspired by Korean Empire (1897-1910) civil officials' ceremonial dress: dark navy wool frock coat above the knee with a high standing collar, silver plum-blossom (ihwa) embroidery bands along the collar, front edge and cuffs, one row of silver plum-blossom buttons, a short dark navy cape over the left shoulder, narrow black leather belt, black boots, silver ID card on a black lanyard on the left chest, a short dark navy peaked ceremonial cap with a silver plum-blossom badge.
+4) fictional 2050 palace ceremonies office night gatekeeper uniform inspired by Korean Empire (1897-1910) civil officials' ceremonial dress: dark navy wool frock coat above the knee with a high standing collar, plain unpatterned wool, narrow silver plum-blossom (ihwa) embroidery bands only on the collar and cuffs, one row of silver plum-blossom buttons, a short dark navy cape over the left shoulder, narrow black leather belt, black boots, silver ID card on a black lanyard on the left chest, a short dark navy peaked ceremonial cap with a silver plum-blossom badge.
 No dragons, no phoenix, no gold embroidery, no fringed epaulettes, no red or yellow royal robes, no crowns, no gat.
 ```
 
@@ -214,8 +216,8 @@ No dragons, no phoenix, no gold embroidery, no fringed epaulettes, no red or yel
 
 ```
 True-form reference sheet of the same man in the dark navy uniform, Korean webtoon style, dark plain background, no text.
-Golden irises with thin vertical slit pupils, white sclera unchanged. Human ears, NO fox ears, no fangs, no claws.
-Exactly NINE fluffy snow-white fox tails, each about 1.2m long, the last 10cm of every tail glowing with faint blue foxfire, fanning out behind his waist as if growing out of his shadow, not piercing the clothes.
+Glowing blue irises with thin silver vertical slit pupils, white sclera unchanged. Human ears, NO fox ears, no fangs, no claws.
+Exactly NINE fluffy pure snow-white fox tails, each about 1.2m long, white to the very tip, with blue foxfire swirling around them, fanning out behind his waist as if growing out of his shadow, not piercing the clothes.
 Close-ups: eyes; back view with all nine tails clearly countable; palm holding a small blue-white foxfire flame; a walnut-sized deep navy glowing bead with tiny starlike specks, one intact version and one version with bright blue crack lines.
 Blue foxfire color #5FA8FF with near-white core. Protective, not menacing.
 ```

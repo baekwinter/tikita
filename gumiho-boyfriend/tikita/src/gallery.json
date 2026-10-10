@@ -11,7 +11,7 @@
       "key": "cover",
       "file": "대표_구미호_밤.png",
       "group": "본모습",
-      "description": "푸른 여우불과 단풍잎 사이, 한쪽 눈이 금빛으로 갈라지고 흰 꼬리가 감싼 제복 차림의 도겸. 밤",
+      "description": "푸른 여우불과 단풍잎 사이, 오른쪽 눈이 은빛 세로 동공으로 갈라지고 여우불 휘감긴 새하얀 꼬리가 감싼 제복 차림의 도겸. 밤",
       "secret": false,
       "thumbnail": true
     },
@@ -47,7 +47,7 @@
       "key": "trueform",
       "file": "본모습_여우불_밤.png",
       "group": "본모습",
-      "description": "밤의 돌길, 금빛 눈과 아홉 꼬리를 드러내고 푸른 여우불을 낮게 펼친 도겸",
+      "description": "밤의 돌길, 은빛 세로 동공과 새하얀 아홉 꼬리를 드러내고 푸른 여우불을 낮게 펼친 도겸",
       "secret": true,
       "unlock_cost": 50,
       "min_unlock": 100
