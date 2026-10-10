@@ -69,12 +69,12 @@ No gat, no gold embroidery, no dragons.
 ```
 Vertical 2:3 cover art, Korean manhwa romance-fantasy illustration, semi-realistic painterly digital art, soft airbrushed shading, delicate fine line art, luminous pale skin, glossy hair with individually rendered strands, cinematic night lighting with soft bloom, shallow depth of field, elegant and alluring cover-art quality, not photorealistic, no text, no watermark, no signature.
 Close-up from the chest up. Baek Dogyeom, a strikingly beautiful Korean man who looks about 30: pale porcelain skin, sharp V-line jaw, high straight nose, soft rose-tinted lips, long narrow eyes with slightly downturned outer corners and a faint red flush at the corners, long lower lashes, a tiny mole at the outer end of his LEFT eyebrow, glossy black hair parted 7:3 with a messy fringe falling over one eye, human ears, bare head.
-He wears a dark navy uniform inspired by Korean Empire civil officials' ceremonial dress: high standing collar with silver plum-blossom (ihwa) embroidery, a short dark navy cape over one shoulder.
-Head slightly tilted, he looks straight at the viewer through his fringe with a dangerously gentle half smile. His right eye stays dark brown; his left eye is turning golden with a thin vertical slit pupil, glowing faintly.
+He wears a dark navy wool frock coat in the style of 1900s Korean Empire civil officials' Western-style ceremonial dress: a high upright Western collar and cuffs edged with silver plum-blossom (ihwa) embroidery, one row of silver buttons, a short dark navy cape over one shoulder. Korean, not Chinese: no cross-collar robe, no tassels, no jade pendants.
+Head slightly tilted, he looks straight at the viewer through his fringe with a dangerously gentle half smile. Heterochromia is the key detail: his right eye is plain dark brown and human; his left eye is clearly visible, uncovered by hair, glowing amber-gold with a thin vertical slit pupil like a fox.
 One slender gloved hand rises near his lips, holding a tarot card face-down; the card back is navy with a silver crescent moon and fox.
-Behind his shoulders, two or three thick black fox tails with silver tips curl softly into the frame, wrapping around him like a fur stole.
+Behind his shoulders, two or three separate fox tails curl into the frame: each one long, fluffy and tapering to a point, jet black with a bright silver tip, clearly animal tails rising from behind him, not a fur collar or coat trim.
 Small blue-white foxfire flames drift like petals, mixed with falling red maple leaves.
-Background: deep navy night, the softly blurred columns of a neoclassical stone palace hall and an old wooden palace gate, warm gas-lamp lights. Palette: deep navy, silver, black, with blue foxfire and autumn red accents.
+Background: deep navy night with a full moon, the softly blurred stone columns of a Western neoclassical palace hall like Deoksugung's Seokjojeon beside a Korean palace gate with dancheong-painted eaves, warm gas-lamp street lights. Korean Empire atmosphere, not Chinese. Palette: deep navy, silver, black, with blue foxfire and autumn red accents.
 ```
 
 ## 2. 백도겸 프로필 (캐릭터 1번 카드)
@@ -185,7 +185,7 @@ Overwhelming, beautiful, protective — awe rather than horror.
 ## 공통 네거티브 프롬프트
 
 ```
-photorealistic, photo, 3d render, text, letters, hangul, watermark, logo, signature, extra fingers, deformed hands, gat, traditional horsehair hat, hat string, beaded hat string, fox ears, fangs, claws, dragon, phoenix, gold embroidery, fringed epaulettes, crown, ikseongwan, red royal robe, yellow royal robe, nudity, blood, gore, wounds, chibi, sketch
+photorealistic, photo, 3d render, chinese architecture, pagoda, hanfu, wuxia, xianxia, tassel pendants, jade pendants, blue eyes, fur collar, text, letters, hangul, watermark, logo, signature, extra fingers, deformed hands, gat, traditional horsehair hat, hat string, beaded hat string, fox ears, fangs, claws, dragon, phoenix, gold embroidery, fringed epaulettes, crown, ikseongwan, red royal robe, yellow royal robe, nudity, blood, gore, wounds, chibi, sketch
 ```
 
 - 5~8번에는 `fox tails, golden eyes, slit pupils`도 추가하세요. 일상 장면은 사람의 모습이어야 합니다.
