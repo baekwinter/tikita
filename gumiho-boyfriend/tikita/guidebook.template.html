@@ -1,0 +1,307 @@
+<title>구미호 등록 가이드북</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  /* Layout: 한 줄 세로 흐름. 위에 단계 내비, 단계마다 칸 카드. 복사 버튼은 카드 머리 오른쪽, 진행 체크는 왼쪽. */
+  :root {
+    --bg: #f2f4f7;
+    --surface: #ffffff;
+    --sunken: #edf0f4;
+    --ink: #172030;
+    --muted: #5a6577;
+    --line: #dbe0e7;
+    --navy: #1c2a3a;
+    --accent: #2c66d4;
+    --ok: #1d7a50;
+    --warn: #b4532a;
+    --font-display: "Gowun Batang", "Nanum Myeongjo", "Apple SD Gothic Neo", serif;
+    --font-body: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0e131a; --surface: #151c26; --sunken: #10161f; --ink: #e6ebf2; --muted: #98a3b3;
+      --line: #263142; --navy: #cdd7e6; --accent: #78aaff; --ok: #5bcf97; --warn: #f0a070;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0e131a; --surface: #151c26; --sunken: #10161f; --ink: #e6ebf2; --muted: #98a3b3;
+    --line: #263142; --navy: #cdd7e6; --accent: #78aaff; --ok: #5bcf97; --warn: #f0a070;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.6; }
+  .wrap { max-width: 860px; margin: 0 auto; padding-inline: 16px; padding-block: 28px 80px; }
+
+  header.hero { display: grid; gap: 14px; padding-block: 8px 20px; }
+  .eyebrow { font-size: 12px; letter-spacing: 0.08em; color: var(--accent); font-weight: 600; }
+  h1 { font-family: var(--font-display); font-size: clamp(30px, 6vw, 42px); line-height: 1.2; margin: 0; color: var(--navy); text-wrap: balance; }
+  .tagline { margin: 0; color: var(--muted); max-width: 60ch; }
+  .lede { margin: 0; max-width: 62ch; }
+  .stats { display: flex; flex-wrap: wrap; gap: 10px; }
+  .stat { flex: 1 1 200px; min-width: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; display: grid; gap: 6px; }
+  .stat-label { font-size: 12px; color: var(--muted); }
+  .stat-value { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 15px; }
+  .meter { height: 6px; border-radius: 3px; background: var(--sunken); overflow: hidden; }
+  .meter > span { display: block; height: 100%; background: var(--accent); width: 0; transition: width .3s; }
+  .meter.ok > span { background: var(--ok); }
+
+  nav.steps { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 2; background: var(--bg); border-bottom: 1px solid var(--line); margin-inline: -16px; padding: 10px 16px; overflow-x: auto; display: flex; gap: 8px; scrollbar-width: none; }
+  nav.steps::-webkit-scrollbar { display: none; }
+  nav.steps a { flex: none; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; font-size: 13px; }
+  nav.steps a .no { font-family: var(--font-mono); color: var(--muted); font-size: 12px; }
+  nav.steps a .pc { font-family: var(--font-mono); font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  nav.steps a.done { border-color: var(--ok); }
+  nav.steps a.done .pc { color: var(--ok); }
+  nav.steps a:focus-visible, button:focus-visible, input:focus-visible + .box { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  section.step { padding-top: 34px; scroll-margin-top: 64px; display: grid; gap: 12px; }
+  .step-head { display: grid; gap: 4px; }
+  .step-head .no { font-family: var(--font-mono); font-size: 13px; color: var(--accent); }
+  .step-head h2 { font-family: var(--font-display); font-size: 26px; margin: 0; color: var(--navy); }
+  .step-head .path { font-size: 13px; color: var(--muted); }
+  .step-head .note { margin: 6px 0 0; max-width: 64ch; }
+
+  h3.sub { margin: 18px 0 0; font-size: 16px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; color: var(--navy); }
+  h3.sub small { font-weight: 400; font-size: 12px; color: var(--muted); }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; display: grid; gap: 8px; min-width: 0; }
+  .card.checked { border-color: color-mix(in srgb, var(--ok) 55%, var(--line)); }
+  .row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; min-width: 0; }
+  .meta { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-top: 2px; }
+  .grow { flex: 1 1 0; min-width: 0; display: grid; gap: 1px; }
+  .label { font-weight: 600; }
+  .where { font-size: 12px; color: var(--muted); }
+  .count { font-family: var(--font-mono); font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .count.over { color: var(--warn); }
+  .tag { font-size: 11px; padding: 1px 7px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); white-space: nowrap; }
+  .tag.secret { border-color: var(--warn); color: var(--warn); }
+  .tag.thumb { border-color: var(--accent); color: var(--accent); }
+
+  label.check { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; font-size: 13px; color: var(--muted); user-select: none; }
+  label.check input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  label.check .box { width: 20px; height: 20px; border-radius: 6px; border: 1.5px solid var(--line); display: grid; place-items: center; background: var(--surface); flex: none; }
+  label.check input:checked + .box { background: var(--ok); border-color: var(--ok); }
+  label.check input:checked + .box::after { content: ""; width: 9px; height: 5px; border-left: 2px solid var(--surface); border-bottom: 2px solid var(--surface); transform: rotate(-45deg) translate(1px, -1px); }
+
+  button.copy { font: inherit; font-size: 13px; font-weight: 600; border: 0; border-radius: 8px; padding: 7px 14px; background: var(--navy); color: var(--surface); cursor: pointer; white-space: nowrap; }
+  button.copy.done { background: var(--ok); }
+  button.ghost { font: inherit; font-size: 12px; border: 1px solid var(--line); background: transparent; color: var(--muted); border-radius: 8px; padding: 4px 10px; cursor: pointer; }
+
+  pre.text { margin: 0; white-space: pre-wrap; word-break: break-word; font-family: var(--font-body); font-size: 13.5px; line-height: 1.65; background: var(--sunken); border-radius: 8px; padding: 10px 12px; max-height: 11.5em; overflow: hidden; position: relative; }
+  pre.text.code { font-family: var(--font-mono); font-size: 12px; }
+  pre.text.open { max-height: none; }
+  pre.text.clamped::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2.6em; background: linear-gradient(transparent, var(--sunken)); }
+  pre.text.open::after { display: none; }
+
+  .setting .value { font-weight: 700; color: var(--accent); }
+  .note { font-size: 13px; color: var(--muted); margin: 0; }
+  .file { font-family: var(--font-mono); font-size: 13px; word-break: break-all; }
+
+  .tools { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; padding-top: 14px; }
+  .confirm { display: inline-flex; gap: 6px; align-items: center; font-size: 13px; }
+  footer { margin-top: 40px; font-size: 12px; color: var(--muted); }
+  @media (prefers-reduced-motion: reduce) { .meter > span { transition: none; } }
+</style>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="eyebrow">티키타 판타지 × 인외 공모전 · 등록 가이드북</div>
+    <h1 id="title">내 남자친구는 구미호</h1>
+    <p class="tagline" id="tagline"></p>
+    <p class="lede">티키타 만들기 화면의 순서대로 정리했습니다. 칸마다 <b>복사</b>를 누르고 같은 이름의 칸에 붙여 넣은 뒤 체크하세요. 체크는 이 브라우저에만 저장됩니다.</p>
+    <div class="stats">
+      <div class="stat">
+        <span class="stat-label">작품 글자 수 (합산 칸)</span>
+        <span class="stat-value" id="total"></span>
+        <div class="meter ok"><span id="totalBar"></span></div>
+      </div>
+      <div class="stat">
+        <span class="stat-label">진행</span>
+        <span class="stat-value" id="progress"></span>
+        <div class="meter"><span id="progressBar"></span></div>
+      </div>
+      <div class="stat">
+        <span class="stat-label">공모전 마감</span>
+        <span class="stat-value">10.31 (토) 23:59</span>
+        <span class="stat-label">공개 후 '공모전 참여하기'로 제출</span>
+      </div>
+    </div>
+  </header>
+
+  <nav class="steps" id="nav" aria-label="단계"></nav>
+  <main id="steps"></main>
+
+  <div class="tools">
+    <span class="note">'합산' 표시가 붙은 칸이 작품 글자 수 30,000자에 들어갑니다.</span>
+    <span id="resetArea"></span>
+  </div>
+  <footer>원본은 저장소의 gumiho-boyfriend/tikita/src 에 있고, build.py로 이 가이드북을 다시 만듭니다.</footer>
+</div>
+
+<script>
+const DATA = __DATA__;
+const KEY = "gumiho-guidebook-v1";
+let state = {};
+try { state = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch (e) { state = {}; }
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} };
+const len = s => [...s].length;
+const fmt = n => n.toLocaleString("ko-KR");
+const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
+
+document.getElementById("tagline").textContent = DATA.tagline;
+document.getElementById("total").textContent = `${fmt(DATA.total)} / ${fmt(DATA.limit)}`;
+document.getElementById("totalBar").style.width = Math.min(100, DATA.total / DATA.limit * 100) + "%";
+
+async function copyText(text, btn, pre) {
+  let ok = false;
+  try { await navigator.clipboard.writeText(text); ok = true; } catch (e) {
+    if (pre) {
+      const r = document.createRange(); r.selectNodeContents(pre);
+      const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+      try { ok = document.execCommand("copy"); } catch (e2) { ok = false; }
+    }
+  }
+  const old = btn.dataset.label || btn.textContent;
+  btn.dataset.label = old;
+  btn.textContent = ok ? "복사됨" : "선택됨 · 길게 눌러 복사";
+  btn.classList.toggle("done", ok);
+  setTimeout(() => { btn.textContent = old; btn.classList.remove("done"); }, 1600);
+}
+
+function checkbox(id, label, card) {
+  const wrap = el("label", "check");
+  const input = el("input"); input.type = "checkbox"; input.id = "c-" + id;
+  input.checked = !!state[id];
+  const box = el("span", "box");
+  wrap.append(input, box, el("span", null, label));
+  const sync = () => card && card.classList.toggle("checked", input.checked);
+  sync();
+  input.addEventListener("change", () => { if (input.checked) state[id] = 1; else delete state[id]; save(); sync(); updateProgress(); });
+  return wrap;
+}
+
+function textBlock(text, code) {
+  const pre = el("pre", "text" + (code ? " code" : ""), text);
+  const long = len(text) > 260 || text.split("\n").length > 7;
+  if (!long) { pre.classList.add("open"); return [pre, null]; }
+  pre.classList.add("clamped");
+  const t = el("button", "ghost", "전체 보기"); t.type = "button";
+  t.addEventListener("click", () => { const o = pre.classList.toggle("open"); t.textContent = o ? "접기" : "전체 보기"; });
+  return [pre, t];
+}
+
+const checkables = [];
+const nav = document.getElementById("nav");
+const main = document.getElementById("steps");
+
+DATA.steps.forEach(step => {
+  const a = el("a"); a.href = "#" + step.id;
+  a.append(el("span", "no", step.no), el("span", null, step.title), el("span", "pc"));
+  nav.append(a);
+  step.nav = a; step.ids = [];
+
+  const sec = el("section", "step"); sec.id = step.id;
+  const head = el("div", "step-head");
+  head.append(el("span", "no", step.no === "00" ? "시작" : "단계 " + step.no), el("h2", null, step.title), el("span", "path", step.path));
+  if (step.note) head.append(el("p", "note", step.note));
+  sec.append(head);
+
+  step.items.forEach((it, i) => {
+    const id = step.id + "-" + i;
+    if (it.kind === "heading") {
+      const h = el("h3", "sub", it.text);
+      if (it.sub) h.append(el("small", null, it.sub));
+      sec.append(h); return;
+    }
+    const card = el("div", "card " + it.kind);
+    step.ids.push(id); checkables.push(id);
+    if (it.kind === "copy") {
+      const row = el("div", "row");
+      const g = el("div", "grow");
+      g.append(el("span", "label", it.label));
+      if (it.where && it.where !== it.label) g.append(el("span", "where", it.where));
+      const n = len(it.text);
+      const meta = el("div", "meta");
+      meta.append(el("span", "count" + (it.limit && n > it.limit ? " over" : ""), it.limit ? `${fmt(n)} / ${fmt(it.limit)}자` : `${fmt(n)}자`));
+      if (it.counted) meta.append(el("span", "tag", "합산"));
+      g.append(meta);
+      const btn = el("button", "copy", "복사"); btn.type = "button";
+      const [pre, toggle] = textBlock(it.text, it.code);
+      btn.addEventListener("click", () => copyText(it.text, btn, pre));
+      row.append(checkbox(id, "", card), g, btn);
+      card.append(row, pre);
+      if (toggle) { const r = el("div", "row"); r.append(toggle); card.append(r); }
+    } else if (it.kind === "setting") {
+      const row = el("div", "row");
+      const g = el("div", "grow");
+      const v = el("span", "label", it.label + " · "); v.append(el("span", "value", it.value));
+      g.append(v);
+      row.append(checkbox(id, "", card), g);
+      card.append(row);
+      if (it.note) card.append(el("p", "note", it.note));
+    } else if (it.kind === "todo") {
+      const row = el("div", "row");
+      const g = el("div", "grow");
+      g.append(el("span", "label", it.label));
+      if (it.note) g.append(el("span", "where", it.note));
+      row.append(checkbox(id, "", card), g);
+      card.append(row);
+    } else if (it.kind === "image") {
+      const row = el("div", "row");
+      const g = el("div", "grow");
+      g.append(el("span", "file", it.file));
+      const tags = el("div", "row");
+      tags.append(el("span", "tag", "그룹 · " + it.group));
+      if (it.thumbnail) tags.append(el("span", "tag thumb", "썸네일로 지정"));
+      if (it.secret) tags.append(el("span", "tag secret", `비밀 · ${it.cost}틱 · 최소 ${it.min}회`));
+      g.append(tags);
+      const fbtn = el("button", "ghost", "파일명 복사"); fbtn.type = "button";
+      fbtn.addEventListener("click", () => copyText(it.file, fbtn, null));
+      const btn = el("button", "copy", "설명 복사"); btn.type = "button";
+      const pre = el("pre", "text open", it.text);
+      btn.addEventListener("click", () => copyText(it.text, btn, pre));
+      row.append(checkbox(id, "올림", card), g, fbtn, btn);
+      card.append(row, pre);
+    }
+    sec.append(card);
+  });
+  main.append(sec);
+});
+
+function updateProgress() {
+  const done = checkables.filter(id => state[id]).length;
+  document.getElementById("progress").textContent = `${fmt(done)} / ${fmt(checkables.length)}`;
+  document.getElementById("progressBar").style.width = (checkables.length ? done / checkables.length * 100 : 0) + "%";
+  DATA.steps.forEach(s => {
+    const d = s.ids.filter(id => state[id]).length;
+    s.nav.querySelector(".pc").textContent = `${d}/${s.ids.length}`;
+    s.nav.classList.toggle("done", s.ids.length > 0 && d === s.ids.length);
+  });
+}
+updateProgress();
+
+const resetArea = document.getElementById("resetArea");
+function resetButton() {
+  const b = el("button", "ghost", "체크 모두 지우기"); b.type = "button";
+  b.addEventListener("click", askReset);
+  return b;
+}
+function askReset() {
+  const box = el("span", "confirm", "체크를 모두 지울까요?");
+  const yes = el("button", "ghost", "지우기"); yes.type = "button";
+  const no = el("button", "ghost", "취소"); no.type = "button";
+  yes.addEventListener("click", () => {
+    state = {}; save();
+    document.querySelectorAll("label.check input").forEach(i => { i.checked = false; i.closest(".card")?.classList.remove("checked"); });
+    updateProgress();
+    resetArea.replaceChildren(resetButton());
+  });
+  no.addEventListener("click", () => resetArea.replaceChildren(resetButton()));
+  box.append(yes, no);
+  resetArea.replaceChildren(box);
+}
+resetArea.replaceChildren(resetButton());
+</script>

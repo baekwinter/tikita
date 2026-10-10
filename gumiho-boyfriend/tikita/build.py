@@ -267,6 +267,8 @@ def main():
                    status, status_bytes, lore, gallery, intro, comment, cats, tags, parts, total)
     write_helper(title, tagline, setting, chars, first, starters, personas, examples, variables, episodes,
                  status, lore, gallery, intro, comment, cats, tags, total)
+    write_guidebook(title, tagline, setting, chars, first, starters, personas, examples, variables, episodes,
+                    status, status_bytes, lore, gallery, intro, comment, cats, tags, parts, total)
 
     print(f"작품 글자 수 {total:,} / {TOTAL_LIMIT:,}")
     for k, v in parts.items():
@@ -460,6 +462,125 @@ def write_helper(title, tagline, setting, chars, first, starters, personas, exam
     page = (ROOT / "copy_helper.template.html").read_text(encoding="utf-8")
     page = page.replace("__DATA__", data).replace("__TOTAL__", f"{total:,}")
     (DIST / "copy_helper.html").write_text(page, encoding="utf-8")
+
+
+def write_guidebook(title, tagline, setting, chars, first, starters, personas, examples, variables, episodes,
+                    status, status_bytes, lore, gallery, intro, comment, cats, tags, parts, total):
+    """dist/guidebook.html — 만들기 화면 순서대로 따라가며 복사하는 가이드북 (Artifact로 발행)."""
+    steps = []
+
+    def step(sid, no, name, path, note):
+        s = {"id": sid, "no": no, "title": name, "path": path, "note": note, "items": []}
+        steps.append(s)
+        return s["items"]
+
+    def copy(items, label, text, where="", lim=None, counted=False, code=False):
+        items.append({"kind": "copy", "label": label, "text": text, "where": where,
+                      "limit": lim, "counted": counted, "code": code})
+
+    def setting_(items, label, value, note=""):
+        items.append({"kind": "setting", "label": label, "value": value, "note": note})
+
+    def head(items, text, sub=""):
+        items.append({"kind": "heading", "text": text, "sub": sub})
+
+    def todo(items, label, note=""):
+        items.append({"kind": "todo", "label": label, "note": note})
+
+    it = step("start", "00", "시작하기", "만들기 → 새 작품",
+              "형식은 만든 뒤에 바꿀 수 없습니다. 이미지가 적어도 되는 스토리로 시작하세요.")
+    setting_(it, "형식", "스토리", "시네마는 모든 캐릭터의 표정 이미지가 있어야 공개됩니다. 나중에 '시네마로 복제'로 따로 낼 수 있습니다.")
+
+    it = step("profile", "01", "프로필", "만들기 화면 · 01 프로필",
+              "제목과 태그라인, 스토리 설정을 넣고 캐릭터 카드 3장을 순서대로 만듭니다. 카드 순서가 {{char1}}·{{char2}}·{{char3}} 번호가 되므로 백도겸 → 윤서 → 면객 순서를 지키세요.")
+    copy(it, "제목", title, "제목", 20)
+    copy(it, "태그라인", tagline, "태그라인", 100)
+    copy(it, "스토리 설정", setting, "스토리 설정 — AI가 매 턴 읽는 공통 규칙", 20000, True)
+    for i, c in enumerate(chars, 1):
+        head(it, f"캐릭터 {i} · {c['name']}", "주인공 · 1번 카드" if i == 1 else f"{i}번 카드")
+        copy(it, "이름", c["name"], "캐릭터 이름", 15, True)
+        copy(it, "공개 정보", c["public"], "공개 정보 — 독자에게 보이고 AI도 읽음", 20000, True)
+        copy(it, "비공개 정보", c["private"], "비공개 정보 — AI만 읽음", 20000, True)
+        todo(it, f"{c['name']} 프로필 이미지 올리기", "공개 필수. image_prompts.md의 프로필 프롬프트로 만듭니다.")
+
+    it = step("dialogue", "02", "대화", "만들기 화면 · 02 대화",
+              "첫 메시지는 자동 별표가 적용되지 않습니다. 지문의 *별표*와 '이름: 대사' 형식을 그대로 붙여 넣으세요.")
+    copy(it, "첫 메시지", first, "첫 메시지", 20000, True)
+    head(it, "대화 시작 문구", "받아들이기 · 파고들기 · 피하기")
+    for i, s in enumerate(starters, 1):
+        copy(it, f"시작 문구 {i}", s, "대화 시작 문구", 200, True)
+    head(it, "추천 페르소나", "선택 · 작품 글자 수에 들어가지 않음")
+    for i, p_ in enumerate(personas, 1):
+        copy(it, f"페르소나 {i}", p_, "추천 페르소나")
+    head(it, "예시 대화", "하나에 장면 하나")
+    pats = ["처음 만났을 때", "부탁받을 때", "거절당할 때", "다퉜을 때", "다른 사람과 있을 때"]
+    for i, e in enumerate(examples, 1):
+        copy(it, f"예시 {i} · {pats[i-1] if i <= len(pats) else ''}", e, "예시 대화", 5000, True)
+
+    it = step("episodes", "03", "에피소드", "만들기 화면 · 03 에피소드",
+              "진행 모드부터 고르고 1화부터 5화까지 만듭니다. 본문과 비공개 설정은 작품 글자 수에 들어가지 않습니다.")
+    setting_(it, "진행 모드", "순차 진행", "기승전결이 있는 5화 구성입니다. 한 화에서 100회를 넘기면 다음 화가 자동으로 열립니다.")
+    for i, e in enumerate(episodes, 1):
+        head(it, f"{i}화 · {e['title']}", "첫 화라 전환 조건 없음" if not e["condition"] else "")
+        copy(it, "제목", e["title"], "에피소드 제목", 20, True)
+        copy(it, "본문", e["body"], "본문 — 지금 상황과 압박", 2000)
+        copy(it, "비공개 설정", e["private"], "비공개 설정 — 숨은 사정과 드러내는 시점", 2000)
+        if e["condition"]:
+            copy(it, "전환 조건", e["condition"], "전환 조건", 200, True)
+    head(it, "변수", "만들기 화면에서는 텍스트·숫자만 고를 수 있습니다")
+    for v in variables:
+        head(it, f"변수 · {v['name']}", v["type"])
+        copy(it, "이름", v["name"], "변수 이름", 10, True)
+        copy(it, "설명", v["description"], "설명", 5000, True)
+        if v["range"]:
+            copy(it, "범위 설명", v["range"], "범위 설명", 5000, True)
+        copy(it, "시작값", v["start"], "시작값", 200, True)
+    head(it, "변수 디자인", f"HTML 모드 · {status_bytes:,} / 10,240바이트 · 높이 약 88px")
+    copy(it, "상태창 HTML", status, "변수 디자인 → HTML (입력칸을 비우고 붙여 넣기)", None, False, True)
+    head(it, "로어북", "에피소드 단계 맨 아래 '로어북 관리' · 작품 글자 수에 들어가지 않음")
+    for item in lore:
+        head(it, f"로어북 · {item['title']}", "")
+        copy(it, "제목", item["title"], "로어북 제목", 50)
+        copy(it, "발동 키워드", ", ".join(item["keywords"]), "발동 키워드 (쉼표로 구분)")
+        copy(it, "내용", item["content"], "내용", 500)
+    todo(it, "로어북 12개를 '이 작품에 적용'하고 작품 저장", "저장해야 대화에 반영됩니다.")
+
+    it = step("gallery", "04", "갤러리", "만들기 화면 · 04 갤러리",
+              "이미지 그룹을 먼저 만들고, 파일명 그대로 올린 뒤 설명을 붙입니다. 채팅 이미지 모드는 배경으로 둡니다.")
+    setting_(it, "채팅 이미지 모드", "배경", "장면에 맞는 장소 그림이 채팅방 배경으로 깔립니다.")
+    copy(it, "이미지 그룹 (하나씩 만들기)", "\n".join(gallery["groups"]), "이미지 그룹 이름")
+    for im in gallery["images"]:
+        it.append({"kind": "image", "file": im["file"], "group": im["group"], "text": im["description"],
+                   "thumbnail": bool(im.get("thumbnail")), "secret": bool(im.get("secret")),
+                   "cost": im.get("unlock_cost"), "min": im.get("min_unlock")})
+
+    it = step("publish", "05", "공개여부", "만들기 화면 · 05 공개여부",
+              "스토리 소개는 HTML 모드로 붙여 넣습니다. AI는 이 글을 읽지 않습니다.")
+    copy(it, "스토리 소개 HTML", intro.strip(), "스토리 소개 → HTML", 40000, False, True)
+    setting_(it, "카테고리", " · ".join(cats), "최대 3개")
+    copy(it, "태그 (하나씩 추가)", "\n".join(tags), f"태그 {len(tags)}개 · 앞의 두 개는 공모전 필수")
+    setting_(it, "연령 등급", "전체 이용가", "2차 창작은 체크하지 않습니다.")
+    copy(it, "제작자 코멘트", comment, "제작자 코멘트", 20000)
+    head(it, "번역 메모", "독자에게 보이지 않고 번역에만 반영됩니다")
+    copy(it, "영어", read("translation/en.txt"), "번역 메모 → 영어")
+    copy(it, "일본어", read("translation/ja.txt"), "번역 메모 → 일본어")
+
+    it = step("submit", "06", "공개와 제출", "공개여부 → 공모전 페이지",
+              "하나라도 비면 공개 버튼이 막힙니다. 첫 공개 시점이 신작·급상승에 반영되니 준비가 끝난 뒤 처음 공개하세요.")
+    for t, n in [("캐릭터 3명 모두 프로필 이미지", "공개 필수 항목"),
+                 ("갤러리 이미지 1장 이상과 설명, 썸네일 지정", "공모전은 대표 포함 이미지 5장 이상"),
+                 ("화면 아래 '생성'을 눌러 비공개로 생성", "생성해야 대화 버튼이 생깁니다"),
+                 ("테스트 대화 10회", "같은 대화방에서 10번 보내도 됩니다"),
+                 ("작품 글자 수 30,000자 이내 확인", f"지금 {total:,}자"),
+                 ("공개 범위를 '공개'로 바꾸기", "심사 기간 동안 공개 상태를 유지해야 합니다"),
+                 ("공모전 페이지에서 '공모전 참여하기'로 제출", "마감 2026년 10월 31일(토) 23:59 KST")]:
+        todo(it, t, n)
+
+    data = {"title": title, "tagline": tagline, "total": total, "limit": TOTAL_LIMIT,
+            "parts": parts, "steps": steps}
+    blob = json.dumps(data, ensure_ascii=False).replace("</", "<\\/")
+    page = (ROOT / "guidebook.template.html").read_text(encoding="utf-8").replace("__DATA__", blob)
+    (DIST / "guidebook.html").write_text(page, encoding="utf-8")
 
 
 if __name__ == "__main__":

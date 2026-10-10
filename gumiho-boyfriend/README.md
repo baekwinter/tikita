@@ -4,6 +4,7 @@
 
 | 파일 | 내용 |
 |---|---|
+| `tikita/dist/guidebook.html` | **등록 가이드북.** 만들기 화면 단계별 복사 버튼과 체크리스트 (Artifact로 발행) |
 | `tikita/dist/copy_helper.html` | **칸별 복사 버튼 페이지.** 만들기 화면 단계 순서대로 정리되어 있다 |
 | `tikita/dist/tikita_register.md` | 단계별 붙여넣기 안내, 작품 글자 수 내역, 갤러리 계획, 공개 전 체크리스트 |
 | `tikita/dist/story_intro.html` | 스토리 소개 HTML (공개여부 단계) |
