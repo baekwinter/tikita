@@ -81,6 +81,8 @@ plain unpatterned dark navy wool frock coat, high standing collar with a narrow 
 
 ---
 
+인물 없는 **장소 배경 17종**(석조전, 북문, 카페, 골목, 월하당, 잠긴 방, 가면의 밤, 새벽)은 `background_prompts.md`에 따로 있습니다.
+
 ## B. 처음부터 생성하기 — 10종
 
 | 순서 | 이미지 | 쓰는 곳 | 비율 |

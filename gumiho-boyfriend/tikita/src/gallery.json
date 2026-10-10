@@ -1,9 +1,13 @@
 {
   "groups": [
+    "황궁",
     "카페",
+    "골목",
     "월하당",
     "안채",
+    "잠긴 방",
     "가면의 밤",
+    "새벽",
     "본모습"
   ],
   "images": [
@@ -51,6 +55,125 @@
       "secret": true,
       "unlock_cost": 50,
       "min_unlock": 100
+    },
+    {
+      "key": "bg_seokjo_night",
+      "file": "석조전_밤_보름달.png",
+      "group": "황궁",
+      "description": "보름달 아래 불 밝힌 석조전 같은 석조 궁전과 가스등, 붉은 단풍. 황궁의 밤",
+      "secret": false
+    },
+    {
+      "key": "bg_seokjo_day",
+      "file": "석조전_낮_가을.png",
+      "group": "황궁",
+      "description": "맑은 가을 낮, 분수 정원 너머 석조 궁전과 노란 은행잎",
+      "secret": false
+    },
+    {
+      "key": "bg_gate_day",
+      "file": "북문_낮_돌턱.png",
+      "group": "황궁",
+      "description": "낮의 황궁 북문, 낡은 목문과 닳은 돌턱, 시민 관람선",
+      "secret": false
+    },
+    {
+      "key": "bg_gate_night",
+      "file": "북문_밤_닫힘.png",
+      "group": "황궁",
+      "description": "행렬이 끝나 닫힌 밤의 북문, 흩어진 종이 탈과 바닥에 뻗은 은색 실",
+      "secret": false
+    },
+    {
+      "key": "bg_cafe_day",
+      "file": "카페_창가_낮_빈자리.png",
+      "group": "카페",
+      "description": "황궁 목문이 보이는 카페 창가, 계피차 두 잔과 펼친 메뉴판. 낮",
+      "secret": false
+    },
+    {
+      "key": "bg_cafe_morning",
+      "file": "카페_창가_아침.png",
+      "group": "카페",
+      "description": "아침 햇빛이 드는 같은 카페 창가, 맞은편으로 밀어 둔 메뉴판 한 장",
+      "secret": false
+    },
+    {
+      "key": "bg_alley_day",
+      "file": "골목_낮_은행잎.png",
+      "group": "골목",
+      "description": "한복 수선집과 탈 공방이 늘어선 북담 한옥 골목, 은행잎 깔린 돌길. 낮",
+      "secret": false
+    },
+    {
+      "key": "bg_alley_rain",
+      "file": "골목_비_처마.png",
+      "group": "골목",
+      "description": "소나기가 처마에서 떨어지는 한옥 골목, 젖은 돌계단과 놋쇠 풍경",
+      "secret": false
+    },
+    {
+      "key": "bg_mask_shop",
+      "file": "탈공방_낮.png",
+      "group": "골목",
+      "description": "종이 탈과 한지 끈이 걸린 탈 공방, 사탕 상자가 쌓인 작업대",
+      "secret": false
+    },
+    {
+      "key": "bg_noodle",
+      "file": "국숫집_저녁.png",
+      "group": "골목",
+      "description": "골목 끝 작은 국숫집, 김 오르는 국수 두 그릇과 따뜻한 등. 저녁",
+      "secret": false
+    },
+    {
+      "key": "bg_wolha_room",
+      "file": "월하당_상담실_낮.png",
+      "group": "월하당",
+      "description": "월하당 상담실, 달과 여우 타로가 놓인 낮은 탁자와 두 칸 소원함",
+      "secret": false
+    },
+    {
+      "key": "bg_wolha_gate_night",
+      "file": "월하당_대문_밤.png",
+      "group": "월하당",
+      "description": "바람 없이 흔들리는 풍경과 문턱의 엽전, 밤의 월하당 대문",
+      "secret": false
+    },
+    {
+      "key": "bg_anchae",
+      "file": "안채_밤_등불.png",
+      "group": "안채",
+      "description": "등불 켜진 안채, 낮은 상의 식은 국과 엉킨 탈 끈, 걸어 둔 제복",
+      "secret": false
+    },
+    {
+      "key": "bg_locked_room",
+      "file": "잠긴방_구슬_달빛.png",
+      "group": "잠긴 방",
+      "description": "달빛 드는 잠긴 방, 번호표가 달린 작은 유리 구슬이 선반마다 놓여 있다",
+      "secret": false
+    },
+    {
+      "key": "bg_parade",
+      "file": "가면행렬_골목_밤.png",
+      "group": "가면의 밤",
+      "description": "종이 탈을 쓴 군중 실루엣과 등불이 이어진 축제의 밤 골목",
+      "secret": false
+    },
+    {
+      "key": "bg_candy",
+      "file": "사탕가게_밤.png",
+      "group": "가면의 밤",
+      "description": "등불 아래 사탕 판매대, 멀리 군중 사이에 서 있는 얼굴 없는 흰 탈",
+      "secret": false
+    },
+    {
+      "key": "bg_dawn",
+      "file": "문턱_엽전_새벽.png",
+      "group": "새벽",
+      "description": "첫 햇빛이 드는 문턱, 돌길에 굴러간 엽전과 젖은 종이처럼 납작해진 흰 탈",
+      "secret": false
     }
   ]
 }
