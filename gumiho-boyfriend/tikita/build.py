@@ -29,7 +29,7 @@ a img figure figcaption blockquote pre code table thead tbody tfoot tr th td div
 details summary""".split())
 INTRO_ATTRS = set("href target rel src alt width height class id style colspan rowspan scope open loading".split())
 BAD_CSS = re.compile(r"url\(|@import|expression\(|image-set\(|behavior\s*:", re.I)
-IMG_SLOT = re.compile(r"^\s*\[\[IMG:(\w+)\]\]\s*$", re.M)
+IMG_SLOT = re.compile(r"^\s*\[\[IMG:(\w+)(?:\|([^\]]*))?\]\]\s*$", re.M)
 VAR_DIRECTIVE = re.compile(r"\[\[var:([^=\]]+)=")
 
 errors, warnings = [], []
@@ -224,7 +224,7 @@ def main():
             return ""
         return (f'<img class="intro-html-img" src="{html.escape(url, quote=True)}" '
                 f'alt="{html.escape(alts.get(m.group(1), ""), quote=True)}" loading="lazy" '
-                f'style="width:100%;height:auto;border-radius:12px;display:block;margin:12px 0">')
+                f'style="{m.group(2) or "width:100%;height:auto;border-radius:12px;display:block;margin:12px 0"}">')
 
     intro = IMG_SLOT.sub(slot, read("publish/intro.html"))
     intro = re.sub(r"\n{3,}", "\n\n", intro).strip() + "\n"
@@ -464,6 +464,34 @@ def write_helper(title, tagline, setting, chars, first, starters, personas, exam
     (DIST / "copy_helper.html").write_text(page, encoding="utf-8")
 
 
+def parse_prompt_md(path):
+    """프롬프트 문서에서 (h2, 제목, 파일명, 프롬프트) 목록을 뽑는다. 코드블록 하나가 프롬프트 하나다."""
+    out, h2, h3, label, fname, buf, inside = [], "", "", "", "", [], False
+    for line in Path(path).read_text(encoding="utf-8").split("\n"):
+        if line.startswith("```"):
+            if inside:
+                title = label or h3 or h2
+                out.append({"h2": h2, "title": title, "file": fname, "text": "\n".join(buf).strip()})
+                buf, inside, label = [], False, ""
+            else:
+                inside = True
+            continue
+        if inside:
+            buf.append(line)
+            continue
+        if line.startswith("## "):
+            h2, h3, label, fname = line[3:].strip(), "", "", ""
+        elif line.startswith("### "):
+            h3, label, fname = line[4:].strip(), "", ""
+        elif line.startswith("**") and "**" in line[2:]:
+            label = line.split("**")[1].strip()
+        else:
+            m = re.search(r"파일명: `([^`]+)`", line)
+            if m:
+                fname = m.group(1)
+    return out
+
+
 def write_guidebook(title, tagline, setting, chars, first, starters, personas, examples, variables, episodes,
                     status, status_bytes, lore, gallery, intro, comment, cats, tags, parts, total):
     """dist/guidebook.html — 만들기 화면 순서대로 따라가며 복사하는 가이드북 (Artifact로 발행)."""
@@ -544,6 +572,19 @@ def write_guidebook(title, tagline, setting, chars, first, starters, personas, e
         copy(it, "발동 키워드", ", ".join(item["keywords"]), "발동 키워드 (쉼표로 구분)")
         copy(it, "내용", item["content"], "내용", 500)
     todo(it, "로어북 12개를 '이 작품에 적용'하고 작품 저장", "저장해야 대화에 반영됩니다.")
+
+    it = step("images", "IMG", "이미지 만들기", "이미지 생성 도구 (티키타 밖)",
+              "프롬프트를 복사해 이미지 생성 도구에 붙여 넣으세요. 0번 기준 시트를 먼저 만들어 얼굴을 고정하고, 파일명은 적힌 이름 그대로 저장하세요. 네거티브 칸이 있는 도구라면 각 묶음 끝의 네거티브도 함께 넣으세요.")
+    for doc, label in [(ROOT / "image_prompts.md", "인물"), (ROOT / "background_prompts.md", "배경")]:
+        last = None
+        for e in parse_prompt_md(doc):
+            if e["h2"] != last:
+                head(it, f"{label} · {e['h2']}", "")
+                last = e["h2"]
+            fname = e["file"]
+            if not fname and label == "배경" and "네거티브" not in e["title"]:
+                fname = e["title"].replace("★", "").strip() + ".png"
+            copy(it, e["title"], e["text"], f"파일명 {fname}" if fname else "")
 
     it = step("gallery", "04", "갤러리", "만들기 화면 · 04 갤러리",
               "이미지 그룹을 먼저 만들고, 파일명 그대로 올린 뒤 설명을 붙입니다. 채팅 이미지 모드는 배경으로 둡니다.")
