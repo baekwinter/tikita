@@ -123,7 +123,11 @@ def main(short=False):
     ids = [m["id"] for m in ms]
     base_len = copy_len(next(m for m in ms if m["id"] == "eclipse")["copy"])
     locked = json.loads((ROOT / "data" / "locked" / "complete_copy.json").read_text(encoding="utf-8"))
-    source = norm((ROOT / "data" / "locked" / "eclipse_source.txt").read_text(encoding="utf-8"))
+    source = (ROOT / "data" / "locked" / "eclipse_source.txt").read_text(encoding="utf-8")
+    amend = ROOT / "data" / "locked" / "eclipse_amendments.json"  # 사용자가 승인한 원문 수정 (원문 파일은 그대로 둔다)
+    for a in (json.loads(amend.read_text(encoding="utf-8")) if amend.exists() else []):
+        source = source.replace(a["from"], a["to"])
+    source = norm(source)
 
     # ---- 1. 글자 수 (입력칸)
     print("\n[1] 티키타 입력칸 글자 수 (최대값 / 제한)")
