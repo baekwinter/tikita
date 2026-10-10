@@ -1,0 +1,8 @@
+{
+  "_comment": "티키타 공개 소개 렌더링 호환 모드. mode: A(<style> 블록) | A+(외부 CSS link) | B(인라인 style) | C(마크다운). budget = 붙여넣기 글자 수 예산. cdn_ref = A+ 모드용 git ref, test_ref = 테스트 스니펫용 커밋.",
+  "mode": "B",
+  "budget": 49500,
+  "notes": "2026-10-09 사용자 테스트: A·A+·D 미적용(<style>·외부 CSS·@keyframes 제거), B 적용(인라인 style 유지), C1 <img>는 '외부 이미지 가져오기' 버튼으로 반입, C2 마크다운 이미지는 글자로 노출. 공개 소개 칸 제한은 50,000자.",
+  "cdn_ref": "main",
+  "test_ref": "f95d83bc748891b00e02a63a0fb2be8ff019e698"
+}

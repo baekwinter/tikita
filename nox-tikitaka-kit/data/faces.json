@@ -1,0 +1,61 @@
+{
+  "_comment": "얼굴 이미지 등록부. url = 티키타에 올린 이미지 주소(공개 소개 붙여넣기용, 필수) / local = 미리보기용 로컬 파일. 둘 다 비어 있으면 실루엣 플레이스홀더로 빌드된다.",
+  "abyss": {
+    "name": "차선우",
+    "url": "https://cdn.jsdelivr.net/gh/baekwinter/tikita@e25ce57621f6b1baf898f13b037ea2a291aa3ddf/nox-tikitaka-kit/assets/faces/abyss.jpg",
+    "local": "assets/faces/abyss.jpg"
+  },
+  "eclipse": {
+    "name": "차은결",
+    "url": "https://cdn.jsdelivr.net/gh/baekwinter/tikita@6b63cdcd29a9d53f2314ba22a10ec622667cbcb7/nox-tikitaka-kit/assets/faces/eclipse.jpg",
+    "local": "assets/faces/eclipse.jpg",
+    "gallery": {
+      "hero": {
+        "url": "https://cdn.jsdelivr.net/gh/baekwinter/tikita@6b63cdcd29a9d53f2314ba22a10ec622667cbcb7/nox-tikitaka-kit/assets/eclipse/hero.jpg",
+        "local": "assets/eclipse/hero.jpg"
+      },
+      "ep1": {
+        "url": "https://cdn.jsdelivr.net/gh/baekwinter/tikita@6b63cdcd29a9d53f2314ba22a10ec622667cbcb7/nox-tikitaka-kit/assets/eclipse/ep1.jpg",
+        "local": "assets/eclipse/ep1.jpg"
+      },
+      "ep2": {
+        "url": "https://cdn.jsdelivr.net/gh/baekwinter/tikita@6b63cdcd29a9d53f2314ba22a10ec622667cbcb7/nox-tikitaka-kit/assets/eclipse/ep2.jpg",
+        "local": "assets/eclipse/ep2.jpg"
+      },
+      "ep3": {
+        "url": "https://cdn.jsdelivr.net/gh/baekwinter/tikita@6b63cdcd29a9d53f2314ba22a10ec622667cbcb7/nox-tikitaka-kit/assets/eclipse/ep3.jpg",
+        "local": "assets/eclipse/ep3.jpg"
+      },
+      "ep4": {
+        "url": "https://cdn.jsdelivr.net/gh/baekwinter/tikita@6b63cdcd29a9d53f2314ba22a10ec622667cbcb7/nox-tikitaka-kit/assets/eclipse/ep4.jpg",
+        "local": "assets/eclipse/ep4.jpg"
+      }
+    }
+  },
+  "comet": {
+    "name": "한서하",
+    "url": "https://cdn.jsdelivr.net/gh/baekwinter/tikita@c5ac7593790f861dc813f3e3b0bbc37646c78c22/nox-tikitaka-kit/assets/faces/comet.jpg",
+    "local": "assets/faces/comet.jpg"
+  },
+  "mist": {
+    "name": "서이준",
+    "url": "https://cdn.jsdelivr.net/gh/baekwinter/tikita@c5ac7593790f861dc813f3e3b0bbc37646c78c22/nox-tikitaka-kit/assets/faces/mist.jpg",
+    "local": "assets/faces/mist.jpg"
+  },
+  "moon": {
+    "name": "백유한",
+    "url": "https://cdn.jsdelivr.net/gh/baekwinter/tikita@c5ac7593790f861dc813f3e3b0bbc37646c78c22/nox-tikitaka-kit/assets/faces/moon.jpg",
+    "local": "assets/faces/moon.jpg"
+  },
+  "aurora": {
+    "name": "류시온",
+    "url": "https://cdn.jsdelivr.net/gh/baekwinter/tikita@c5ac7593790f861dc813f3e3b0bbc37646c78c22/nox-tikitaka-kit/assets/faces/aurora.jpg",
+    "local": "assets/faces/aurora.jpg"
+  },
+  "star": {
+    "name": "이하루",
+    "url": "https://cdn.jsdelivr.net/gh/baekwinter/tikita@c5ac7593790f861dc813f3e3b0bbc37646c78c22/nox-tikitaka-kit/assets/faces/star.jpg",
+    "local": "assets/faces/star.jpg"
+  },
+  "_comment_gallery": "gallery = 소개 페이지 추가 컷 (hero = 엔딩 요정 캠 메인, ep1~ep4 = 에피소드 장면). 없으면 얼굴 이미지로 대체."
+}
